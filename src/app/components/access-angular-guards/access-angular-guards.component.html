@@ -1,0 +1,196 @@
+<div class="access-guards">
+  <div class="guards-header">
+    <h1>🛡️ Angular Guards para Control de Acceso</h1>
+    <p class="description">
+      Los Guards de Angular son una herramienta fundamental para implementar control de acceso
+      y proteger rutas sensibles en tu aplicación.
+    </p>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="examples-nav">
+    <button
+      *ngFor="let example of examples | keyvalue"
+      class="nav-button"
+      [class.active]="currentExample === example.key"
+      (click)="selectExample(example.key)">
+      {{ example.value.title }}
+    </button>
+  </nav>
+
+  <!-- Content Section -->
+  <div class="content-section">
+    <div class="example-header">
+      <h2>{{ getCurrentExample().title }}</h2>
+      <p>{{ getCurrentExample().description }}</p>
+    </div>
+
+    <!-- Code Example -->
+    <div class="code-section">
+      <div class="code-header">
+        <span class="code-title">📝 Implementación</span>
+        <button class="copy-btn" (click)="copyToClipboard()">
+          📋 Copiar
+        </button>
+      </div>
+      <pre class="code-block"><code>{{ getCurrentExample().code }}</code></pre>
+    </div>
+
+    <!-- Guard Types Overview -->
+    <div class="guard-types" *ngIf="currentExample === 'can-activate'">
+      <h3>🔍 Tipos de Guards en Angular</h3>
+      <div class="types-grid">
+        <div class="type-card">
+          <div class="type-icon">🚪</div>
+          <h4>CanActivate</h4>
+          <p>Controla si una ruta puede ser activada</p>
+          <ul>
+            <li>Autenticación de usuarios</li>
+            <li>Verificación de permisos</li>
+            <li>Validación de condiciones</li>
+          </ul>
+        </div>
+        <div class="type-card">
+          <div class="type-icon">👥</div>
+          <h4>CanActivateChild</h4>
+          <p>Controla el acceso a rutas hijas</p>
+          <ul>
+            <li>Protección de módulos completos</li>
+            <li>Herencia de permisos</li>
+            <li>Validación jerárquica</li>
+          </ul>
+        </div>
+        <div class="type-card">
+          <div class="type-icon">🚫</div>
+          <h4>CanDeactivate</h4>
+          <p>Controla si se puede salir de una ruta</p>
+          <ul>
+            <li>Datos sin guardar</li>
+            <li>Confirmaciones de salida</li>
+            <li>Limpieza de recursos</li>
+          </ul>
+        </div>
+        <div class="type-card">
+          <div class="type-icon">📦</div>
+          <h4>CanLoad</h4>
+          <p>Controla si un módulo lazy puede cargarse</p>
+          <ul>
+            <li>Lazy loading condicional</li>
+            <li>Optimización de rendimiento</li>
+            <li>Seguridad a nivel de módulo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Simulation -->
+    <div class="simulation-section">
+      <h3>🎮 Simulación Interactiva</h3>
+      <p>Simula diferentes escenarios de Guards para entender su comportamiento:</p>
+
+      <div class="simulation-controls">
+        <button
+          class="sim-btn success"
+          (click)="simulateGuardExecution('auth-success')">
+          ✅ Autenticación Exitosa
+        </button>
+        <button
+          class="sim-btn error"
+          (click)="simulateGuardExecution('auth-failure')">
+          ❌ Autenticación Fallida
+        </button>
+        <button
+          class="sim-btn success"
+          (click)="simulateGuardExecution('role-success')">
+          👑 Rol Autorizado
+        </button>
+        <button
+          class="sim-btn error"
+          (click)="simulateGuardExecution('role-failure')">
+          🚫 Rol Insuficiente
+        </button>
+        <button
+          class="sim-btn neutral"
+          (click)="resetSimulation()">
+          🔄 Resetear
+        </button>
+      </div>
+
+      <div class="simulation-results" *ngIf="simulationResults.length > 0">
+        <h4>📋 Resultado de la Simulación:</h4>
+        <div class="result-steps">
+          <div
+            *ngFor="let step of simulationResults; let i = index"
+            class="result-step"
+            [style.animation-delay.ms]="i * 500">
+            {{ step }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Best Practices -->
+    <div class="best-practices">
+      <h3>✅ Mejores Prácticas para Guards</h3>
+      <div class="practices-grid">
+        <div class="practice-item">
+          <div class="practice-icon">🔐</div>
+          <h4>Validación Robusta</h4>
+          <p>Implementa múltiples capas de validación y no confíes solo en el frontend.</p>
+        </div>
+        <div class="practice-item">
+          <div class="practice-icon">⚡</div>
+          <h4>Performance</h4>
+          <p>Usa Guards eficientes y evita operaciones costosas en la validación.</p>
+        </div>
+        <div class="practice-item">
+          <div class="practice-icon">🔄</div>
+          <h4>Manejo de Estados</h4>
+          <p>Gestiona correctamente los estados de loading y error en tus Guards.</p>
+        </div>
+        <div class="practice-item">
+          <div class="practice-icon">🧪</div>
+          <h4>Testing</h4>
+          <p>Escribe pruebas unitarias para todos tus Guards y sus diferentes escenarios.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Warnings -->
+    <div class="security-warnings">
+      <h3>⚠️ Advertencias de Seguridad</h3>
+      <div class="warning-box critical">
+        <div class="warning-header">
+          <span class="warning-icon">🚨</span>
+          <h4>Nunca Confíes Solo en el Frontend</h4>
+        </div>
+        <p>
+          Los Guards de Angular proporcionan UX, pero la seguridad real debe implementarse
+          en el backend. Un atacante puede bypasear fácilmente los Guards del frontend.
+        </p>
+      </div>
+
+      <div class="warning-box high">
+        <div class="warning-header">
+          <span class="warning-icon">🔍</span>
+          <h4>Validación Continua</h4>
+        </div>
+        <p>
+          Verifica permisos no solo al cargar la ruta, sino también antes de cada
+          acción sensible dentro del componente.
+        </p>
+      </div>
+
+      <div class="warning-box medium">
+        <div class="warning-header">
+          <span class="warning-icon">🕒</span>
+          <h4>Expiración de Tokens</h4>
+        </div>
+        <p>
+          Implementa manejo adecuado de tokens expirados y refresh automático
+          para mantener la seguridad de la sesión.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

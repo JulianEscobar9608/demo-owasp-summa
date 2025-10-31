@@ -1,0 +1,862 @@
+.roles-permissions-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header-section h2 {
+  color: #7c3aed;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.header-section p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* View Navigation */
+.view-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: #f3f4f6;
+  padding: 0.5rem;
+  border-radius: 12px;
+}
+
+.view-navigation button {
+  flex: 1;
+  min-width: 120px;
+  background: transparent;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.view-navigation button.active {
+  background: #ffffff;
+  color: #7c3aed;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.view-navigation button:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.5);
+  color: #374151;
+}
+
+/* View Content */
+.view-content {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Overview Stats */
+.overview-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  border-left: 4px solid #3b82f6;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+/* Role Hierarchy */
+.role-hierarchy {
+  padding: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.role-hierarchy h3 {
+  color: #1f2937;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.hierarchy-diagram {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.role-level {
+  flex: 1;
+  min-width: 180px;
+}
+
+.role-box {
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.role-info {
+  margin-bottom: 0.5rem;
+}
+
+.role-name {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.role-level-num {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.permission-count {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Security Principles */
+.security-principles {
+  padding: 2rem;
+}
+
+.security-principles h3 {
+  color: #1f2937;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.principle-card {
+  background: linear-gradient(135deg, #fefce8, #fef3c7);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  border-left: 4px solid #f59e0b;
+  transition: transform 0.2s ease;
+}
+
+.principle-card:hover {
+  transform: translateY(-2px);
+}
+
+.principle-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.principle-card h4 {
+  color: #92400e;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.principle-card p {
+  color: #78716c;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Roles View */
+.roles-selector {
+  padding: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.roles-selector h3 {
+  color: #7c3aed;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.role-card {
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-left: 4px solid #6b7280;
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.role-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.role-card.selected {
+  border-color: #7c3aed;
+  background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+}
+
+.role-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.role-header h4 {
+  color: #1f2937;
+  margin: 0;
+  font-weight: 600;
+}
+
+.level-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+}
+
+.role-description {
+  color: #6b7280;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.permission-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.permission-count {
+  font-size: 0.9rem;
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+/* Role Details */
+.role-details {
+  padding: 2rem;
+}
+
+.role-details h3 {
+  color: #7c3aed;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.role-info-section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+}
+
+.info-card,
+.permissions-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.info-card h4,
+.permissions-card h4 {
+  color: #1f2937;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.info-item {
+  margin-bottom: 0.75rem;
+  color: #374151;
+}
+
+.info-item strong {
+  color: #1f2937;
+  margin-right: 0.5rem;
+}
+
+.permissions-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.permission-item {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 3px solid #6b7280;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.permission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.permission-name {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.risk-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+}
+
+.permission-description {
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.permission-meta {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* Permissions View */
+.permissions-overview {
+  padding: 2rem;
+}
+
+.permissions-overview h3 {
+  color: #1f2937;
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.permissions-overview > p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.permissions-by-risk {
+  display: grid;
+  gap: 2rem;
+}
+
+.risk-section {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.risk-header {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 4px solid;
+}
+
+.risk-permissions {
+  display: grid;
+  gap: 1rem;
+}
+
+.permission-detailed {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border-left: 4px solid #6b7280;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.permission-info h5 {
+  color: #1f2937;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.permission-info p {
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.permission-tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tag.resource {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.tag.action {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.roles-with-permission strong {
+  color: #374151;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.role-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.role-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+}
+
+/* Implementation View */
+.implementation-guide {
+  padding: 2rem;
+}
+
+.implementation-guide h3 {
+  color: #1f2937;
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.implementation-guide > p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.code-sections {
+  display: grid;
+  gap: 2rem;
+}
+
+.code-section h4 {
+  color: #1f2937;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.code-block {
+  background: #1f2937;
+  color: #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.usage-examples h4 {
+  color: #16a34a;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.example-card {
+  background: #f0fdf4;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #16a34a;
+}
+
+.example-card h5 {
+  color: #15803d;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.code-block.usage {
+  background: #064e3b;
+  color: #d1fae5;
+}
+
+/* Simulator View */
+.access-simulator {
+  padding: 2rem;
+}
+
+.access-simulator h3 {
+  color: #dc2626;
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.access-simulator > p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.simulator-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.user-selector h4,
+.access-tests h4 {
+  color: #1f2937;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.users-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.user-card,
+button.user-card {
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.user-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-card.selected {
+  border-color: #dc2626;
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+}
+
+.user-info {
+  margin-bottom: 0.75rem;
+}
+
+.user-info strong {
+  display: block;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.user-info span {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.user-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.role-tag {
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+}
+
+.test-scenarios {
+  display: grid;
+  gap: 1rem;
+}
+
+.scenario-test {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 3px solid #6b7280;
+}
+
+.scenario-test strong {
+  display: block;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.test-result {
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.test-result.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.test-result.denied {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+.user-permissions-display {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.user-permissions-display h4 {
+  color: #1f2937;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.permissions-matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.permission-badge {
+  border-radius: 8px;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+}
+
+.permission-badge strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.permission-badge span {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.security-simulation {
+  background: #fffbeb;
+  border-radius: 12px;
+  padding: 2rem;
+  border-left: 4px solid #f59e0b;
+  margin-bottom: 2rem;
+}
+
+.security-simulation h4 {
+  color: #d97706;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.simulate-btn {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1.5rem;
+}
+
+.simulate-btn:hover {
+  background: linear-gradient(135deg, #b91c1c, #991b1b);
+  transform: translateY(-1px);
+}
+
+.simulation-result {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border-left: 4px solid #dc2626;
+}
+
+.attack-info strong {
+  color: #dc2626;
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.attack-info p {
+  margin-bottom: 0.75rem;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.result-status {
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.result-status.attack-success {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+.result-status.attack-blocked {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.best-practices-checklist {
+  background: #f0fdf4;
+  border-radius: 12px;
+  padding: 2rem;
+  border-left: 4px solid #16a34a;
+}
+
+.best-practices-checklist h4 {
+  color: #15803d;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.checklist {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.check-item input[type="checkbox"] {
+  transform: scale(1.2);
+  accent-color: #16a34a;
+}
+
+.check-item span {
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .roles-permissions-container {
+    padding: 1rem;
+  }
+
+  .view-navigation {
+    flex-direction: column;
+  }
+
+  .overview-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .hierarchy-diagram {
+    flex-direction: column;
+  }
+
+  .principles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .role-info-section {
+    grid-template-columns: 1fr;
+  }
+
+  .simulator-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .permissions-matrix {
+    grid-template-columns: 1fr;
+  }
+}

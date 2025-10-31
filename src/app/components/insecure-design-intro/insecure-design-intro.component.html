@@ -1,0 +1,291 @@
+<div class="insecure-design-intro">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="vulnerability-badge a04">A04</div>
+    <h1>🔒 Insecure Design</h1>
+    <p class="subtitle">
+      Vulnerabilidades fundamentales en el diseño y arquitectura de aplicaciones Angular
+    </p>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <nav class="tab-navigation">
+    <button
+      class="tab-button"
+      [class.active]="currentExample === 'overview'"
+      (click)="setExample('overview')">
+      📖 Conceptos
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="currentExample === 'problems'"
+      (click)="setExample('problems')">
+      🚨 Problemas Comunes
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="currentExample === 'threats'"
+      (click)="setExample('threats')">
+      ⚔️ Escenarios de Amenaza
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="currentExample === 'angular-risks'"
+      (click)="setExample('angular-risks')">
+      🅰️ Riesgos en Angular
+    </button>
+  </nav>
+
+  <!-- Overview Section -->
+  <section *ngIf="currentExample === 'overview'" class="content-section">
+    <div class="overview-content">
+      <div class="definition-card">
+        <h2>¿Qué es Insecure Design?</h2>
+        <p>El <strong>Diseño Inseguro</strong> representa defectos en el diseño y arquitectura de la aplicación que introducen vulnerabilidades desde su concepción. A diferencia de otros problemas de implementación, estos requieren un rediseño arquitectural para ser corregidos.</p>
+
+        <div class="key-points">
+          <h3>🎯 Características en Angular:</h3>
+          <ul>
+            <li><strong>Arquitectura Cliente-Servidor</strong> mal balanceada</li>
+            <li><strong>State Management</strong> sin consideraciones de seguridad</li>
+            <li><strong>Service Layer</strong> con lógica de negocio insegura</li>
+            <li><strong>Authentication/Authorization</strong> mal diseñados</li>
+            <li><strong>Data Flow</strong> sin validación en múltiples capas</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="impact-section">
+        <h3>💥 Impacto del Diseño Inseguro</h3>
+        <div class="impact-grid">
+          <div class="impact-card critical">
+            <div class="impact-icon">🚨</div>
+            <h4>Compromise Total</h4>
+            <p>Sistemas completamente comprometidos por fallas arquitecturales</p>
+          </div>
+          <div class="impact-card high">
+            <div class="impact-icon">💰</div>
+            <h4>Pérdidas Financieras</h4>
+            <p>Manipulación de procesos de negocio y transacciones</p>
+          </div>
+          <div class="impact-card medium">
+            <div class="impact-icon">🔓</div>
+            <h4>Exposición de Datos</h4>
+            <p>Acceso no autorizado a información sensible</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="design-principles">
+        <h3>🛡️ Principios de Diseño Seguro</h3>
+        <div class="principles-grid">
+          <div class="principle-card">
+            <div class="principle-icon">🔐</div>
+            <h4>Security by Design</h4>
+            <p>Seguridad integrada desde la fase de diseño</p>
+          </div>
+          <div class="principle-card">
+            <div class="principle-icon">🎯</div>
+            <h4>Defense in Depth</h4>
+            <p>Múltiples capas de validación y control</p>
+          </div>
+          <div class="principle-card">
+            <div class="principle-icon">🚫</div>
+            <h4>Fail Securely</h4>
+            <p>Fallar de manera segura ante errores</p>
+          </div>
+          <div class="principle-card">
+            <div class="principle-icon">👤</div>
+            <h4>Least Privilege</h4>
+            <p>Mínimos privilegios por defecto</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problems Section -->
+  <section *ngIf="currentExample === 'problems'" class="content-section">
+    <div class="problems-content">
+      <h2>🚨 Problemas Comunes de Diseño Inseguro</h2>
+      <p class="section-description">
+        Estos son los patrones más frecuentes de diseño inseguro que afectan aplicaciones Angular:
+      </p>
+
+      <div class="problems-grid">
+        <div
+          *ngFor="let problem of designProblems"
+          class="problem-card"
+          [style.border-left-color]="getImpactColor(problem.impact)">
+
+          <div class="problem-header">
+            <div class="problem-icon">{{ problem.icon }}</div>
+            <div class="problem-title">
+              <h3>{{ problem.name }}</h3>
+              <div class="impact-badge" [style.background-color]="getImpactColor(problem.impact)">
+                {{ problem.impact.toUpperCase() }}
+              </div>
+            </div>
+          </div>
+
+          <div class="problem-content">
+            <p class="problem-description">{{ problem.description }}</p>
+
+            <div class="example-section">
+              <h4>📋 Ejemplo Común:</h4>
+              <p class="example-text">{{ problem.example }}</p>
+            </div>
+
+            <div class="angular-context">
+              <h4>🅰️ En Angular:</h4>
+              <p class="angular-text">{{ problem.angularContext }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Threat Scenarios Section -->
+  <section *ngIf="currentExample === 'threats'" class="content-section">
+    <div class="threats-content">
+      <h2>⚔️ Escenarios de Amenaza Reales</h2>
+      <p class="section-description">
+        Casos de estudio de cómo el diseño inseguro puede ser explotado en aplicaciones reales:
+      </p>
+
+      <div class="scenarios-list">
+        <div
+          *ngFor="let scenario of threatScenarios; let i = index"
+          class="scenario-card">
+
+          <div class="scenario-header">
+            <div class="scenario-number">{{ i + 1 }}</div>
+            <h3>{{ scenario.scenario }}</h3>
+            <div class="severity-indicator">
+              {{ getSeverityIcon(scenario.severity) }}
+              <span>{{ scenario.severity.toUpperCase() }}</span>
+            </div>
+          </div>
+
+          <div class="scenario-content">
+            <div class="scenario-description">
+              <p>{{ scenario.description }}</p>
+            </div>
+
+            <div class="attack-flow">
+              <div class="flow-step vulnerability">
+                <h4>🔓 Vulnerabilidad</h4>
+                <p>{{ scenario.vulnerability }}</p>
+              </div>
+
+              <div class="flow-arrow">→</div>
+
+              <div class="flow-step exploitation">
+                <h4>⚔️ Explotación</h4>
+                <p>{{ scenario.exploitation }}</p>
+              </div>
+
+              <div class="flow-arrow">→</div>
+
+              <div class="flow-step prevention">
+                <h4>🛡️ Prevención</h4>
+                <p>{{ scenario.prevention }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Angular-Specific Risks Section -->
+  <section *ngIf="currentExample === 'angular-risks'" class="content-section">
+    <div class="angular-risks-content">
+      <h2>🅰️ Riesgos Específicos en Angular</h2>
+      <p class="section-description">
+        Problemas de diseño inseguro que son particulares del ecosistema Angular:
+      </p>
+
+      <div class="risks-list">
+        <div *ngFor="let risk of angularSpecificRisks" class="risk-category">
+          <div class="risk-header">
+            <h3>{{ risk.risk }}</h3>
+            <p class="risk-description">{{ risk.description }}</p>
+          </div>
+
+          <div class="risk-examples">
+            <h4>⚠️ Ejemplos Problemáticos:</h4>
+            <ul class="examples-list">
+              <li *ngFor="let example of risk.examples">{{ example }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="angular-security-checklist">
+        <h3>✅ Checklist de Diseño Seguro en Angular</h3>
+        <div class="checklist-grid">
+          <div class="checklist-category">
+            <h4>🏗️ Arquitectura</h4>
+            <div class="check-item">
+              <input type="checkbox" disabled>
+              <span>Separación clara entre presentación y lógica de negocio</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" disabled>
+              <span>State management con consideraciones de seguridad</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" disabled>
+              <span>Servicios con responsabilidades bien definidas</span>
+            </div>
+          </div>
+
+          <div class="checklist-category">
+            <h4>🔒 Seguridad</h4>
+            <div class="check-item">
+              <input type="checkbox" disabled>
+              <span>Validación en múltiples capas (client + server)</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" disabled>
+              <span>Authentication/Authorization bien diseñados</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" disabled>
+              <span>Manejo seguro de datos sensibles</span>
+            </div>
+          </div>
+
+          <div class="checklist-category">
+            <h4>📊 Datos</h4>
+            <div class="check-item">
+              <input type="checkbox" disabled>
+              <span>APIs que exponen mínima información necesaria</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" disabled>
+              <span>Filtrado por ownership en todas las consultas</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" disabled>
+              <span>Audit trails para acciones críticas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Footer -->
+  <div class="bottom-navigation">
+    <div class="nav-info">
+      <p>Siguiente: Explora <strong>ejemplos de código vulnerable</strong> y aprende a identificar patrones inseguros.</p>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-button secondary">← Anterior</button>
+      <button class="nav-button primary">Siguiente: Código Vulnerable →</button>
+    </div>
+  </div>
+</div>

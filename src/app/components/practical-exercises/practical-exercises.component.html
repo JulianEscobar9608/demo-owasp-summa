@@ -1,0 +1,268 @@
+<div class="practical-exercises">
+  <h2>🧪 Ejercicios Prácticos - XSS</h2>
+
+  <div class="intro-section">
+    <div class="exercises-banner">
+      <h3>💪 Pon a Prueba tus Conocimientos</h3>
+      <p>Completa estos ejercicios para evaluar tu comprensión sobre la identificación y prevención de XSS.</p>
+    </div>
+  </div>
+
+  <!-- Resultados si están disponibles -->
+  <div class="results-summary" *ngIf="!showResults">
+    <div class="progress-cards">
+      <div class="progress-card">
+        <h4>📝 Análisis de Código</h4>
+        <div class="progress-info">
+          <span class="score">{{ getExerciseResults().completed }}/{{ getExerciseResults().total }}</span>
+          <span class="label">completados</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill"
+               [style.width.%]="(getExerciseResults().completed / getExerciseResults().total) * 100">
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-card">
+        <h4>❓ Quiz Teórico</h4>
+        <div class="progress-info">
+          <span class="score">{{ getQuizResults().completed }}/{{ getQuizResults().total }}</span>
+          <span class="label">completados</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill"
+               [style.width.%]="(getQuizResults().completed / getQuizResults().total) * 100">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ejercicios de análisis de código -->
+  <div class="section code-analysis" *ngIf="!showResults">
+    <h3>📝 Análisis de Código</h3>
+    <p>Examina cada fragmento de código y determina si es vulnerable a ataques XSS.</p>
+
+    <div class="exercise-container">
+      <div class="exercise-header">
+        <div class="exercise-progress">
+          <span>Ejercicio {{ currentExerciseIndex + 1 }} de {{ codeExercises.length }}</span>
+          <div class="progress-dots">
+            <span *ngFor="let ex of codeExercises; let i = index"
+                  class="dot"
+                  [class.current]="i === currentExerciseIndex"
+                  [class.completed]="isExerciseAnswered(i)"
+                  [class.correct]="isExerciseCorrect(i)"
+                  [class.incorrect]="isExerciseAnswered(i) && !isExerciseCorrect(i)">
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <h4>{{ codeExercises[currentExerciseIndex].title }}</h4>
+        <p class="exercise-description">{{ codeExercises[currentExerciseIndex].description }}</p>
+
+        <div class="code-display">
+          <pre><code>{{ codeExercises[currentExerciseIndex].code }}</code></pre>
+        </div>
+
+        <div class="answer-section">
+          <h5>¿Es este código vulnerable a XSS?</h5>
+          <div class="answer-buttons">
+            <button class="btn answer-btn vulnerable"
+                    [class.selected]="codeExercises[currentExerciseIndex].userAnswer === true"
+                    (click)="checkExerciseAnswer(currentExerciseIndex, true)">
+              ⚠️ SÍ, es vulnerable
+            </button>
+            <button class="btn answer-btn safe"
+                    [class.selected]="codeExercises[currentExerciseIndex].userAnswer === false"
+                    (click)="checkExerciseAnswer(currentExerciseIndex, false)">
+              ✅ NO, es seguro
+            </button>
+          </div>
+        </div>
+
+        <!-- Explicación después de responder -->
+        <div class="explanation-section" *ngIf="isExerciseAnswered(currentExerciseIndex)">
+          <div class="explanation-card"
+               [class.correct]="isExerciseCorrect(currentExerciseIndex)"
+               [class.incorrect]="!isExerciseCorrect(currentExerciseIndex)">
+            <h5>
+              <span *ngIf="isExerciseCorrect(currentExerciseIndex)">🎉 ¡Correcto!</span>
+              <span *ngIf="!isExerciseCorrect(currentExerciseIndex)">❌ Incorrecto</span>
+            </h5>
+            <p>{{ codeExercises[currentExerciseIndex].explanation }}</p>
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <button class="btn nav-btn" [disabled]="currentExerciseIndex === 0" (click)="prevExercise()">
+            ← Anterior
+          </button>
+          <button class="btn nav-btn"
+                  [disabled]="currentExerciseIndex === codeExercises.length - 1"
+                  (click)="nextExercise()">
+            Siguiente →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz teórico -->
+  <div class="section quiz-section" *ngIf="!showResults">
+    <h3>❓ Quiz Teórico</h3>
+    <p>Responde estas preguntas sobre conceptos de seguridad XSS.</p>
+
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <div class="quiz-progress">
+          <span>Pregunta {{ currentQuizIndex + 1 }} de {{ quiz.length }}</span>
+          <div class="progress-dots">
+            <span *ngFor="let q of quiz; let i = index"
+                  class="dot"
+                  [class.current]="i === currentQuizIndex"
+                  [class.completed]="isQuizAnswered(i)"
+                  [class.correct]="isQuizCorrect(i)"
+                  [class.incorrect]="isQuizAnswered(i) && !isQuizCorrect(i)">
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-card">
+        <h4>{{ quiz[currentQuizIndex].question }}</h4>
+
+        <div class="options-section">
+          <button class="option" *ngFor="let option of quiz[currentQuizIndex].options; let i = index"
+                  [class.selected]="quiz[currentQuizIndex].userAnswer === i"
+                  [class.correct]="isQuizAnswered(currentQuizIndex) && i === quiz[currentQuizIndex].correctAnswer"
+                  [class.incorrect]="isQuizAnswered(currentQuizIndex) && quiz[currentQuizIndex].userAnswer === i && i !== quiz[currentQuizIndex].correctAnswer"
+                  (click)="checkQuizAnswer(currentQuizIndex, i)"
+                  [attr.aria-label]="'Opción ' + getOptionLetter(i) + ' ' + option">
+            <span class="option-letter">{{ getOptionLetter(i) }}</span>
+            <span class="option-text">{{ option }}</span>
+          </button>
+        </div>
+
+        <!-- Explicación después de responder -->
+        <div class="explanation-section" *ngIf="isQuizAnswered(currentQuizIndex)">
+          <div class="explanation-card"
+               [class.correct]="isQuizCorrect(currentQuizIndex)"
+               [class.incorrect]="!isQuizCorrect(currentQuizIndex)">
+            <h5>
+              <span *ngIf="isQuizCorrect(currentQuizIndex)">🎉 ¡Correcto!</span>
+              <span *ngIf="!isQuizCorrect(currentQuizIndex)">❌ Incorrecto</span>
+            </h5>
+            <p>{{ quiz[currentQuizIndex].explanation }}</p>
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <button class="btn nav-btn" [disabled]="currentQuizIndex === 0" (click)="prevQuiz()">
+            ← Anterior
+          </button>
+          <button class="btn nav-btn"
+                  [disabled]="currentQuizIndex === quiz.length - 1"
+                  (click)="nextQuiz()">
+            Siguiente →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón para ver resultados -->
+  <div class="completion-section" *ngIf="!showResults">
+    <button class="btn results-btn"
+            [disabled]="getExerciseResults().completed !== getExerciseResults().total || getQuizResults().completed !== getQuizResults().total"
+            (click)="showFinalResults()">
+      📊 Ver Resultados Finales
+    </button>
+    <p *ngIf="getExerciseResults().completed !== getExerciseResults().total || getQuizResults().completed !== getQuizResults().total">
+      Completa todos los ejercicios para ver tus resultados finales.
+    </p>
+  </div>
+
+  <!-- Resultados finales -->
+  <div class="final-results" *ngIf="showResults">
+    <h3>🏆 Resultados Finales</h3>
+
+    <div class="results-grid">
+      <div class="result-card exercises">
+        <h4>📝 Análisis de Código</h4>
+        <div class="score-circle">
+          <span class="score-number">{{ getExerciseResults().correct }}/{{ getExerciseResults().total }}</span>
+        </div>
+        <div class="percentage">
+          {{ calculateExercisePercentage() }}% correcto
+        </div>
+        <div class="performance-badge"
+             [class.excellent]="getExerciseResults().correct / getExerciseResults().total >= 0.8"
+             [class.good]="getExerciseResults().correct / getExerciseResults().total >= 0.6 && getExerciseResults().correct / getExerciseResults().total < 0.8"
+             [class.needs-improvement]="getExerciseResults().correct / getExerciseResults().total < 0.6">
+          <span *ngIf="getExerciseResults().correct / getExerciseResults().total >= 0.8">🏆 Excelente</span>
+          <span *ngIf="getExerciseResults().correct / getExerciseResults().total >= 0.6 && getExerciseResults().correct / getExerciseResults().total < 0.8">👍 Bueno</span>
+          <span *ngIf="getExerciseResults().correct / getExerciseResults().total < 0.6">📚 Necesita mejorar</span>
+        </div>
+      </div>
+
+      <div class="result-card quiz">
+        <h4>❓ Quiz Teórico</h4>
+        <div class="score-circle">
+          <span class="score-number">{{ getQuizResults().correct }}/{{ getQuizResults().total }}</span>
+        </div>
+        <div class="percentage">
+          {{ calculateQuizPercentage() }}% correcto
+        </div>
+        <div class="performance-badge"
+             [class.excellent]="getQuizResults().correct / getQuizResults().total >= 0.8"
+             [class.good]="getQuizResults().correct / getQuizResults().total >= 0.6 && getQuizResults().correct / getQuizResults().total < 0.8"
+             [class.needs-improvement]="getQuizResults().correct / getQuizResults().total < 0.6">
+          <span *ngIf="getQuizResults().correct / getQuizResults().total >= 0.8">🏆 Excelente</span>
+          <span *ngIf="getQuizResults().correct / getQuizResults().total >= 0.6 && getQuizResults().correct / getQuizResults().total < 0.8">👍 Bueno</span>
+          <span *ngIf="getQuizResults().correct / getQuizResults().total < 0.6">📚 Necesita mejorar</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="overall-performance">
+      <h4>📈 Evaluación General</h4>
+      <div class="overall-score">
+        Total: {{ getExerciseResults().correct + getQuizResults().correct }}/{{ getExerciseResults().total + getQuizResults().total }}
+        ({{ calculateTotalPercentage() }}%)
+      </div>
+
+      <div class="recommendations">
+        <div *ngIf="((getExerciseResults().correct + getQuizResults().correct) / (getExerciseResults().total + getQuizResults().total)) >= 0.8"
+             class="recommendation excellent">
+          <h5>🎉 ¡Excelente trabajo!</h5>
+          <p>Tienes un sólido entendimiento de la seguridad XSS en Angular. Continúa aplicando estas mejores prácticas en tus proyectos.</p>
+        </div>
+
+        <div *ngIf="((getExerciseResults().correct + getQuizResults().correct) / (getExerciseResults().total + getQuizResults().total)) >= 0.6 && ((getExerciseResults().correct + getQuizResults().correct) / (getExerciseResults().total + getQuizResults().total)) < 0.8"
+             class="recommendation good">
+          <h5>👍 Buen progreso</h5>
+          <p>Tienes una base sólida. Revisa las explicaciones de las preguntas incorrectas y practica más con ejemplos similares.</p>
+        </div>
+
+        <div *ngIf="((getExerciseResults().correct + getQuizResults().correct) / (getExerciseResults().total + getQuizResults().total)) < 0.6"
+             class="recommendation needs-improvement">
+          <h5>📚 Sigue practicando</h5>
+          <p>Te recomendamos revisar los conceptos teóricos y hacer más ejercicios prácticos. La seguridad es fundamental en el desarrollo web.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn reset-btn" (click)="resetExercises()">
+        🔄 Reiniciar Ejercicios
+      </button>
+      <button class="btn continue-btn" onclick="alert('¡Continúa tu aprendizaje!')">
+        🚀 Continuar Aprendiendo
+      </button>
+    </div>
+  </div>
+</div>

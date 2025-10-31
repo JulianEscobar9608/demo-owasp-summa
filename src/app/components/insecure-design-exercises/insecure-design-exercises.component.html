@@ -1,0 +1,466 @@
+<div class="insecure-design-exercises">
+  <!-- Header -->
+  <div class="header-section">
+    <h1>🎯 Ejercicios Prácticos y Laboratorios</h1>
+    <p class="subtitle">
+      Practica y demuestra tu conocimiento con ejercicios hands-on, laboratorios completos y casos de estudio reales
+    </p>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tab-navigation">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'exercises'"
+      (click)="setActiveTab('exercises')">
+      💻 Ejercicios
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'labs'"
+      (click)="setActiveTab('labs')">
+      🧪 Laboratorios
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'quiz'"
+      (click)="setActiveTab('quiz')">
+      📝 Evaluación
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'cases'"
+      (click)="setActiveTab('cases')">
+      📚 Casos de Estudio
+    </button>
+  </div>
+
+  <!-- Exercises Tab -->
+  <div *ngIf="activeTab === 'exercises'" class="tab-content">
+    <div class="exercises-section">
+      <h2>💻 Ejercicios Prácticos de Implementación</h2>
+      <p class="section-description">
+        Desarrolla habilidades prácticas resolviendo problemas reales de Insecure Design en Angular:
+      </p>
+
+      <!-- Exercise Selection -->
+      <div class="exercise-selection">
+        <div class="exercise-grid">
+          <div
+            *ngFor="let exercise of practicalExercises"
+            class="exercise-card"
+            [class.active]="selectedExercise === exercise.id"
+            [class.completed]="exercise.completed"
+            (click)="setSelectedExercise(exercise.id)">
+
+            <div class="exercise-header">
+              <div class="exercise-meta">
+                <span class="category-icon">{{ getCategoryIcon(exercise.category) }}</span>
+                <span
+                  class="difficulty-badge"
+                  [style.background-color]="getDifficultyColor(exercise.difficulty)">
+                  {{ exercise.difficulty.toUpperCase() }}
+                </span>
+              </div>
+              <div class="completion-status" *ngIf="exercise.completed">
+                ✅ Completado
+              </div>
+            </div>
+
+            <h3>{{ exercise.title }}</h3>
+            <p class="exercise-description">{{ exercise.description }}</p>
+
+            <div class="exercise-info">
+              <span class="time-estimate">⏱️ {{ exercise.timeEstimate }} min</span>
+              <span class="category">{{ exercise.category }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selected Exercise Details -->
+      <div *ngIf="getSelectedExercise()" class="exercise-details">
+        <div class="exercise-overview">
+          <h3>{{ getSelectedExercise()!.title }}</h3>
+          <p class="description">{{ getSelectedExercise()!.description }}</p>
+
+          <div class="exercise-controls">
+            <button class="action-btn primary" (click)="markExerciseCompleted(selectedExercise)">
+              ✅ Marcar como Completado
+            </button>
+            <button class="action-btn secondary" (click)="resetExercise()">
+              🔄 Reiniciar Ejercicio
+            </button>
+          </div>
+        </div>
+
+        <div class="exercise-content">
+          <!-- Objectives -->
+          <div class="objectives-section">
+            <h4>🎯 Objetivos de Aprendizaje</h4>
+            <ul class="objectives-list">
+              <li *ngFor="let objective of getSelectedExercise()!.objectives">
+                {{ objective }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Scenario -->
+          <div class="scenario-section">
+            <h4>📋 Escenario</h4>
+            <div class="scenario-content">
+              <p>{{ getSelectedExercise()!.scenario }}</p>
+            </div>
+          </div>
+
+          <!-- Vulnerable Code -->
+          <div class="code-section vulnerable">
+            <h4>❌ Código Vulnerable</h4>
+            <pre class="code-block vulnerable">{{ getSelectedExercise()!.vulnerableCode }}</pre>
+            <button class="copy-btn" (click)="copyCode(getSelectedExercise()!.vulnerableCode)">
+              📋 Copiar Código Vulnerable
+            </button>
+          </div>
+
+          <!-- Hints -->
+          <div class="hints-section">
+            <h4>💡 Pistas para la Solución</h4>
+            <ul class="hints-list">
+              <li *ngFor="let hint of getSelectedExercise()!.hints">
+                {{ hint }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Solution Toggle -->
+          <div class="solution-controls">
+            <button class="toggle-solution-btn" (click)="toggleSolution()">
+              {{ showSolution ? '🙈 Ocultar Solución' : '👁️ Ver Solución' }}
+            </button>
+          </div>
+
+          <!-- Solution (Hidden by Default) -->
+          <div *ngIf="showSolution" class="solution-section">
+            <div class="secure-code">
+              <h4>✅ Implementación Segura</h4>
+              <pre class="code-block secure">{{ getSelectedExercise()!.secureCode }}</pre>
+              <button class="copy-btn" (click)="copyCode(getSelectedExercise()!.secureCode)">
+                📋 Copiar Código Seguro
+              </button>
+            </div>
+
+            <div class="solution-explanation">
+              <h4>🔍 Explicación de la Solución</h4>
+              <p>{{ getSelectedExercise()!.solution }}</p>
+            </div>
+
+            <div class="learning-points">
+              <h4>📚 Puntos Clave de Aprendizaje</h4>
+              <ul class="learning-list">
+                <li *ngFor="let point of getSelectedExercise()!.learningPoints">
+                  {{ point }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Labs Tab -->
+  <div *ngIf="activeTab === 'labs'" class="tab-content">
+    <div class="labs-section">
+      <h2>🧪 Laboratorios Completos</h2>
+      <p class="section-description">
+        Laboratorios step-by-step para desarrollar aplicaciones Angular seguras desde cero:
+      </p>
+
+      <!-- Lab Selection -->
+      <div class="lab-selection">
+        <div *ngFor="let lab of labs" class="lab-card" [class.active]="selectedLab === lab.id">
+          <div class="lab-header">
+            <h3>{{ lab.name }}</h3>
+            <div class="lab-meta">
+              <span
+                class="difficulty-badge"
+                [style.background-color]="getDifficultyColor(lab.difficulty)">
+                {{ lab.difficulty.toUpperCase() }}
+              </span>
+              <span class="duration">⏱️ {{ lab.duration }} min</span>
+            </div>
+          </div>
+
+          <p class="lab-description">{{ lab.description }}</p>
+
+          <div class="lab-progress">
+            <div class="progress-info">
+              <span>Progreso: {{ (currentStep / lab.steps.length * 100).toFixed(0) }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                [style.width.%]="(currentStep / lab.steps.length) * 100">
+              </div>
+            </div>
+          </div>
+
+          <div class="lab-actions">
+            <button class="lab-btn primary" (click)="setSelectedLab(lab.id)">
+              {{ selectedLab === lab.id ? 'Continuar Lab' : 'Iniciar Lab' }}
+            </button>
+            <button class="lab-btn secondary" (click)="downloadLabGuide()">
+              📥 Descargar Guía
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lab Steps -->
+      <div *ngIf="getSelectedLab()" class="lab-steps">
+        <div class="lab-navigation">
+          <h3>{{ getSelectedLab()!.name }}</h3>
+          <div class="step-navigation">
+            <button
+              class="step-nav-btn"
+              [disabled]="currentStep === 1"
+              (click)="previousStep()">
+              ← Anterior
+            </button>
+            <span class="step-indicator">
+              Paso {{ currentStep }} de {{ getSelectedLab()!.steps.length }}
+            </span>
+            <button
+              class="step-nav-btn"
+              [disabled]="currentStep === getSelectedLab()!.steps.length"
+              (click)="nextStep()">
+              Siguiente →
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="getCurrentStep()" class="current-step">
+          <div class="step-header">
+            <h4>{{ getCurrentStep()!.title }}</h4>
+            <button
+              class="complete-step-btn"
+              [class.completed]="getCurrentStep()!.completed"
+              (click)="markStepCompleted(currentStep)">
+              {{ getCurrentStep()!.completed ? '✅ Completado' : '⭕ Marcar como Completado' }}
+            </button>
+          </div>
+
+          <p class="step-description">{{ getCurrentStep()!.description }}</p>
+
+          <div class="step-content">
+            <div class="tasks-section">
+              <h5>📋 Tareas a Realizar</h5>
+              <ul class="tasks-list">
+                <li *ngFor="let task of getCurrentStep()!.tasks">
+                  {{ task }}
+                </li>
+              </ul>
+            </div>
+
+            <div *ngIf="getCurrentStep()!.code" class="code-section">
+              <h5>💻 Código de Referencia</h5>
+              <pre class="code-block lab">{{ getCurrentStep()!.code }}</pre>
+              <button class="copy-btn" (click)="copyCode(getCurrentStep()!.code!)">
+                📋 Copiar Código
+              </button>
+            </div>
+
+            <div class="verification-section">
+              <h5>✅ Verificación</h5>
+              <p class="verification-text">{{ getCurrentStep()!.verification }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lab Resources -->
+        <div class="lab-resources">
+          <h4>📚 Recursos Adicionales</h4>
+          <ul class="resources-list">
+            <li *ngFor="let resource of getSelectedLab()!.resources">
+              {{ resource }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz Tab -->
+  <div *ngIf="activeTab === 'quiz'" class="tab-content">
+    <div class="quiz-section">
+      <h2>📝 Evaluación de Conocimientos</h2>
+      <p class="section-description">
+        Evalúa tu comprensión de los conceptos de Insecure Design con preguntas interactivas:
+      </p>
+
+      <!-- Quiz Progress -->
+      <div class="quiz-progress">
+        <div class="progress-info">
+          <span>Pregunta {{ currentQuiz + 1 }} de {{ quizzes.length }}</span>
+          <span *ngIf="userAnswers.length === quizzes.length" class="score">
+            Puntuación: {{ getQuizScore() }}%
+          </span>
+        </div>
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            [style.width.%]="((currentQuiz + 1) / quizzes.length) * 100">
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Question -->
+      <div *ngIf="quizzes[currentQuiz]" class="question-container">
+        <div class="question-header">
+          <h3>{{ quizzes[currentQuiz].question }}</h3>
+          <span class="question-type">{{ quizzes[currentQuiz].type }}</span>
+        </div>
+
+        <!-- Code Snippet (if applicable) -->
+        <div *ngIf="quizzes[currentQuiz].codeSnippet" class="code-snippet">
+          <pre class="code-block quiz">{{ quizzes[currentQuiz].codeSnippet }}</pre>
+        </div>
+
+        <!-- Answer Options -->
+        <div *ngIf="quizzes[currentQuiz].options" class="answer-options">
+          <div
+            *ngFor="let option of quizzes[currentQuiz].options; let i = index"
+            class="option-card"
+            [class.selected]="userAnswers[currentQuiz] === i"
+            [class.correct]="userAnswers[currentQuiz] !== undefined && i === quizzes[currentQuiz].correctAnswer"
+            [class.incorrect]="userAnswers[currentQuiz] === i && i !== quizzes[currentQuiz].correctAnswer"
+            (click)="selectAnswer(i)">
+
+            <span class="option-letter">{{ getOptionLetter(i) }}</span>
+            <span class="option-text">{{ option }}</span>
+
+            <div *ngIf="userAnswers[currentQuiz] !== undefined" class="option-feedback">
+              <span *ngIf="i === quizzes[currentQuiz].correctAnswer" class="correct-icon">✅</span>
+              <span *ngIf="userAnswers[currentQuiz] === i && i !== quizzes[currentQuiz].correctAnswer" class="incorrect-icon">❌</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explanation (shown after answering) -->
+        <div *ngIf="userAnswers[currentQuiz] !== undefined" class="explanation">
+          <h4>💡 Explicación</h4>
+          <p>{{ quizzes[currentQuiz].explanation }}</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="quiz-navigation">
+          <button
+            class="quiz-nav-btn"
+            [disabled]="currentQuiz === 0"
+            (click)="previousQuiz()">
+            ← Anterior
+          </button>
+
+          <button
+            class="quiz-nav-btn"
+            [disabled]="currentQuiz === quizzes.length - 1"
+            (click)="nextQuiz()">
+            Siguiente →
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz Results -->
+      <div *ngIf="userAnswers.length === quizzes.length" class="quiz-results">
+        <h3>🎯 Resultados Finales</h3>
+        <div class="final-score">
+          <div class="score-circle">
+            <span class="score-number">{{ getQuizScore() }}%</span>
+          </div>
+          <div class="score-interpretation">
+            <p *ngIf="getQuizScore() >= 80">🎉 ¡Excelente! Tienes un dominio sólido de los conceptos.</p>
+            <p *ngIf="getQuizScore() >= 60 && getQuizScore() < 80">👍 Buen trabajo. Considera repasar algunos conceptos.</p>
+            <p *ngIf="getQuizScore() < 60">📚 Te recomendamos revisar el material antes de continuar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case Studies Tab -->
+  <div *ngIf="activeTab === 'cases'" class="tab-content">
+    <div class="cases-section">
+      <h2>📚 Casos de Estudio Reales</h2>
+      <p class="section-description">
+        Aprende de incidentes reales y cómo se resolvieron problemas de Insecure Design:
+      </p>
+
+      <div *ngFor="let caseStudy of caseStudies" class="case-study">
+        <div class="case-header">
+          <h3>{{ caseStudy.title }}</h3>
+          <div class="case-meta">
+            <span class="company">🏢 {{ caseStudy.company }}</span>
+            <span class="industry">🏭 {{ caseStudy.industry }}</span>
+          </div>
+        </div>
+
+        <div class="case-content">
+          <div class="case-section problem">
+            <h4>❗ Problema Identificado</h4>
+            <p>{{ caseStudy.problem }}</p>
+          </div>
+
+          <div class="case-section impact">
+            <h4>💥 Impacto del Incidente</h4>
+            <p>{{ caseStudy.impact }}</p>
+          </div>
+
+          <div class="case-section solution">
+            <h4>✅ Solución Implementada</h4>
+            <p>{{ caseStudy.solution }}</p>
+          </div>
+
+          <div class="case-section implementation">
+            <h4>🔧 Detalles de Implementación</h4>
+            <pre class="code-block case">{{ caseStudy.implementation }}</pre>
+            <button class="copy-btn" (click)="copyCode(caseStudy.implementation)">
+              📋 Copiar Implementación
+            </button>
+          </div>
+
+          <div class="case-section results">
+            <h4>📊 Resultados Obtenidos</h4>
+            <ul class="results-list">
+              <li *ngFor="let result of caseStudy.results">{{ result }}</li>
+            </ul>
+          </div>
+
+          <div class="case-section lessons">
+            <h4>🎓 Lecciones Aprendidas</h4>
+            <ul class="lessons-list">
+              <li *ngFor="let lesson of caseStudy.lessonsLearned">{{ lesson }}</li>
+            </ul>
+          </div>
+
+          <div class="case-section angular-specific">
+            <h4>🅰️ Aplicación Específica en Angular</h4>
+            <ul class="angular-list">
+              <li *ngFor="let item of caseStudy.angularSpecific">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-navigation">
+    <div class="nav-info">
+      <p>¡Felicitaciones! Has completado el módulo <strong>A04 - Insecure Design</strong>.</p>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-button secondary">← Volver al Módulo</button>
+      <button class="nav-button primary">Siguiente Módulo: A05 →</button>
+    </div>
+  </div>
+</div>

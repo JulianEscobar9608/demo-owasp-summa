@@ -1,0 +1,381 @@
+<div class="best-practices">
+  <h2>✨ Mejores Prácticas para Prevenir XSS en Angular</h2>
+
+  <div class="intro-section">
+    <div class="practices-banner">
+      <h3>🎯 Desarrollo Seguro</h3>
+      <p>Implementa estas prácticas para crear aplicaciones Angular resistentes a ataques XSS.</p>
+    </div>
+  </div>
+
+  <!-- Prácticas principales -->
+  <div class="practices-grid">
+    <div class="practice-card" *ngFor="let practice of bestPractices">
+      <div class="practice-header">
+        <h3>{{ practice.title }}</h3>
+        <span class="category-badge" [attr.data-category]="practice.category">
+          {{ practice.category }}
+        </span>
+      </div>
+
+      <div class="comparison">
+        <div class="code-section good">
+          <h4>✅ Correcto</h4>
+          <pre><code>{{ practice.good }}</code></pre>
+        </div>
+
+        <div class="code-section bad">
+          <h4>❌ Incorrecto</h4>
+          <pre><code>{{ practice.bad }}</code></pre>
+        </div>
+      </div>
+
+      <div class="practice-description">
+        <p>{{ practice.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Herramientas prácticas -->
+  <div class="tools-section">
+    <h3>🛠️ Herramientas de Validación</h3>
+
+    <div class="tools-grid">
+      <!-- Validador de entrada -->
+      <div class="tool-card">
+        <h4>🔍 Validador de Entrada</h4>
+        <div class="tool-demo">
+          <label for="input-validation">Prueba la validación de entrada:</label>
+          <textarea
+            id="input-validation"
+            [(ngModel)]="userInput"
+            placeholder="Ingresa texto con HTML/scripts..."
+            rows="3">
+          </textarea>
+
+          <div class="validation-results">
+            <div class="result-section">
+              <h5>Entrada original:</h5>
+              <div class="result-box original">{{ userInput || '[vacío]' }}</div>
+            </div>
+
+            <div class="result-section">
+              <h5>Después de validación:</h5>
+              <div class="result-box validated">{{ validateInput(userInput) }}</div>
+            </div>
+
+            <div class="result-section">
+              <h5>Filtrado de patrones maliciosos:</h5>
+              <div class="result-box filtered">{{ filterMaliciousPatterns(userInput) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Validador de URL -->
+      <div class="tool-card">
+        <h4>🔗 Validador de URLs</h4>
+        <div class="tool-demo">
+          <label for="url-validation">Prueba URLs:</label>
+          <input
+            id="url-validation"
+            [(ngModel)]="urlInput"
+            placeholder="http://example.com"
+            type="text">
+
+          <div class="url-results">
+            <div class="url-status" [class.valid]="isValidUrl(urlInput)" [class.invalid]="!isValidUrl(urlInput)">
+              <span *ngIf="isValidUrl(urlInput)">✅ URL Válida</span>
+              <span *ngIf="!isValidUrl(urlInput)">❌ URL Inválida</span>
+            </div>
+
+            <div class="url-demo" *ngIf="isValidUrl(urlInput)">
+              <a [href]="getSafeUrl(urlInput)" target="_blank" rel="noopener">
+                {{ urlInput }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSP Configuration -->
+  <div class="csp-section">
+    <h3>🛡️ Content Security Policy (CSP)</h3>
+    <p>CSP es una capa adicional de seguridad que ayuda a detectar y mitigar ciertos tipos de ataques XSS.</p>
+
+    <div class="csp-examples">
+      <div class="csp-card" *ngFor="let example of cspExamples">
+        <h4>{{ example.level }}</h4>
+        <div class="csp-policy">
+          <pre><code>{{ example.policy }}</code></pre>
+        </div>
+        <p class="csp-description">{{ example.description }}</p>
+      </div>
+    </div>
+
+    <div class="csp-implementation">
+      <h4>🔧 Implementación en Angular</h4>
+      <div class="code-example">
+        <pre><code>// En tu servidor (Express.js ejemplo)
+app.use((req, res, next) => &#123;
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline'; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "img-src 'self' data: https:;"
+  );
+  next();
+&#125;);
+
+// O en el index.html
+&lt;meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist de seguridad -->
+  <div class="checklist-section">
+    <h3>📋 Checklist de Seguridad XSS</h3>
+    <div class="checklist">
+      <div class="checklist-category">
+        <h4>🔒 Entrada de Datos</h4>
+        <ul class="security-checklist">
+          <li>✅ Validar todas las entradas del usuario</li>
+          <li>✅ Sanitizar contenido HTML</li>
+          <li>✅ Limitar longitud de campos</li>
+          <li>✅ Usar listas blancas en lugar de negras</li>
+        </ul>
+      </div>
+
+      <div class="checklist-category">
+        <h4>🖥️ Salida de Datos</h4>
+        <ul class="security-checklist">
+          <li>✅ Usar interpolación de Angular para texto seguro</li>
+          <li>✅ Evitar innerHTML con contenido dinámico</li>
+          <li>✅ Escapar HTML en templates</li>
+          <li>✅ Validar URLs antes de usarlas</li>
+        </ul>
+      </div>
+
+      <div class="checklist-category">
+        <h4>🔧 Configuración</h4>
+        <ul class="security-checklist">
+          <li>✅ Implementar Content Security Policy</li>
+          <li>✅ Configurar headers de seguridad</li>
+          <li>✅ Actualizar Angular regularmente</li>
+          <li>✅ Auditar dependencias</li>
+        </ul>
+      </div>
+
+      <div class="checklist-category">
+        <h4>🧪 Testing</h4>
+        <ul class="security-checklist">
+          <li>✅ Probar con payloads XSS</li>
+          <li>✅ Usar herramientas de análisis</li>
+          <li>✅ Revisar código regularmente</li>
+          <li>✅ Pentesting periódico</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recursos adicionales -->
+  <div class="resources-section">
+    <h3>📚 Recursos Adicionales</h3>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <h4>🔗 OWASP XSS Guide</h4>
+        <p>Guía completa sobre prevención de XSS</p>
+      </div>
+      <div class="resource-card">
+        <h4>📖 Angular Security Guide</h4>
+        <p>Documentación oficial de seguridad de Angular</p>
+      </div>
+      <div class="resource-card">
+        <h4>🛠️ CSP Evaluator</h4>
+        <p>Herramienta para evaluar políticas CSP</p>
+      </div>
+      <div class="resource-card">
+        <h4>🔍 XSS Hunter</h4>
+        <p>Plataforma para detectar XSS en aplicaciones</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-section">
+    <h3>🎯 Resumen Clave</h3>
+    <div class="key-points">
+      <div class="key-point">
+        <span class="icon">🛡️</span>
+        <strong>Angular protege por defecto</strong>, pero siempre valida entradas
+      </div>
+      <div class="key-point">
+        <span class="icon">🔍</span>
+        <strong>Usa herramientas de análisis</strong> para detectar vulnerabilidades
+      </div>
+      <div class="key-point">
+        <span class="icon">📋</span>
+        <strong>Implementa CSP</strong> como capa adicional de seguridad
+      </div>
+      <div class="key-point">
+        <span class="icon">🧪</span>
+        <strong>Prueba regularmente</strong> con payloads maliciosos conocidos
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de DomSanitizer Práctico -->
+  <div class="best-practices-section">
+    <h2>🧪 Laboratorio: DomSanitizer en Acción</h2>
+    <p class="section-description">
+      Experimenta con el DomSanitizer de Angular para entender cuándo y cómo usarlo de forma segura.
+    </p>
+
+    <div class="sanitizer-lab">
+      <!-- Demo de HTML Sanitization -->
+      <div class="lab-card">
+        <h3>🏷️ Sanitización de HTML</h3>
+        <div class="lab-content">
+          <div class="input-section">
+            <label for="html-demo">Prueba contenido HTML:</label>
+            <textarea
+              id="html-demo"
+              [(ngModel)]="sanitizerDemoHtml"
+              placeholder="<p>HTML <strong>seguro</strong></p>"
+              rows="3">
+            </textarea>
+            <div class="action-buttons">
+              <button class="btn sanitize-btn" (click)="sanitizeTrustedHtml()">
+                🔒 Sanitizar HTML
+              </button>
+              <button class="btn reset-btn" (click)="resetSanitizerDemo()">
+                🔄 Resetear
+              </button>
+            </div>
+          </div>
+
+          <div class="results-section">
+            <div class="result-item">
+              <h4>📝 HTML Original:</h4>
+              <div class="code-preview">{{ sanitizerDemoHtml }}</div>
+            </div>
+
+            <div class="result-item">
+              <h4>🔍 Análisis de Seguridad:</h4>
+              <div class="safety-indicator" [class.safe]="isHtmlSafe(sanitizerDemoHtml)" [class.unsafe]="!isHtmlSafe(sanitizerDemoHtml)">
+                <span *ngIf="isHtmlSafe(sanitizerDemoHtml)">✅ Contenido seguro</span>
+                <span *ngIf="!isHtmlSafe(sanitizerDemoHtml)">⚠️ Contenido potencialmente peligroso</span>
+              </div>
+            </div>
+
+            <div class="result-item" *ngIf="trustedHtml">
+              <h4>🎯 HTML Sanitizado:</h4>
+              <div class="sanitized-content" [innerHTML]="trustedHtml"></div>
+              <div class="warning-box">
+                <strong>⚠️ Advertencia:</strong> Solo usa bypassSecurityTrustHtml con contenido completamente confiable.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demo de URL Sanitization -->
+      <div class="lab-card">
+        <h3>🔗 Sanitización de URLs</h3>
+        <div class="lab-content">
+          <div class="input-section">
+            <label for="url-demo">Prueba URLs:</label>
+            <input
+              id="url-demo"
+              [(ngModel)]="sanitizerDemoUrl"
+              placeholder="https://example.com"
+              type="text">
+            <div class="action-buttons">
+              <button class="btn sanitize-btn" (click)="sanitizeTrustedUrl()">
+                🔒 Sanitizar URL
+              </button>
+            </div>
+          </div>
+
+          <div class="results-section">
+            <div class="result-item">
+              <h4>🌐 URL Original:</h4>
+              <div class="code-preview">{{ sanitizerDemoUrl }}</div>
+            </div>
+
+            <div class="result-item">
+              <h4>🔍 Validaciones:</h4>
+              <div class="validation-grid">
+                <div class="validation-item" [class.valid]="isValidUrl(sanitizerDemoUrl)">
+                  <span class="validation-icon">{{ isValidUrl(sanitizerDemoUrl) ? '✅' : '❌' }}</span>
+                  <span>Formato válido</span>
+                </div>
+                <div class="validation-item" [class.valid]="isWhitelistedDomain(sanitizerDemoUrl)">
+                  <span class="validation-icon">{{ isWhitelistedDomain(sanitizerDemoUrl) ? '✅' : '❌' }}</span>
+                  <span>Dominio permitido</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-item" *ngIf="trustedUrl">
+              <h4>🎯 URL Sanitizada:</h4>
+              <div class="url-result">
+                <a [href]="trustedUrl" target="_blank" rel="noopener noreferrer">
+                  {{ sanitizerDemoUrl }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guía de uso del DomSanitizer -->
+      <div class="lab-card">
+        <h3>📚 Guía de Uso Seguro del DomSanitizer</h3>
+        <div class="guidelines-content">
+          <div class="guideline-section">
+            <h4>✅ Cuándo SÍ usar DomSanitizer:</h4>
+            <ul class="guidelines-list safe">
+              <li>Con contenido HTML de fuentes completamente confiables</li>
+              <li>Después de validación exhaustiva del contenido</li>
+              <li>Con URLs de dominios en lista blanca</li>
+              <li>Para contenido estático conocido y seguro</li>
+              <li>En casos donde tienes control total del contenido</li>
+            </ul>
+          </div>
+
+          <div class="guideline-section">
+            <h4>❌ Cuándo NO usar DomSanitizer:</h4>
+            <ul class="guidelines-list unsafe">
+              <li>Con entrada directa del usuario sin validar</li>
+              <li>Con contenido de fuentes externas no confiables</li>
+              <li>Como primera línea de defensa</li>
+              <li>Sin entender completamente el contenido</li>
+              <li>Para "arreglar rápido" problemas de seguridad</li>
+            </ul>
+          </div>
+
+          <div class="code-examples">
+            <h4>💻 Patrón Recomendado:</h4>
+            <pre class="code-example-block"><code>// 1. Validar contenido
+if (!this.isContentSafe(userContent)) {{ '{' }}
+  throw new Error('Contenido no seguro');
+{{ '}' }}
+
+// 2. Sanitizar solo si es necesario
+const safeContent = this.sanitizer.bypassSecurityTrustHtml(
+  this.validateAndCleanContent(userContent)
+);
+
+// 3. Usar con precaución
+return safeContent;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

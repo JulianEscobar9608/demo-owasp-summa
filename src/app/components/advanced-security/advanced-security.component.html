@@ -1,0 +1,334 @@
+<div class="advanced-security">
+  <div class="security-header">
+    <h1>🔒 Configuraciones Avanzadas de Seguridad Angular</h1>
+    <p>Implementaciones específicas basadas en la documentación oficial de Angular</p>
+  </div>
+
+  <!-- Navegación de secciones -->
+  <nav class="section-nav">
+    <button class="nav-button"
+            [class.active]="activeSection === 'trusted-types'"
+            (click)="setActiveSection('trusted-types')">
+      🛡️ Trusted Types
+    </button>
+    <button class="nav-button"
+            [class.active]="activeSection === 'xsrf-config'"
+            (click)="setActiveSection('xsrf-config')">
+      🔐 Configuración XSRF
+    </button>
+    <button class="nav-button"
+            [class.active]="activeSection === 'csp-nonce'"
+            (click)="setActiveSection('csp-nonce')">
+      🎯 CSP con Nonce
+    </button>
+    <button class="nav-button"
+            [class.active]="activeSection === 'aot-security'"
+            (click)="setActiveSection('aot-security')">
+      ⚡ Compilador AOT
+    </button>
+    <button class="nav-button"
+            [class.active]="activeSection === 'xssi-protection'"
+            (click)="setActiveSection('xssi-protection')">
+      🚫 Protección XSSI
+    </button>
+  </nav>
+
+  <!-- Sección Trusted Types -->
+  <section *ngIf="activeSection === 'trusted-types'" class="content-section">
+    <div class="section-header">
+      <h2>🛡️ Trusted Types en Angular</h2>
+      <p>Configuraciones de Trusted Types para diferentes escenarios de aplicaciones Angular</p>
+    </div>
+
+    <div class="info-card highlight">
+      <h3>📋 ¿Qué son los Trusted Types?</h3>
+      <p>Los Trusted Types son una característica del navegador que ayuda a prevenir ataques XSS requiriendo que solo valores "confiables" se asignen a propiedades DOM peligrosas.</p>
+      <ul>
+        <li>Operan a nivel DOM - la defensa más efectiva</li>
+        <li>No pueden ser bypaseados por APIs de bajo nivel</li>
+        <li>Compatibilidad: <a href="https://caniuse.com/trusted-types" target="_blank">Ver soporte actual</a></li>
+      </ul>
+    </div>
+
+    <div class="examples-grid">
+      <div class="config-card" *ngFor="let example of trustedTypesExamples">
+        <h4>{{ example.title }}</h4>
+        <p class="description">{{ example.description }}</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span>Header HTTP</span>
+            <button (click)="copyToClipboard(example.header)" class="copy-btn">📋</button>
+          </div>
+          <pre><code>{{ example.header }}</code></pre>
+        </div>
+
+        <div class="use-case">
+          <strong>Cuándo usar:</strong> {{ example.use }}
+        </div>
+      </div>
+    </div>
+
+    <div class="implementation-guide">
+      <h3>🚀 Implementación en Diferentes Entornos</h3>
+      <div class="implementation-grid">
+        <div class="impl-card">
+          <h4>Servidor de Producción</h4>
+          <p>Configurar headers en Apache, Nginx, IIS, etc.</p>
+        </div>
+        <div class="impl-card">
+          <h4>Angular CLI (ng serve)</h4>
+          <p>Usar propiedad 'headers' en angular.json para desarrollo</p>
+        </div>
+        <div class="impl-card">
+          <h4>Karma (ng test)</h4>
+          <p>Configurar 'customHeaders' en karma.config.js</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Configuración XSRF -->
+  <section *ngIf="activeSection === 'xsrf-config'" class="content-section">
+    <div class="section-header">
+      <h2>🔐 Configuración XSRF/CSRF en Angular</h2>
+      <p>HttpClient incluye protección automática contra ataques Cross-Site Request Forgery</p>
+    </div>
+
+    <div class="info-card">
+      <h3>🔄 Cómo Funciona</h3>
+      <ol>
+        <li>El servidor establece una cookie con token XSRF</li>
+        <li>Angular lee la cookie automáticamente</li>
+        <li>El token se envía como header en requests mutativos</li>
+        <li>El servidor valida que cookie y header coincidan</li>
+      </ol>
+    </div>
+
+    <div class="config-examples">
+      <div class="config-card" *ngFor="let config of xsrfConfigurations" [class]="config.type">
+        <h4>{{ config.title }}</h4>
+        <p>{{ config.description }}</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span>Configuración</span>
+            <button (click)="copyToClipboard(config.code)" class="copy-btn">📋</button>
+          </div>
+          <pre><code [textContent]="config.code"></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning-card" *ngIf="activeSection === 'xsrf-config'">
+      <h4>⚠️ Importante</h4>
+      <p>HttpClient solo maneja la mitad cliente de la protección XSRF. El servidor debe:</p>
+      <ul>
+        <li>Establecer la cookie XSRF-TOKEN</li>
+        <li>Validar el header X-XSRF-TOKEN en requests</li>
+        <li>Generar tokens únicos y verificables</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Sección CSP con Nonce -->
+  <section *ngIf="activeSection === 'csp-nonce'" class="content-section">
+    <div class="section-header">
+      <h2>🎯 Content Security Policy con Nonce</h2>
+      <p>Configuraciones de CSP con nonce para aplicaciones Angular</p>
+    </div>
+
+    <div class="csp-minimal">
+      <h3>📋 Configuración Mínima Requerida</h3>
+      <div class="code-block">
+        <pre><code>Content-Security-Policy:
+  default-src 'self';
+  style-src 'self' 'nonce-randomNonceGoesHere';
+  script-src 'self' 'nonce-randomNonceGoesHere';</code></pre>
+      </div>
+    </div>
+
+    <div class="nonce-configs">
+      <div class="nonce-card" *ngFor="let config of cspNonceExamples">
+        <h4>{{ config.title }}</h4>
+        <p>{{ config.description }}</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span>Configuración</span>
+            <button (click)="copyToClipboard(config.config)" class="copy-btn">📋</button>
+          </div>
+          <pre><code [textContent]="config.config"></code></pre>
+        </div>
+
+        <div class="use-case">
+          <strong>Cuándo usar:</strong> {{ config.use }}
+        </div>
+      </div>
+    </div>
+
+    <div class="security-note">
+      <h4>🔒 Seguridad del Nonce</h4>
+      <ul>
+        <li>Debe ser único por request</li>
+        <li>No debe ser predecible o adivinable</li>
+        <li>Mínimo 128 bits de entropía</li>
+        <li>Regenerar en cada respuesta del servidor</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Sección AOT Security -->
+  <section *ngIf="activeSection === 'aot-security'" class="content-section">
+    <div class="section-header">
+      <h2>⚡ Compilador AOT y Seguridad</h2>
+      <p>Por qué el compilador Ahead-of-Time es crucial para la seguridad</p>
+    </div>
+
+    <div class="aot-benefits">
+      <h3>🛡️ Beneficios de Seguridad</h3>
+      <div class="benefits-grid">
+        <div class="benefit-card" *ngFor="let benefit of aotSecurityInfo.benefits">
+          <div class="benefit-icon">✅</div>
+          <p>{{ benefit }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-table">
+      <h3>📊 AOT vs JIT: Comparación de Seguridad</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Aspecto</th>
+            <th>{{ aotSecurityInfo.comparison.aot.title }}</th>
+            <th>{{ aotSecurityInfo.comparison.jit.title }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Seguridad</td>
+            <td class="aot-value">{{ aotSecurityInfo.comparison.aot.security }}</td>
+            <td class="jit-value">{{ aotSecurityInfo.comparison.jit.security }}</td>
+          </tr>
+          <tr>
+            <td>Rendimiento</td>
+            <td class="aot-value">{{ aotSecurityInfo.comparison.aot.performance }}</td>
+            <td class="jit-value">{{ aotSecurityInfo.comparison.jit.performance }}</td>
+          </tr>
+          <tr>
+            <td>Tamaño Bundle</td>
+            <td class="aot-value">{{ aotSecurityInfo.comparison.aot.bundleSize }}</td>
+            <td class="jit-value">{{ aotSecurityInfo.comparison.jit.bundleSize }}</td>
+          </tr>
+          <tr>
+            <td>Riesgos</td>
+            <td class="aot-value">{{ aotSecurityInfo.comparison.aot.risks }}</td>
+            <td class="jit-value">{{ aotSecurityInfo.comparison.jit.risks }}</td>
+          </tr>
+          <tr>
+            <td>Recomendación</td>
+            <td class="aot-value">{{ aotSecurityInfo.comparison.aot.recommendation }}</td>
+            <td class="jit-value">{{ aotSecurityInfo.comparison.jit.recommendation }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="template-injection-warning">
+      <h4>⚠️ Peligro: Inyección de Plantillas</h4>
+      <p>Crear plantillas dinámicamente con datos del usuario es un anti-patrón de seguridad que permite a atacantes inyectar código ejecutable.</p>
+      <div class="code-example">
+        <div class="dangerous-example">
+          <h5>❌ PELIGROSO</h5>
+          <pre><code [textContent]="dangerousTemplateExample"></code></pre>
+        </div>
+        <div class="safe-example">
+          <h5>✅ SEGURO</h5>
+          <pre><code [textContent]="safeTemplateExample"></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección XSSI Protection -->
+  <section *ngIf="activeSection === 'xssi-protection'" class="content-section">
+    <div class="section-header">
+      <h2>🚫 Protección XSSI (Cross-Site Script Inclusion)</h2>
+      <p>Angular protege automáticamente contra ataques de inclusión de scripts entre sitios</p>
+    </div>
+
+    <div class="xssi-explanation">
+      <h3>🎯 ¿Qué es XSSI?</h3>
+      <p>{{ xssiInfo.description }}</p>
+      <p><strong>Mecanismo:</strong> {{ xssiInfo.mechanism }}</p>
+    </div>
+
+    <div class="xssi-example">
+      <h3>💡 Ejemplo de Protección</h3>
+
+      <div class="example-grid">
+        <div class="server-response">
+          <h4>Respuesta del Servidor</h4>
+          <div class="code-block">
+            <pre><code [textContent]="xssiInfo.serverExample"></code></pre>
+          </div>
+        </div>
+
+        <div class="client-processing">
+          <h4>Procesamiento en Angular</h4>
+          <div class="steps">
+            <div class="step">
+              <span class="step-number">1</span>
+              <p>HttpClient detecta el prefijo de seguridad automáticamente</p>
+            </div>
+            <div class="step">
+              <span class="step-number">2</span>
+              <p>Remueve automáticamente el prefijo</p>
+            </div>
+            <div class="step">
+              <span class="step-number">3</span>
+              <p>Parsea el JSON limpio</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="auto-protection">
+      <h4>🤖 Protección Automática</h4>
+      <p>{{ xssiInfo.clientProtection }}</p>
+    </div>
+  </section>
+
+  <!-- Mejores prácticas finales -->
+  <section class="best-practices-summary">
+    <h2>📋 Checklist de Seguridad Avanzada</h2>
+    <div class="practices-grid">
+      <div class="practice-card" *ngFor="let practice of advancedBestPractices">
+        <h4>{{ practice.title }}</h4>
+        <p>{{ practice.description }}</p>
+        <div class="practice-details">
+          <div *ngIf="practice.action">
+            <strong>Acción:</strong> <code>{{ practice.action }}</code>
+          </div>
+          <div *ngIf="practice.frequency">
+            <strong>Frecuencia:</strong> {{ practice.frequency }}
+          </div>
+          <div *ngIf="practice.focus">
+            <strong>Enfoque:</strong> {{ practice.focus }}
+          </div>
+          <div *ngIf="practice.tools">
+            <strong>Herramientas:</strong> {{ practice.tools }}
+          </div>
+          <div *ngIf="practice.checklist">
+            <strong>Checklist:</strong>
+            <ul>
+              <li *ngFor="let item of practice.checklist">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

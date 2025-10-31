@@ -1,0 +1,220 @@
+<div class="dotnet-authentication">
+  <h2>🔐 Autenticación en .NET/C#</h2>
+
+  <div class="intro-section">
+    <div class="auth-banner">
+      <h3>🛡️ Sistemas de Autenticación Robustos</h3>
+      <p>La autenticación en .NET ofrece múltiples opciones desde ASP.NET Core Identity hasta 
+         JWT y OAuth, cada una diseñada para diferentes escenarios y niveles de seguridad.</p>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tabs-container">
+    <div class="tabs">
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'identity'"
+        (click)="setActiveTab('identity')">
+        ASP.NET Identity
+      </button>
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'jwt'"
+        (click)="setActiveTab('jwt')">
+        JWT Tokens
+      </button>
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'oauth'"
+        (click)="setActiveTab('oauth')">
+        OAuth/OpenID
+      </button>
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'security-features'"
+        (click)="setActiveTab('security-features')">
+        Características de Seguridad
+      </button>
+    </div>
+  </div>
+
+  <!-- Authentication Methods Content -->
+  <div class="tab-content" *ngIf="activeTab !== 'security-features'">
+    <div class="method-overview">
+      <div class="method-header">
+        <h3>{{ getMethodById(activeTab).title }}</h3>
+        <div class="security-level" 
+             [style.background-color]="getSecurityLevelColor(getMethodById(activeTab).securityLevel)">
+          {{ getMethodById(activeTab).securityLevel | titlecase }}
+        </div>
+      </div>
+      
+      <p class="method-description">{{ getMethodById(activeTab).description }}</p>
+      
+      <div class="implementation-note">
+        <strong>Implementación:</strong> {{ getMethodById(activeTab).implementation }}
+      </div>
+    </div>
+
+    <!-- Pros and Cons -->
+    <div class="pros-cons-section">
+      <div class="pros-card">
+        <h4>✅ Ventajas</h4>
+        <ul>
+          <li *ngFor="let pro of getMethodById(activeTab).pros">{{ pro }}</li>
+        </ul>
+      </div>
+      
+      <div class="cons-card">
+        <h4>❌ Desventajas</h4>
+        <ul>
+          <li *ngFor="let con of getMethodById(activeTab).cons">{{ con }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Code Example -->
+    <div class="code-section">
+      <h4>📝 Implementación Completa</h4>
+      <div class="code-block">
+        <pre><code>{{ getMethodById(activeTab).codeExample }}</code></pre>
+      </div>
+    </div>
+
+    <!-- Security Considerations -->
+    <div class="security-section">
+      <div class="vulnerabilities-card">
+        <h4>⚠️ Vulnerabilidades Comunes</h4>
+        <ul>
+          <li *ngFor="let vuln of getMethodById(activeTab).vulnerabilities">{{ vuln }}</li>
+        </ul>
+      </div>
+      
+      <div class="mitigations-card">
+        <h4>🛡️ Mitigaciones</h4>
+        <ul>
+          <li *ngFor="let mitigation of getMethodById(activeTab).mitigations">{{ mitigation }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Security Features Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'security-features'">
+    <h3>🔒 Características de Seguridad en .NET</h3>
+    
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of securityFeatures">
+        <div class="feature-header">
+          <h4>{{ feature.feature }}</h4>
+          <div class="impact-badge">{{ feature.impact }}</div>
+        </div>
+        
+        <p class="feature-description">{{ feature.description }}</p>
+        
+        <div class="implementation-info">
+          <strong>Implementación:</strong> {{ feature.implementation }}
+        </div>
+        
+        <div class="code-example">
+          <h5>💻 Código de Ejemplo</h5>
+          <div class="code-block">
+            <pre><code>{{ feature.codeExample }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Best Practices Section -->
+    <div class="best-practices">
+      <h4>📋 Mejores Prácticas para Autenticación .NET</h4>
+      
+      <div class="practices-grid">
+        <div class="practice-card security">
+          <h5>🔐 Configuración Segura</h5>
+          <ul>
+            <li>Usar HTTPS en producción siempre</li>
+            <li>Configurar cookies con HttpOnly y Secure</li>
+            <li>Implementar políticas estrictas de contraseñas</li>
+            <li>Habilitar bloqueo de cuentas tras intentos fallidos</li>
+            <li>Configurar expiración adecuada de sesiones</li>
+          </ul>
+        </div>
+        
+        <div class="practice-card monitoring">
+          <h5>📊 Monitoreo y Auditoría</h5>
+          <ul>
+            <li>Registrar todos los intentos de autenticación</li>
+            <li>Monitorear patrones de acceso anómalos</li>
+            <li>Implementar alertas para múltiples fallos</li>
+            <li>Auditar cambios en configuración de seguridad</li>
+            <li>Revisar logs de seguridad regularmente</li>
+          </ul>
+        </div>
+        
+        <div class="practice-card integration">
+          <h5>🔗 Integración con Angular</h5>
+          <ul>
+            <li>Implementar interceptors para tokens automáticos</li>
+            <li>Manejar expiración de tokens en frontend</li>
+            <li>Sincronizar estado de autenticación</li>
+            <li>Implementar logout automático por inactividad</li>
+            <li>Validar tokens en cada request del backend</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integration Notes -->
+  <div class="integration-notes">
+    <h3>🔄 Integración Angular + .NET</h3>
+    
+    <div class="integration-flow">
+      <div class="flow-step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h5>Frontend (Angular)</h5>
+          <p>Envía credenciales o redirige a proveedor OAuth</p>
+        </div>
+      </div>
+      
+      <div class="flow-arrow">→</div>
+      
+      <div class="flow-step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h5>Backend (.NET)</h5>
+          <p>Valida credenciales y genera token/cookie seguro</p>
+        </div>
+      </div>
+      
+      <div class="flow-arrow">→</div>
+      
+      <div class="flow-step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h5>Comunicación</h5>
+          <p>Token/cookie incluido en requests subsecuentes</p>
+        </div>
+      </div>
+      
+      <div class="flow-arrow">→</div>
+      
+      <div class="flow-step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h5>Validación</h5>
+          <p>Backend valida token en cada request y autoriza acciones</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="security-note">
+      <h5>🔒 Nota de Seguridad</h5>
+      <p>La autenticación debe ser siempre validada en el backend. Los guards de Angular 
+         y validaciones del frontend son solo para UX, no para seguridad real.</p>
+    </div>
+  </div>
+</div>

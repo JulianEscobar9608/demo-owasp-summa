@@ -1,0 +1,375 @@
+<div class="prevention-mitigation-container">
+  <!-- Header -->
+  <div class="chapter-header">
+    <div class="header-content">
+      <h1>🛡️ Prevención y Mitigación</h1>
+      <p class="chapter-description">
+        Aprende cómo implementar guards seguros, validación del servidor y estrategias completas
+        de prevención para proteger tu aplicación contra ataques de Broken Access Control.
+      </p>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tab-navigation">
+    <button
+      *ngFor="let tab of ['overview', 'guards', 'validation', 'layers', 'strategies']"
+      class="tab-btn"
+      [class.active]="activeTab === tab"
+      (click)="setActiveTab(tab)">
+      <span *ngIf="tab === 'overview'">📋 Resumen</span>
+      <span *ngIf="tab === 'guards'">🛡️ Guards Seguros</span>
+      <span *ngIf="tab === 'validation'">✅ Validación Servidor</span>
+      <span *ngIf="tab === 'layers'">🏗️ Capas de Seguridad</span>
+      <span *ngIf="tab === 'strategies'">🎯 Estrategias</span>
+    </button>
+  </div>
+
+  <!-- Overview Tab -->
+  <div *ngIf="activeTab === 'overview'" class="tab-content">
+    <div class="overview-section">
+      <h2>🎯 Objetivos de Prevención</h2>
+      <div class="objectives-grid">
+        <div class="objective-card">
+          <div class="objective-icon">🚪</div>
+          <h3>Control de Acceso Robusto</h3>
+          <p>Implementar múltiples capas de validación para garantizar que solo usuarios autorizados accedan a recursos específicos.</p>
+        </div>
+        <div class="objective-card">
+          <div class="objective-icon">🔍</div>
+          <h3>Validación Exhaustiva</h3>
+          <p>Verificar permisos tanto en frontend como backend, con validación de ownership y roles granulares.</p>
+        </div>
+        <div class="objective-card">
+          <div class="objective-icon">📊</div>
+          <h3>Monitoreo y Auditoría</h3>
+          <p>Implementar logging completo y métricas para detectar y responder a intentos de acceso no autorizado.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-controls-overview">
+      <h3>🛡️ Controles de Seguridad Implementados</h3>
+      <div class="controls-grid">
+        <div
+          *ngFor="let control of securityControls"
+          class="control-card"
+          [style.border-left-color]="getControlTypeColor(control.type)">
+          <div class="control-header">
+            <h4>{{ control.name }}</h4>
+            <div class="control-type" [style.background-color]="getControlTypeColor(control.type)">
+              {{ control.type }}
+            </div>
+          </div>
+          <p>{{ control.description }}</p>
+          <div class="control-stats">
+            <div class="effectiveness">
+              <span>Efectividad:</span>
+              <div class="effectiveness-bar">
+                <div
+                  class="effectiveness-fill"
+                  [style.width.%]="control.effectiveness"
+                  [style.background-color]="getEffectivenessColor(control.effectiveness)">
+                </div>
+              </div>
+              <span [style.color]="getEffectivenessColor(control.effectiveness)">
+                {{ control.effectiveness }}%
+              </span>
+            </div>
+            <div class="implementation">
+              <strong>Implementación:</strong> {{ control.implementation }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guards Tab -->
+  <div *ngIf="activeTab === 'guards'" class="tab-content">
+    <div class="guards-section">
+      <h2>🛡️ Implementación de Guards Seguros en Angular</h2>
+
+      <div class="guard-demo-section">
+        <h3>🎮 Demostración Interactiva</h3>
+        <div class="demo-controls">
+          <button
+            class="demo-btn"
+            [class.active]="currentDemo === 'guard-validation'"
+            (click)="setCurrentDemo('guard-validation'); runSecurityDemo('guard-validation')">
+            Simular Guard Validation
+          </button>
+          <button class="reset-btn" (click)="resetDemo()">Reset</button>
+        </div>
+
+        <div class="simulation-output" *ngIf="simulationResults.length > 0">
+          <h4>📋 Resultado de Simulación:</h4>
+          <div class="simulation-steps">
+            <div
+              *ngFor="let result of simulationResults; let i = index"
+              class="simulation-step"
+              [style.animation-delay]="i * 0.5 + 's'">
+              {{ result }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="guard-implementations">
+        <div class="guard-example">
+          <h4>🔐 AuthGuard Completo</h4>
+          <pre class="code-block secure">{{ securityControls[0].codeExample }}</pre>
+          <button class="copy-btn" (click)="copyCodeExample(securityControls[0].codeExample)">
+            📋 Copiar Código
+          </button>
+        </div>
+
+        <div class="guard-example">
+          <h4>👤 RoleGuard Avanzado</h4>
+          <pre class="code-block secure">{{ securityControls[1].codeExample }}</pre>
+          <button class="copy-btn" (click)="copyCodeExample(securityControls[1].codeExample)">
+            📋 Copiar Código
+          </button>
+        </div>
+      </div>
+
+      <div class="guard-best-practices">
+        <h3>✅ Mejores Prácticas para Guards</h3>
+        <div class="best-practices-list">
+          <div class="practice-item">
+            <span class="practice-icon">✅</span>
+            <div>
+              <strong>Validación Asíncrona:</strong>
+              Implementa guards que verifiquen tokens con el servidor
+            </div>
+          </div>
+          <div class="practice-item">
+            <span class="practice-icon">✅</span>
+            <div>
+              <strong>Manejo de Errores:</strong>
+              Redirige apropiadamente en caso de fallos de autenticación
+            </div>
+          </div>
+          <div class="practice-item">
+            <span class="practice-icon">✅</span>
+            <div>
+              <strong>Guards Composables:</strong>
+              Combina múltiples guards para validaciones complejas
+            </div>
+          </div>
+          <div class="practice-item">
+            <span class="practice-icon">✅</span>
+            <div>
+              <strong>Logging de Accesos:</strong>
+              Registra todos los intentos de acceso para auditoría
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Server Validation Tab -->
+  <div *ngIf="activeTab === 'validation'" class="tab-content">
+    <div class="validation-section">
+      <h2>✅ Validación del Servidor</h2>
+
+      <div class="validation-demo">
+        <h3>🎮 Demostración de Validación</h3>
+        <div class="demo-controls">
+          <button
+            class="demo-btn"
+            [class.active]="currentDemo === 'server-validation'"
+            (click)="setCurrentDemo('server-validation'); runSecurityDemo('server-validation')">
+            Simular Server Validation
+          </button>
+          <button class="reset-btn" (click)="resetDemo()">Reset</button>
+        </div>
+
+        <div class="simulation-output" *ngIf="simulationResults.length > 0">
+          <h4>📋 Proceso de Validación:</h4>
+          <div class="simulation-steps">
+            <div
+              *ngFor="let result of simulationResults; let i = index"
+              class="simulation-step"
+              [style.animation-delay]="i * 0.5 + 's'">
+              {{ result }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="validation-rules">
+        <h3>📝 Reglas de Validación Críticas</h3>
+        <div class="rules-grid">
+          <div *ngFor="let rule of validationRules" class="validation-rule">
+            <h4>{{ rule.rule }}</h4>
+            <p><strong>Endpoint:</strong> {{ rule.example }}</p>
+
+            <div class="code-comparison">
+              <div class="vulnerable-code">
+                <h5>❌ Implementación Vulnerable:</h5>
+                <pre class="code-block vulnerable">{{ rule.vulnerable }}</pre>
+              </div>
+
+              <div class="secure-code">
+                <h5>✅ Implementación Segura:</h5>
+                <pre class="code-block secure">{{ rule.secure }}</pre>
+              </div>
+            </div>
+
+            <button class="copy-btn" (click)="copyCodeExample(rule.secure)">
+              📋 Copiar Código Seguro
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="server-middleware">
+        <h3>⚙️ Middleware de Seguridad</h3>
+        <pre class="code-block secure">{{ securityControls[2].codeExample }}</pre>
+        <button class="copy-btn" (click)="copyCodeExample(securityControls[2].codeExample)">
+          📋 Copiar Middleware
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Security Layers Tab -->
+  <div *ngIf="activeTab === 'layers'" class="tab-content">
+    <div class="layers-section">
+      <h2>🏗️ Arquitectura de Capas de Seguridad</h2>
+
+      <div class="layers-demo">
+        <h3>🎮 Demostración de Defensa en Profundidad</h3>
+        <div class="demo-controls">
+          <button
+            class="demo-btn"
+            [class.active]="currentDemo === 'layered-security'"
+            (click)="setCurrentDemo('layered-security'); runSecurityDemo('layered-security')">
+            Simular Capas de Seguridad
+          </button>
+          <button class="reset-btn" (click)="resetDemo()">Reset</button>
+        </div>
+
+        <div class="simulation-output" *ngIf="simulationResults.length > 0">
+          <h4>📋 Flujo por Capas:</h4>
+          <div class="simulation-steps">
+            <div
+              *ngFor="let result of simulationResults; let i = index"
+              class="simulation-step"
+              [style.animation-delay]="i * 0.5 + 's'">
+              {{ result }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="security-layers">
+        <div *ngFor="let layer of preventionLayers" class="security-layer">
+          <div class="layer-header">
+            <h3>{{ layer.layer }}</h3>
+            <p class="layer-note">{{ layer.note }}</p>
+          </div>
+          <div class="layer-controls">
+            <div *ngFor="let control of layer.controls" class="control-item">
+              <span class="control-bullet">•</span>
+              {{ control }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strategies Tab -->
+  <div *ngIf="activeTab === 'strategies'" class="tab-content">
+    <div class="strategies-section">
+      <h2>🎯 Estrategias de Mitigación</h2>
+
+      <div class="strategies-grid">
+        <div *ngFor="let strategy of mitigationStrategies" class="strategy-card">
+          <h3>{{ strategy.strategy }}</h3>
+          <p class="strategy-description">{{ strategy.description }}</p>
+          <div class="strategy-details">
+            <div class="implementation">
+              <strong>Implementación:</strong>
+              <p>{{ strategy.implementation }}</p>
+            </div>
+            <div class="impact">
+              <strong>Impacto:</strong>
+              <span class="impact-badge" [class]="strategy.impact.toLowerCase().replace(' ', '-')">
+                {{ strategy.impact }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="implementation-checklist">
+        <h3>✅ Checklist de Implementación</h3>
+        <div class="checklist-grid">
+          <div class="checklist-category">
+            <h4>🛡️ Frontend (Angular)</h4>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Guards de autenticación implementados</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Guards de autorización por roles</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Validación de tokens en interceptors</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>UI condicional basada en permisos</span>
+            </div>
+          </div>
+
+          <div class="checklist-category">
+            <h4>⚙️ Backend</h4>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Middleware de autenticación</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Validación de ownership</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Rate limiting implementado</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Audit logging configurado</span>
+            </div>
+          </div>
+
+          <div class="checklist-category">
+            <h4>🗄️ Base de Datos</h4>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Row-level security habilitado</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Principio de menor privilegio</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Encriptación de datos sensibles</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Backup de auditoría configurado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

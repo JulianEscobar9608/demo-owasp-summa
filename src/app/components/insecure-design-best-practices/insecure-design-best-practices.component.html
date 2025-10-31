@@ -1,0 +1,487 @@
+<div class="insecure-design-best-practices">
+  <!-- Header -->
+  <div class="header-section">
+    <h1>📚 Mejores Prácticas y Metodologías</h1>
+    <p class="subtitle">
+      Frameworks, herramientas y procesos para desarrollar aplicaciones Angular seguras de forma sistemática
+    </p>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tab-navigation">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'frameworks'"
+      (click)="setActiveTab('frameworks')">
+      🏛️ Frameworks
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'sdlc'"
+      (click)="setActiveTab('sdlc')">
+      🔄 SDLC Seguro
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'tools'"
+      (click)="setActiveTab('tools')">
+      🛠️ Herramientas
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'compliance'"
+      (click)="setActiveTab('compliance')">
+      ✅ Compliance
+    </button>
+  </div>
+
+  <!-- Frameworks Tab -->
+  <div *ngIf="activeTab === 'frameworks'" class="tab-content">
+    <div class="frameworks-section">
+      <h2>🏛️ Frameworks de Seguridad</h2>
+      <p class="section-description">
+        Adopta metodologías probadas para integrar seguridad en el desarrollo Angular:
+      </p>
+
+      <!-- Framework Selection -->
+      <div class="framework-selection">
+        <div class="framework-buttons">
+          <button
+            *ngFor="let framework of securityFrameworks"
+            class="framework-btn"
+            [class.active]="selectedFramework === framework.id"
+            [style.border-left-color]="getMaturityColor(framework.maturityLevel)"
+            (click)="setSelectedFramework(framework.id)">
+
+            <div class="framework-info">
+              <div class="framework-header">
+                <h3>{{ framework.name }}</h3>
+                <span class="framework-type">{{ framework.type.toUpperCase() }}</span>
+              </div>
+              <p class="framework-desc">{{ framework.description }}</p>
+              <div class="maturity-indicator">
+                <span class="maturity-label">Nivel:</span>
+                <span
+                  class="maturity-badge"
+                  [style.background-color]="getMaturityColor(framework.maturityLevel)">
+                  {{ framework.maturityLevel.toUpperCase() }}
+                </span>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Selected Framework Details -->
+      <div *ngIf="getSelectedFramework()" class="framework-details">
+        <div class="framework-overview">
+          <h3>{{ getSelectedFramework()!.name }}</h3>
+          <p>{{ getSelectedFramework()!.description }}</p>
+        </div>
+
+        <div class="framework-content">
+          <!-- Key Principles -->
+          <div class="principles-section">
+            <h4>🎯 Principios Clave</h4>
+            <ul class="principles-list">
+              <li *ngFor="let principle of getSelectedFramework()!.keyPrinciples">
+                {{ principle }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Angular Implementation -->
+          <div class="angular-implementation">
+            <h4>🅰️ Implementación en Angular</h4>
+            <p>{{ getSelectedFramework()!.angularImplementation }}</p>
+          </div>
+
+          <!-- Tools -->
+          <div class="tools-section">
+            <h4>🛠️ Herramientas Recomendadas</h4>
+            <div class="tools-grid">
+              <span
+                *ngFor="let tool of getSelectedFramework()!.tools"
+                class="tool-badge">
+                {{ tool }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Adoption Steps -->
+          <div class="adoption-steps">
+            <h4>📋 Pasos de Adopción</h4>
+            <ol class="steps-list">
+              <li *ngFor="let step of getSelectedFramework()!.adoptionSteps">
+                {{ step }}
+              </li>
+            </ol>
+          </div>
+
+          <!-- Benefits -->
+          <div class="benefits-section">
+            <h4>✅ Beneficios Esperados</h4>
+            <ul class="benefits-list">
+              <li *ngFor="let benefit of getSelectedFramework()!.benefits">
+                {{ benefit }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Code Example -->
+          <div class="code-example">
+            <h4>💻 Ejemplo de Implementación</h4>
+            <pre class="code-block framework">{{ getSelectedFramework()!.codeExample }}</pre>
+            <button class="copy-btn" (click)="copyCode(getSelectedFramework()!.codeExample)">
+              📋 Copiar Código
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SDLC Tab -->
+  <div *ngIf="activeTab === 'sdlc'" class="tab-content">
+    <div class="sdlc-section">
+      <h2>🔄 Secure Development Lifecycle</h2>
+      <p class="section-description">
+        Integra seguridad en cada fase del desarrollo de aplicaciones Angular:
+      </p>
+
+      <!-- Phase Selection -->
+      <div class="phase-navigation">
+        <button
+          *ngFor="let phase of developmentPhases; let i = index"
+          class="phase-btn"
+          [class.active]="selectedPhase === phase.phase.toLowerCase().split(' ')[0]"
+          (click)="setSelectedPhase(phase.phase.toLowerCase().split(' ')[0])">
+
+          <div class="phase-number">{{ i + 1 }}</div>
+          <span class="phase-name">{{ phase.phase }}</span>
+        </button>
+      </div>
+
+      <!-- Selected Phase Details -->
+      <div *ngIf="getSelectedPhase()" class="phase-details">
+        <div class="phase-header">
+          <h3>{{ getSelectedPhase()!.phase }}</h3>
+        </div>
+
+        <div class="phase-content">
+          <!-- Activities -->
+          <div class="activities-section">
+            <h4>🎯 Actividades de Seguridad</h4>
+            <div class="activities-grid">
+              <div *ngFor="let activity of getSelectedPhase()!.activities" class="activity-card">
+                <div class="activity-header">
+                  <h5>{{ activity.activity }}</h5>
+                  <div class="activity-meta">
+                    <span class="owner">👤 {{ activity.owner }}</span>
+                    <span class="frequency">⏱️ {{ activity.frequency }}</span>
+                    <span
+                      class="automation"
+                      [class.automated]="activity.automation">
+                      {{ activity.automation ? '🤖 Automatizada' : '👥 Manual' }}
+                    </span>
+                  </div>
+                </div>
+                <p class="activity-description">{{ activity.description }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Deliverables -->
+          <div class="deliverables-section">
+            <h4>📋 Entregables</h4>
+            <ul class="deliverables-list">
+              <li *ngFor="let deliverable of getSelectedPhase()!.deliverables">
+                {{ deliverable }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Tools -->
+          <div class="phase-tools">
+            <h4>🛠️ Herramientas de la Fase</h4>
+            <div class="tools-grid">
+              <span *ngFor="let tool of getSelectedPhase()!.tools" class="tool-badge">
+                {{ tool }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Angular Specific -->
+          <div class="angular-specific">
+            <h4>🅰️ Consideraciones Específicas de Angular</h4>
+            <ul class="angular-list">
+              <li *ngFor="let item of getSelectedPhase()!.angularSpecific">
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SDLC Timeline -->
+      <div class="sdlc-timeline">
+        <h3>📊 Timeline de Implementación</h3>
+        <div class="timeline-container">
+          <div *ngFor="let phase of developmentPhases; let i = index" class="timeline-item">
+            <div class="timeline-marker">{{ i + 1 }}</div>
+            <div class="timeline-content">
+              <h4>{{ phase.phase }}</h4>
+              <p>{{ phase.activities.length }} actividades de seguridad</p>
+              <div class="timeline-deliverables">
+                <small>{{ phase.deliverables.length }} entregables</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tools Tab -->
+  <div *ngIf="activeTab === 'tools'" class="tab-content">
+    <div class="tools-section">
+      <h2>🛠️ Herramientas de Seguridad</h2>
+      <p class="section-description">
+        Herramientas especializadas para análisis y testing de seguridad en aplicaciones Angular:
+      </p>
+
+      <!-- Tool Categories -->
+      <div class="tool-categories">
+        <div class="category-filters">
+          <button
+            *ngFor="let tool of securityTools"
+            class="tool-filter-btn"
+            [class.active]="selectedTool === tool.id"
+            (click)="setSelectedTool(tool.id)">
+
+            <span class="category-icon">{{ getCategoryIcon(tool.category) }}</span>
+            <div class="tool-info">
+              <strong>{{ tool.name }}</strong>
+              <span class="category-name">{{ tool.category }}</span>
+              <div class="angular-support" *ngIf="tool.angularSupport">
+                🅰️ Angular Compatible
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Selected Tool Details -->
+      <div *ngIf="getSelectedTool()" class="tool-details">
+        <div class="tool-header">
+          <h3>{{ getSelectedTool()!.name }}</h3>
+          <p class="tool-description">{{ getSelectedTool()!.description }}</p>
+          <div class="tool-badges">
+            <span class="category-badge">{{ getSelectedTool()!.category }}</span>
+            <span
+              class="support-badge"
+              [class.supported]="getSelectedTool()!.angularSupport">
+              {{ getSelectedTool()!.angularSupport ? '✅ Angular Support' : '⚠️ Limited Support' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="tool-content">
+          <!-- Integration -->
+          <div class="integration-section">
+            <h4>🔧 Integración</h4>
+            <p>{{ getSelectedTool()!.integration }}</p>
+          </div>
+
+          <!-- Configuration -->
+          <div class="configuration-section">
+            <h4>⚙️ Configuración</h4>
+            <pre class="config-block">{{ getSelectedTool()!.configuration }}</pre>
+            <button class="copy-btn" (click)="copyCode(getSelectedTool()!.configuration)">
+              📋 Copiar Configuración
+            </button>
+          </div>
+
+          <!-- Benefits vs Limitations -->
+          <div class="pros-cons">
+            <div class="benefits-column">
+              <h4>✅ Beneficios</h4>
+              <ul class="benefits-list">
+                <li *ngFor="let benefit of getSelectedTool()!.benefits">
+                  {{ benefit }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="limitations-column">
+              <h4>⚠️ Limitaciones</h4>
+              <ul class="limitations-list">
+                <li *ngFor="let limitation of getSelectedTool()!.limitations">
+                  {{ limitation }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool Comparison Matrix -->
+      <div class="tool-comparison">
+        <h3>📊 Matriz de Comparación</h3>
+        <div class="comparison-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Herramienta</th>
+                <th>Categoría</th>
+                <th>Angular Support</th>
+                <th>Automatización</th>
+                <th>Curva Aprendizaje</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tool of securityTools">
+                <td class="tool-name">{{ tool.name }}</td>
+                <td class="category">{{ tool.category }}</td>
+                <td class="support">
+                  <span [class.supported]="tool.angularSupport">
+                    {{ tool.angularSupport ? '✅' : '❌' }}
+                  </span>
+                </td>
+                <td class="automation">🤖 Alta</td>
+                <td class="learning">📈 Media</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compliance Tab -->
+  <div *ngIf="activeTab === 'compliance'" class="tab-content">
+    <div class="compliance-section">
+      <h2>✅ Compliance y Estándares</h2>
+      <p class="section-description">
+        Asegura el cumplimiento de estándares de seguridad en aplicaciones Angular:
+      </p>
+
+      <!-- Compliance Framework Selection -->
+      <div class="compliance-selection">
+        <button
+          *ngFor="let framework of complianceFrameworks"
+          class="compliance-btn"
+          [class.active]="selectedCompliance === framework.id"
+          (click)="setSelectedCompliance(framework.id)">
+
+          <h3>{{ framework.name }}</h3>
+          <p>{{ framework.scope }}</p>
+        </button>
+      </div>
+
+      <!-- Selected Compliance Details -->
+      <div *ngIf="getSelectedCompliance()" class="compliance-details">
+        <div class="compliance-header">
+          <h3>{{ getSelectedCompliance()!.name }}</h3>
+          <p class="compliance-scope">{{ getSelectedCompliance()!.scope }}</p>
+        </div>
+
+        <div class="compliance-content">
+          <!-- Requirements -->
+          <div class="requirements-section">
+            <h4>📋 Requerimientos</h4>
+            <ul class="requirements-list">
+              <li *ngFor="let requirement of getSelectedCompliance()!.requirements">
+                {{ requirement }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Angular Mapping -->
+          <div class="angular-mapping">
+            <h4>🅰️ Mapeo en Angular</h4>
+            <div class="mapping-grid">
+              <div
+                *ngFor="let mapping of getSelectedCompliance()!.angularMapping; let i = index"
+                class="mapping-item">
+                <div class="requirement-number">{{ i + 1 }}</div>
+                <div class="mapping-content">
+                  <div class="original-requirement">
+                    {{ getSelectedCompliance()!.requirements[i] }}
+                  </div>
+                  <div class="angular-implementation">
+                    → {{ mapping }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Implementation Guide -->
+          <div class="implementation-guide">
+            <h4>📖 Guía de Implementación</h4>
+            <div class="guide-content">
+              <pre class="implementation-text">{{ getSelectedCompliance()!.implementationGuide }}</pre>
+            </div>
+          </div>
+
+          <!-- Audit Checklist -->
+          <div class="audit-checklist">
+            <h4>🔍 Checklist de Auditoría</h4>
+            <div class="checklist-header">
+              <button class="download-btn" (click)="downloadChecklist()">
+                📥 Descargar Checklist
+              </button>
+            </div>
+            <ul class="checklist-items">
+              <li *ngFor="let item of getSelectedCompliance()!.auditChecklist" class="checklist-item">
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Compliance Progress -->
+        <div class="compliance-progress">
+          <h4>📊 Estado de Compliance</h4>
+          <div class="progress-indicators">
+            <div class="progress-item">
+              <span class="progress-label">Implementación</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%"></div>
+              </div>
+              <span class="progress-value">85%</span>
+            </div>
+
+            <div class="progress-item">
+              <span class="progress-label">Testing</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 70%"></div>
+              </div>
+              <span class="progress-value">70%</span>
+            </div>
+
+            <div class="progress-item">
+              <span class="progress-label">Documentación</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 90%"></div>
+              </div>
+              <span class="progress-value">90%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-navigation">
+    <div class="nav-info">
+      <p>Siguiente: Practica con <strong>ejercicios interactivos</strong> y casos de estudio reales.</p>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-button secondary">← Anterior</button>
+      <button class="nav-button primary">Siguiente: Ejercicios Prácticos →</button>
+    </div>
+  </div>
+</div>

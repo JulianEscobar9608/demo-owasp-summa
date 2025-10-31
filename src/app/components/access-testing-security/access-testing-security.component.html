@@ -1,0 +1,398 @@
+<div class="testing-security-container">
+  <div class="header-section">
+    <h2>Testing de Seguridad para Control de Acceso</h2>
+    <p>Estrategias completas de testing para validar la seguridad del control de acceso</p>
+  </div>
+
+  <!-- Category Navigation -->
+  <div class="category-navigation">
+    <button
+      [class.active]="currentCategory === 'overview'"
+      (click)="setCurrentCategory('overview')">
+      📊 Visión General
+    </button>
+    <button
+      [class.active]="currentCategory === 'strategies'"
+      (click)="setCurrentCategory('strategies')">
+      🎯 Estrategias
+    </button>
+    <button
+      [class.active]="currentCategory === 'test-cases'"
+      (click)="setCurrentCategory('test-cases')">
+      🧪 Casos de Prueba
+    </button>
+    <button
+      [class.active]="currentCategory === 'execution'"
+      (click)="setCurrentCategory('execution')">
+      ⚡ Ejecución
+    </button>
+    <button
+      [class.active]="currentCategory === 'checklist'"
+      (click)="setCurrentCategory('checklist')">
+      ✅ Checklist
+    </button>
+  </div>
+
+  <!-- Overview -->
+  <div class="category-content" *ngIf="currentCategory === 'overview'">
+    <div class="overview-stats">
+      <div class="stat-card tests">
+        <div class="stat-number">{{ Object.keys(testCases).length }}</div>
+        <div class="stat-label">Casos de Prueba</div>
+        <div class="stat-description">Unitarias, Integración, Seguridad</div>
+      </div>
+
+      <div class="stat-card coverage">
+        <div class="stat-number">{{ generateTestReport().coverage }}%</div>
+        <div class="stat-label">Cobertura</div>
+        <div class="stat-description">Tests ejecutados vs total</div>
+      </div>
+
+      <div class="stat-card status">
+        <div class="stat-number status-indicator" [class]="getOverallTestStatus()">
+          {{ getOverallTestStatus().toUpperCase() }}
+        </div>
+        <div class="stat-label">Estado General</div>
+        <div class="stat-description">Resultado de todas las pruebas</div>
+      </div>
+    </div>
+
+    <div class="testing-pyramid">
+      <h3>🏗️ Pirámide de Testing de Seguridad</h3>
+      <div class="pyramid-container">
+        <div class="pyramid-level unit">
+          <div class="level-content">
+            <h4>Pruebas Unitarias</h4>
+            <p>Guards, Servicios, Validaciones</p>
+            <span class="level-percentage">70%</span>
+          </div>
+        </div>
+
+        <div class="pyramid-level integration">
+          <div class="level-content">
+            <h4>Pruebas de Integración</h4>
+            <p>Flujos completos, APIs</p>
+            <span class="level-percentage">20%</span>
+          </div>
+        </div>
+
+        <div class="pyramid-level security">
+          <div class="level-content">
+            <h4>Pruebas de Seguridad</h4>
+            <p>Penetración, Vulnerabilidades</p>
+            <span class="level-percentage">10%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-testing-importance">
+      <h3>🔒 Importancia del Testing de Seguridad</h3>
+      <div class="importance-grid">
+        <div class="importance-card prevention">
+          <div class="card-icon">🛡️</div>
+          <h4>Prevención</h4>
+          <p>Detecta vulnerabilidades antes de producción</p>
+        </div>
+
+        <div class="importance-card compliance">
+          <div class="card-icon">📋</div>
+          <h4>Cumplimiento</h4>
+          <p>Asegura conformidad con estándares de seguridad</p>
+        </div>
+
+        <div class="importance-card confidence">
+          <div class="card-icon">✨</div>
+          <h4>Confianza</h4>
+          <p>Genera confianza en la seguridad del sistema</p>
+        </div>
+
+        <div class="importance-card costs">
+          <div class="card-icon">💰</div>
+          <h4>Costos</h4>
+          <p>Reduce costos de corrección en producción</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strategies -->
+  <div class="category-content" *ngIf="currentCategory === 'strategies'">
+    <div class="strategies-overview">
+      <h3>🎯 Estrategias de Testing</h3>
+      <p>Enfoques sistemáticos para probar la seguridad del control de acceso</p>
+
+      <div class="strategies-grid">
+        <div class="strategy-card" *ngFor="let strategy of Object.values(testingStrategies)">
+          <div class="strategy-header">
+            <h4>{{ strategy.title }}</h4>
+            <p class="strategy-description">{{ strategy.description }}</p>
+          </div>
+
+          <div class="strategy-details">
+            <div class="tools-section">
+              <strong>Herramientas:</strong>
+              <div class="tools-list">
+                <span *ngFor="let tool of strategy.tools" class="tool-tag">{{ tool }}</span>
+              </div>
+            </div>
+
+            <div class="focus-section">
+              <strong>Enfoque:</strong>
+              <span class="focus-text">{{ strategy.focus }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testing-methodology">
+      <h3>📋 Metodología de Testing</h3>
+      <div class="methodology-steps">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Análisis de Requisitos</h4>
+            <p>Identificar todos los casos de uso de seguridad y requisitos de acceso</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Diseño de Casos de Prueba</h4>
+            <p>Crear casos que cubran tanto escenarios positivos como negativos</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Implementación Automatizada</h4>
+            <p>Automatizar pruebas para ejecución continua en CI/CD</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>Ejecución y Reporte</h4>
+            <p>Ejecutar pruebas regularmente y generar reportes detallados</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Test Cases -->
+  <div class="category-content" *ngIf="currentCategory === 'test-cases'">
+    <div class="test-cases-selector">
+      <h3>🧪 Casos de Prueba de Seguridad</h3>
+      <div class="test-categories">
+        <button
+          *ngFor="let category of ['unit', 'integration', 'security']"
+          [class.active]="selectedTest && getCurrentTest().category === category"
+          class="category-filter">
+          {{ category.toUpperCase() }}
+        </button>
+      </div>
+
+      <div class="test-list">
+        <div
+          *ngFor="let test of Object.values(testCases)"
+          class="test-case-card"
+          [class.selected]="selectedTest === test.id"
+          (click)="selectTest(test.id)">
+
+          <div class="test-header">
+            <h4>{{ test.title }}</h4>
+            <span class="category-badge" [class]="test.category">
+              {{ test.category.toUpperCase() }}
+            </span>
+          </div>
+
+          <p class="test-description">{{ test.description }}</p>
+
+          <div class="test-meta">
+            <span class="framework">{{ test.framework }}</span>
+            <span class="status" [class]="test.status || 'pending'">
+              {{ (test.status || 'pending').toUpperCase() }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-case-details" *ngIf="getCurrentTest()">
+      <div class="test-info">
+        <h3>{{ getCurrentTest().title }}</h3>
+        <p class="test-full-description">{{ getCurrentTest().description }}</p>
+
+        <div class="test-metadata">
+          <div class="metadata-item">
+            <strong>Categoría:</strong>
+            <span class="category-badge" [class]="getCurrentTest().category">
+              {{ getCurrentTest().category.toUpperCase() }}
+            </span>
+          </div>
+
+          <div class="metadata-item">
+            <strong>Framework:</strong>
+            <span>{{ getCurrentTest().framework }}</span>
+          </div>
+
+          <div class="metadata-item">
+            <strong>Resultado Esperado:</strong>
+            <span>{{ getCurrentTest().expectedResult }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-code-section">
+        <h4>💻 Código de Prueba</h4>
+        <pre class="test-code">{{ getCurrentTest().code }}</pre>
+      </div>
+
+      <div class="test-actions">
+        <button
+          (click)="runTest(getCurrentTest().id)"
+          class="run-test-btn"
+          [disabled]="testResults[getCurrentTest().id]?.status === 'running'">
+          {{ testResults[getCurrentTest().id]?.status === 'running' ? 'Ejecutando...' : 'Ejecutar Prueba' }}
+        </button>
+
+        <div class="test-result" *ngIf="testResults[getCurrentTest().id]">
+          <div class="result-status" [class]="testResults[getCurrentTest().id].status">
+            <strong>Estado:</strong> {{ testResults[getCurrentTest().id].status.toUpperCase() }}
+          </div>
+
+          <div class="result-duration" *ngIf="testResults[getCurrentTest().id].duration">
+            <strong>Duración:</strong> {{ testResults[getCurrentTest().id].duration }}ms
+          </div>
+
+          <div class="progress-bar" *ngIf="testResults[getCurrentTest().id].status === 'running'">
+            <div class="progress-fill"
+                 [style.width.%]="testResults[getCurrentTest().id].progress">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Execution -->
+  <div class="category-content" *ngIf="currentCategory === 'execution'">
+    <div class="execution-dashboard">
+      <h3>⚡ Panel de Ejecución de Pruebas</h3>
+
+      <div class="execution-controls">
+        <button (click)="runAllTests()" class="run-all-btn">
+          🚀 Ejecutar Todas las Pruebas
+        </button>
+
+        <div class="execution-stats">
+          <div class="stat">
+            <strong>Total:</strong> {{ generateTestReport().totalTests }}
+          </div>
+          <div class="stat">
+            <strong>Ejecutadas:</strong> {{ generateTestReport().executed }}
+          </div>
+          <div class="stat success">
+            <strong>Exitosas:</strong> {{ generateTestReport().passed }}
+          </div>
+          <div class="stat failed">
+            <strong>Fallidas:</strong> {{ generateTestReport().failed }}
+          </div>
+        </div>
+      </div>
+
+      <div class="test-results-grid">
+        <div
+          *ngFor="let test of Object.values(testCases)"
+          class="test-result-card"
+          [class]="testResults[test.id]?.status || 'not-run'">
+
+          <div class="test-name">{{ test.title }}</div>
+          <div class="test-category">{{ test.category.toUpperCase() }}</div>
+
+          <div class="result-indicator">
+            <div class="status-icon" [class]="testResults[test.id]?.status || 'not-run'">
+              <span *ngIf="!testResults[test.id] || testResults[test.id]?.status === 'not-run'">⏸️</span>
+              <span *ngIf="testResults[test.id]?.status === 'running'">🔄</span>
+              <span *ngIf="testResults[test.id]?.status === 'pass'">✅</span>
+              <span *ngIf="testResults[test.id]?.status === 'fail'">❌</span>
+            </div>
+
+            <div class="status-text">
+              {{ (testResults[test.id]?.status || 'not-run').toUpperCase() }}
+            </div>
+          </div>
+
+          <div class="test-duration" *ngIf="testResults[test.id]?.duration">
+            {{ testResults[test.id].duration }}ms
+          </div>
+        </div>
+      </div>
+
+      <div class="coverage-report">
+        <h4>📊 Reporte de Cobertura</h4>
+        <div class="coverage-bar">
+          <div class="coverage-fill" [style.width.%]="generateTestReport().coverage">
+            <span class="coverage-text">{{ generateTestReport().coverage }}%</span>
+          </div>
+        </div>
+
+        <div class="coverage-details">
+          <p>Cobertura de pruebas de seguridad: <strong>{{ generateTestReport().coverage }}%</strong></p>
+          <p>Se recomienda mantener una cobertura mínima del 80% en pruebas de seguridad.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="category-content" *ngIf="currentCategory === 'checklist'">
+    <div class="security-checklist">
+      <h3>✅ Checklist de Seguridad</h3>
+      <p>Lista completa de verificaciones para asegurar un control de acceso robusto</p>
+
+      <div class="checklist-sections">
+        <div class="checklist-section" *ngFor="let section of securityChecklist">
+          <h4>{{ section.category }}</h4>
+
+          <div class="checks-list">
+            <div class="check-item" *ngFor="let check of section.checks">
+              <input type="checkbox" [id]="check" />
+              <label [for]="check">{{ check }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="automation-recommendations">
+        <h4>🤖 Recomendaciones de Automatización</h4>
+        <div class="recommendations-grid">
+          <div class="recommendation-card">
+            <h5>CI/CD Integration</h5>
+            <p>Integra las pruebas de seguridad en tu pipeline de CI/CD para ejecutarlas automáticamente en cada despliegue.</p>
+          </div>
+
+          <div class="recommendation-card">
+            <h5>Regression Testing</h5>
+            <p>Ejecuta pruebas de regresión para asegurar que nuevos cambios no introduzcan vulnerabilidades.</p>
+          </div>
+
+          <div class="recommendation-card">
+            <h5>Performance Monitoring</h5>
+            <p>Monitorea el rendimiento de las pruebas para optimizar tiempos de ejecución.</p>
+          </div>
+
+          <div class="recommendation-card">
+            <h5>Reporting Dashboard</h5>
+            <p>Implementa dashboards para visualizar resultados y tendencias de las pruebas de seguridad.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

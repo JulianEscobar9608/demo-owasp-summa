@@ -1,0 +1,551 @@
+.insecure-design-intro {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header Section */
+.header-section {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+}
+
+.vulnerability-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.vulnerability-badge.a04 {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-section h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 1rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+  display: flex;
+  background: #f8fafc;
+  padding: 0.5rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.tab-button {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #64748b;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  min-width: 150px;
+}
+
+.tab-button:hover {
+  background: #e2e8f0;
+  color: #475569;
+  transform: translateY(-1px);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
+/* Content Sections */
+.content-section {
+  animation: slideIn 0.5s ease-out;
+  margin-bottom: 2rem;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Definition Card */
+.definition-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 15px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.definition-card h2 {
+  color: #7c3aed;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.key-points {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #faf5ff;
+  border-radius: 10px;
+  border-left: 4px solid #7c3aed;
+}
+
+.key-points h3 {
+  color: #7c3aed;
+  margin-bottom: 1rem;
+}
+
+.key-points ul {
+  list-style: none;
+  padding: 0;
+}
+
+.key-points li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.key-points li:last-child {
+  border-bottom: none;
+}
+
+/* Impact Section */
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.impact-card {
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  border: 2px solid;
+}
+
+.impact-card:hover {
+  transform: translateY(-5px);
+}
+
+.impact-card.critical {
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border-color: #dc2626;
+}
+
+.impact-card.high {
+  background: linear-gradient(135deg, #fefbf2, #fed7aa);
+  border-color: #ea580c;
+}
+
+.impact-card.medium {
+  background: linear-gradient(135deg, #fffbeb, #fde68a);
+  border-color: #d97706;
+}
+
+.impact-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* Design Principles */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.principle-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.principle-card:hover {
+  border-color: #7c3aed;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15);
+}
+
+.principle-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.principle-card h4 {
+  color: #7c3aed;
+  margin-bottom: 0.5rem;
+}
+
+/* Problems Grid */
+.problems-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.problem-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-left: 4px solid;
+  border-radius: 15px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.problem-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.problem-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.problem-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+.problem-title h3 {
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.impact-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.example-section,
+.angular-context {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.example-section {
+  background: #f8fafc;
+  border-left: 3px solid #64748b;
+}
+
+.angular-context {
+  background: #fef7ff;
+  border-left: 3px solid #7c3aed;
+}
+
+.example-section h4,
+.angular-context h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+/* Threat Scenarios */
+.scenarios-list {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.scenario-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.scenario-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.scenario-number {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.scenario-header h3 {
+  flex: 1;
+  margin: 0;
+  color: #1e293b;
+}
+
+.severity-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 20px;
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.attack-flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.flow-step {
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.flow-step.vulnerability {
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border: 2px solid #fca5a5;
+}
+
+.flow-step.exploitation {
+  background: linear-gradient(135deg, #fefbf2, #fed7aa);
+  border: 2px solid #fdba74;
+}
+
+.flow-step.prevention {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 2px solid #86efac;
+}
+
+.flow-arrow {
+  font-size: 1.5rem;
+  color: #64748b;
+  font-weight: bold;
+}
+
+.flow-step h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+/* Angular Risks */
+.risks-list {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.risk-category {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.risk-header h3 {
+  color: #7c3aed;
+  margin-bottom: 0.5rem;
+}
+
+.risk-description {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+.examples-list {
+  list-style: none;
+  padding: 0;
+}
+
+.examples-list li {
+  padding: 0.75rem 0;
+  border-left: 3px solid #7c3aed;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+  background: #faf5ff;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Checklist */
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.checklist-category {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+.checklist-category h4 {
+  color: #7c3aed;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: #faf5ff;
+  border-radius: 8px;
+}
+
+/* Bottom Navigation */
+.bottom-navigation {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.nav-info p {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.nav-button {
+  padding: 0.75rem 2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid;
+}
+
+.nav-button.secondary {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #64748b;
+}
+
+.nav-button.primary {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border-color: #7c3aed;
+  color: white;
+}
+
+.nav-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .insecure-design-intro {
+    padding: 1rem;
+  }
+
+  .header-section {
+    padding: 2rem 1rem;
+  }
+
+  .header-section h1 {
+    font-size: 2rem;
+  }
+
+  .tab-navigation {
+    flex-direction: column;
+  }
+
+  .attack-flow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+  }
+}

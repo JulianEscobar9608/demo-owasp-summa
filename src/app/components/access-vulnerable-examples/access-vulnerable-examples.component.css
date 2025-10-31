@@ -1,0 +1,519 @@
+.vulnerable-examples-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header-section h2 {
+  color: #dc2626;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.header-section p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Selector de vulnerabilidades */
+.vulnerability-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.vulnerability-btn {
+  background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.vulnerability-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.vulnerability-btn.active {
+  border-color: #dc2626;
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+}
+
+.vulnerability-btn.critical {
+  border-left: 4px solid #dc2626;
+}
+
+.vulnerability-btn.high {
+  border-left: 4px solid #ea580c;
+}
+
+.vulnerability-btn.medium {
+  border-left: 4px solid #ca8a04;
+}
+
+.vuln-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.vuln-severity {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Detalles de vulnerabilidad */
+.vulnerability-details {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.vuln-info {
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.vuln-info h3 {
+  color: #1f2937;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.description {
+  color: #4b5563;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.severity-badge {
+  display: inline-block;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Comparación de código */
+.code-comparison {
+  padding: 2rem;
+}
+
+.code-toggle {
+  display: flex;
+  margin-bottom: 1rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.code-toggle button {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #6b7280;
+}
+
+.code-toggle button.active {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.code-container {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.code-block {
+  margin: 0;
+  padding: 1.5rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+.code-block.vulnerable {
+  background: #fef2f2;
+  border-left: 4px solid #dc2626;
+  color: #991b1b;
+}
+
+.code-block.secure {
+  background: #f0fdf4;
+  border-left: 4px solid #16a34a;
+  color: #15803d;
+}
+
+/* Secciones de explotación e impacto */
+.exploitation-section,
+.impact-section {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.exploitation-section h4,
+.impact-section h4 {
+  color: #1f2937;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.exploitation-list,
+.impact-list {
+  list-style: none;
+  padding: 0;
+}
+
+.exploitation-list li,
+.impact-list li {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background: #f9fafb;
+  border-left: 3px solid #dc2626;
+  border-radius: 4px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.impact-list li {
+  border-left-color: #ea580c;
+  background: #fff7ed;
+}
+
+/* Demostración interactiva */
+.interactive-demo {
+  padding: 2rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.interactive-demo h4 {
+  color: #1e40af;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.demo-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.demo-scenario h5 {
+  color: #1f2937;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.demo-scenario p {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.demo-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.user-selection,
+.document-access {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-selection label,
+.document-access label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.user-selection select,
+.document-access input {
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.user-selection select:focus,
+.document-access input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.attack-btn {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.attack-btn:hover {
+  background: linear-gradient(135deg, #b91c1c, #991b1b);
+  transform: translateY(-1px);
+}
+
+.demo-result {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.result-box {
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+.result-box.vulnerable {
+  background: #fef2f2;
+  border-left-color: #dc2626;
+}
+
+.result-box.secure {
+  background: #f0fdf4;
+  border-left-color: #16a34a;
+}
+
+.result-box strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.result-box p {
+  color: #374151;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Panel administrativo demo */
+.admin-panel-demo {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.user-role-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 250px;
+}
+
+.function-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.function-btn {
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.function-btn.delete {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: white;
+}
+
+.function-btn.promote {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: white;
+}
+
+.function-btn.audit {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+.function-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.function-result {
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #6b7280;
+}
+
+.access-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.status-indicator {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-indicator.denied {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+/* Consejos de prevención */
+.prevention-tips {
+  padding: 2rem;
+  background: #f0f9ff;
+  border-top: 1px solid #e0e7ff;
+}
+
+.prevention-tips h4 {
+  color: #1e40af;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.tip-card {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.tip-card:hover {
+  transform: translateY(-2px);
+}
+
+.tip-card h5 {
+  color: #1f2937;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.tip-card p {
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Referencias OWASP */
+.owasp-reference {
+  padding: 2rem;
+  background: #fefce8;
+  border-top: 1px solid #fde047;
+}
+
+.owasp-reference h4 {
+  color: #a16207;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.owasp-reference ul {
+  list-style: none;
+  padding: 0;
+}
+
+.owasp-reference li {
+  padding: 0.5rem 0;
+  color: #78716c;
+  line-height: 1.6;
+}
+
+.owasp-reference li strong {
+  color: #a16207;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vulnerable-examples-container {
+    padding: 1rem;
+  }
+
+  .vulnerability-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-result {
+    grid-template-columns: 1fr;
+  }
+
+  .function-buttons {
+    flex-direction: column;
+  }
+
+  .tips-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .code-block {
+    font-size: 0.8rem;
+  }
+}

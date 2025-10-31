@@ -1,0 +1,295 @@
+<div class="insecure-design-vulnerable">
+  <!-- Header -->
+  <div class="header-section">
+    <h1>💀 Código Vulnerable</h1>
+    <p class="subtitle">
+      Explora ejemplos reales de diseño inseguro y aprende a identificar patrones peligrosos
+    </p>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tab-navigation">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'examples'"
+      (click)="setActiveTab('examples')">
+      📋 Ejemplos de Código
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'business-logic'"
+      (click)="setActiveTab('business-logic')">
+      ⚙️ Lógica de Negocio
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'architecture'"
+      (click)="setActiveTab('architecture')">
+      🏗️ Problemas Arquitecturales
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'simulations'"
+      (click)="setActiveTab('simulations')">
+      🎮 Simulaciones
+    </button>
+  </div>
+
+  <!-- Code Examples Tab -->
+  <div *ngIf="activeTab === 'examples'" class="tab-content">
+    <div class="examples-section">
+      <h2>📋 Ejemplos de Código Vulnerable</h2>
+
+      <!-- Example Categories -->
+      <div class="category-selector">
+        <button
+          *ngFor="let example of vulnerableExamples"
+          class="example-btn"
+          [class.active]="selectedExample === example.id"
+          [style.border-left-color]="getSeverityColor(example.severity)"
+          (click)="setSelectedExample(example.id)">
+
+          <div class="example-info">
+            <span class="category-icon">{{ getCategoryIcon(example.category) }}</span>
+            <div class="example-details">
+              <strong>{{ example.title }}</strong>
+              <span class="severity-badge" [style.background-color]="getSeverityColor(example.severity)">
+                {{ example.severity.toUpperCase() }}
+              </span>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Selected Example Details -->
+      <div *ngIf="getSelectedExample()" class="example-details-section">
+        <div class="example-header">
+          <h3>{{ getSelectedExample()!.title }}</h3>
+          <p class="example-description">{{ getSelectedExample()!.description }}</p>
+          <div class="vulnerability-info">
+            <strong>🚨 Vulnerabilidad:</strong> {{ getSelectedExample()!.vulnerability }}
+          </div>
+          <div class="impact-info">
+            <strong>💥 Impacto:</strong> {{ getSelectedExample()!.impact }}
+          </div>
+        </div>
+
+        <div class="code-comparison">
+          <!-- Vulnerable Code -->
+          <div class="code-section vulnerable">
+            <h4>❌ Código Vulnerable</h4>
+            <pre class="code-block vulnerable">{{ getSelectedExample()!.vulnerableCode }}</pre>
+            <button class="copy-btn vulnerable" (click)="copyCode(getSelectedExample()!.vulnerableCode)">
+              📋 Copiar Código Vulnerable
+            </button>
+          </div>
+
+          <!-- Secure Code -->
+          <div class="code-section secure">
+            <h4>✅ Código Seguro</h4>
+            <pre class="code-block secure">{{ getSelectedExample()!.secureCode }}</pre>
+            <button class="copy-btn secure" (click)="copyCode(getSelectedExample()!.secureCode)">
+              📋 Copiar Código Seguro
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business Logic Tab -->
+  <div *ngIf="activeTab === 'business-logic'" class="tab-content">
+    <div class="business-logic-section">
+      <h2>⚙️ Fallas en Lógica de Negocio</h2>
+      <p class="section-description">
+        Análisis de vulnerabilidades en los flujos de trabajo y procesos de negocio:
+      </p>
+
+      <div class="business-flaws">
+        <div *ngFor="let flaw of businessLogicFlaws; let i = index" class="flaw-card">
+          <div class="flaw-header">
+            <div class="flaw-number">{{ i + 1 }}</div>
+            <h3>{{ flaw.scenario }}</h3>
+          </div>
+
+          <p class="flaw-description">{{ flaw.description }}</p>
+
+          <div class="flow-comparison">
+            <!-- Vulnerable Flow -->
+            <div class="flow-section vulnerable">
+              <h4>❌ Flujo Vulnerable</h4>
+              <div class="flow-steps">
+                <div *ngFor="let step of flaw.vulnerableFlow" class="flow-step vulnerable">
+                  {{ step }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Exploitation Steps -->
+            <div class="flow-section exploit">
+              <h4>⚔️ Pasos de Explotación</h4>
+              <div class="flow-steps">
+                <div *ngFor="let step of flaw.exploitSteps" class="flow-step exploit">
+                  {{ step }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Secure Flow -->
+            <div class="flow-section secure">
+              <h4>✅ Flujo Seguro</h4>
+              <div class="flow-steps">
+                <div *ngFor="let step of flaw.secureFlow" class="flow-step secure">
+                  {{ step }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prevention-note">
+            <h4>🛡️ Prevención:</h4>
+            <p>{{ flaw.prevention }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Architecture Problems Tab -->
+  <div *ngIf="activeTab === 'architecture'" class="tab-content">
+    <div class="architecture-section">
+      <h2>🏗️ Problemas Arquitecturales</h2>
+      <p class="section-description">
+        Patrones arquitecturales inseguros comunes en aplicaciones Angular:
+      </p>
+
+      <div class="architectural-problems">
+        <div *ngFor="let problem of architecturalProblems" class="problem-card architectural">
+          <h3>{{ problem.title }}</h3>
+          <p class="problem-description">{{ problem.description }}</p>
+
+          <div class="problem-analysis">
+            <div class="analysis-section">
+              <h4>🚨 Problema:</h4>
+              <p>{{ problem.problem }}</p>
+            </div>
+
+            <div class="analysis-section">
+              <h4>📋 Ejemplo:</h4>
+              <p>{{ problem.example }}</p>
+            </div>
+
+            <div class="analysis-section">
+              <h4>✅ Solución:</h4>
+              <p>{{ problem.solution }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="architecture-best-practices">
+        <h3>🏛️ Principios de Arquitectura Segura</h3>
+        <div class="principles-grid">
+          <div class="principle-card">
+            <h4>🔐 Separación de Responsabilidades</h4>
+            <p>UI solo para presentación, lógica de negocio en servicios seguros</p>
+          </div>
+          <div class="principle-card">
+            <h4>🎯 Principio de Menor Privilegio</h4>
+            <p>Cada componente con mínimos permisos necesarios</p>
+          </div>
+          <div class="principle-card">
+            <h4>🛡️ Defensa en Profundidad</h4>
+            <p>Múltiples capas de validación y control</p>
+          </div>
+          <div class="principle-card">
+            <h4>📊 Inmutabilidad de Estado</h4>
+            <p>Estado predecible y auditables con NgRx</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulations Tab -->
+  <div *ngIf="activeTab === 'simulations'" class="tab-content">
+    <div class="simulations-section">
+      <h2>🎮 Simulaciones Interactivas</h2>
+      <p class="section-description">
+        Ejecuta simulaciones de ataques para entender cómo funcionan las vulnerabilidades:
+      </p>
+
+      <div class="simulation-controls">
+        <h3>🎯 Selecciona una Simulación:</h3>
+        <div class="demo-buttons">
+          <button
+            class="demo-btn"
+            [class.active]="currentDemo === 'purchase-bypass'"
+            (click)="setCurrentDemo('purchase-bypass'); runBusinessLogicDemo('purchase-bypass')">
+            💰 Bypass de Compra
+          </button>
+          <button
+            class="demo-btn"
+            [class.active]="currentDemo === 'coupon-abuse'"
+            (click)="setCurrentDemo('coupon-abuse'); runBusinessLogicDemo('coupon-abuse')">
+            🎟️ Abuso de Cupones
+          </button>
+          <button
+            class="demo-btn"
+            [class.active]="currentDemo === 'role-elevation'"
+            (click)="setCurrentDemo('role-elevation'); runBusinessLogicDemo('role-elevation')">
+            👑 Escalación de Roles
+          </button>
+          <button class="reset-btn" (click)="resetDemo()">
+            🔄 Reset
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="simulationResults.length > 0" class="simulation-output">
+        <h4>📋 Resultado de Simulación:</h4>
+        <div class="simulation-console">
+          <div
+            *ngFor="let result of simulationResults; let i = index"
+            class="simulation-line"
+            [style.animation-delay]="i * 0.3 + 's'">
+            {{ result }}
+          </div>
+        </div>
+      </div>
+
+      <div class="simulation-explanation">
+        <h3>🔍 ¿Por qué funcionan estos ataques?</h3>
+        <div class="explanation-cards">
+          <div class="explanation-card">
+            <h4>🎭 Confianza en el Cliente</h4>
+            <p>El servidor confía ciegamente en datos enviados desde el frontend sin validación independiente.</p>
+          </div>
+          <div class="explanation-card">
+            <h4>📡 Interceptación de Requests</h4>
+            <p>Herramientas como Burp Suite o browser dev tools permiten modificar requests en tiempo real.</p>
+          </div>
+          <div class="explanation-card">
+            <h4>⚙️ Lógica de Negocio Incompleta</h4>
+            <p>Falta de validación de reglas de negocio críticas en el lado del servidor.</p>
+          </div>
+          <div class="explanation-card">
+            <h4>🔍 Falta de Auditoría</h4>
+            <p>Sin logs adecuados, estos ataques pasan desapercibidos durante mucho tiempo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-navigation">
+    <div class="nav-info">
+      <p>Siguiente: Aprende cómo <strong>implementar protecciones</strong> efectivas en Angular para prevenir estos ataques.</p>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-button secondary">← Anterior</button>
+      <button class="nav-button primary">Siguiente: Protección Angular →</button>
+    </div>
+  </div>
+</div>

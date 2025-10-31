@@ -1,0 +1,342 @@
+<div class="insecure-design-protection">
+  <!-- Header -->
+  <div class="header-section">
+    <h1>🛡️ Protección en Angular</h1>
+    <p class="subtitle">
+      Implementa patrones seguros y arquitectura defensiva para prevenir vulnerabilidades de diseño
+    </p>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tab-navigation">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'overview'"
+      (click)="setActiveTab('overview')">
+      📖 Principios
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'patterns'"
+      (click)="setActiveTab('patterns')">
+      🔧 Patrones Seguros
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'architecture'"
+      (click)="setActiveTab('architecture')">
+      🏗️ Arquitectura
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'demos'"
+      (click)="setActiveTab('demos')">
+      🎮 Demostraciones
+    </button>
+  </div>
+
+  <!-- Overview Tab -->
+  <div *ngIf="activeTab === 'overview'" class="tab-content">
+    <div class="overview-section">
+      <h2>🎯 Principios de Diseño Seguro</h2>
+      <p class="section-description">
+        Fundamentos para construir aplicaciones Angular seguras desde el diseño:
+      </p>
+
+      <div class="principles-grid">
+        <div *ngFor="let principle of securityPrinciples" class="principle-card">
+          <h3>{{ principle.principle }}</h3>
+          <p class="principle-description">{{ principle.description }}</p>
+          <div class="implementation-note">
+            <strong>🔧 Implementación:</strong>
+            <p>{{ principle.implementation }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="security-mindset">
+        <h3>🧠 Security Mindset en Angular</h3>
+        <div class="mindset-grid">
+          <div class="mindset-card threat-modeling">
+            <h4>🎯 Threat Modeling</h4>
+            <p>Identifica amenazas específicas antes de implementar</p>
+            <ul>
+              <li>STRIDE methodology para Angular apps</li>
+              <li>Attack surface analysis</li>
+              <li>Data flow diagram security review</li>
+            </ul>
+          </div>
+
+          <div class="mindset-card secure-defaults">
+            <h4>🔒 Secure Defaults</h4>
+            <p>Configuraciones seguras por defecto en toda la app</p>
+            <ul>
+              <li>Restrictive CORS policies</li>
+              <li>HTTP-only cookies por defecto</li>
+              <li>CSP headers configurados</li>
+            </ul>
+          </div>
+
+          <div class="mindset-card continuous-security">
+            <h4>🔄 Continuous Security</h4>
+            <p>Seguridad integrada en el ciclo de desarrollo</p>
+            <ul>
+              <li>Security testing automatizado</li>
+              <li>Dependency vulnerability scanning</li>
+              <li>Regular security audits</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patterns Tab -->
+  <div *ngIf="activeTab === 'patterns'" class="tab-content">
+    <div class="patterns-section">
+      <h2>🔧 Patrones de Implementación Segura</h2>
+
+      <!-- Pattern Categories -->
+      <div class="pattern-categories">
+        <div class="category-grid">
+          <button
+            *ngFor="let pattern of securePatterns"
+            class="pattern-btn"
+            [class.active]="selectedPattern === pattern.id"
+            [style.border-left-color]="getDifficultyColor(pattern.difficulty)"
+            (click)="setSelectedPattern(pattern.id)">
+
+            <div class="pattern-info">
+              <span class="category-icon">{{ getCategoryIcon(pattern.category) }}</span>
+              <div class="pattern-details">
+                <strong>{{ pattern.name }}</strong>
+                <span class="difficulty-badge" [style.background-color]="getDifficultyColor(pattern.difficulty)">
+                  {{ pattern.difficulty.toUpperCase() }}
+                </span>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Selected Pattern Details -->
+      <div *ngIf="getSelectedPattern()" class="pattern-details-section">
+        <div class="pattern-header">
+          <h3>{{ getSelectedPattern()!.name }}</h3>
+          <p class="pattern-description">{{ getSelectedPattern()!.description }}</p>
+          <div class="implementation-info">
+            <strong>🔧 Implementación:</strong> {{ getSelectedPattern()!.implementation }}
+          </div>
+        </div>
+
+        <div class="pattern-code-section">
+          <h4>💻 Código de Implementación</h4>
+          <pre class="code-block secure">{{ getSelectedPattern()!.codeExample }}</pre>
+          <button class="copy-btn" (click)="copyCode(getSelectedPattern()!.codeExample)">
+            📋 Copiar Código
+          </button>
+        </div>
+
+        <div class="pattern-benefits">
+          <h4>✅ Beneficios de Seguridad</h4>
+          <ul class="benefits-list">
+            <li *ngFor="let benefit of getSelectedPattern()!.benefits">{{ benefit }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Architecture Tab -->
+  <div *ngIf="activeTab === 'architecture'" class="tab-content">
+    <div class="architecture-section">
+      <h2>🏗️ Arquitectura de Seguridad por Capas</h2>
+      <p class="section-description">
+        Diseño arquitectural con seguridad integrada en cada capa de la aplicación Angular:
+      </p>
+
+      <div class="architectural-layers">
+        <div *ngFor="let layer of architecturalLayers; let i = index" class="layer-card">
+          <div class="layer-header">
+            <div class="layer-number">{{ i + 1 }}</div>
+            <h3>{{ layer.layer }}</h3>
+          </div>
+
+          <p class="layer-responsibility">{{ layer.responsibility }}</p>
+
+          <div class="layer-content">
+            <div class="security-controls">
+              <h4>🔒 Controles de Seguridad</h4>
+              <ul class="controls-list">
+                <li *ngFor="let control of layer.securityControls">{{ control }}</li>
+              </ul>
+            </div>
+
+            <div class="angular-implementation">
+              <h4>🅰️ Implementación Angular</h4>
+              <p>{{ layer.angularImplementation }}</p>
+            </div>
+
+            <div class="code-example">
+              <h4>💻 Ejemplo de Código</h4>
+              <pre class="code-block layer">{{ layer.codeExample }}</pre>
+              <button class="copy-btn layer" (click)="copyCode(layer.codeExample)">
+                📋 Copiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="architecture-diagram">
+        <h3>📊 Flujo de Seguridad por Capas</h3>
+        <div class="flow-diagram">
+          <div class="flow-step presentation">
+            <h4>🖥️ Presentation</h4>
+            <p>UI Security & Basic Validation</p>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step service">
+            <h4>⚙️ Service</h4>
+            <p>Business Logic & Authorization</p>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step data">
+            <h4>🌐 Data Access</h4>
+            <p>API Security & Communication</p>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step state">
+            <h4>📊 State</h4>
+            <p>Secure State Management</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demos Tab -->
+  <div *ngIf="activeTab === 'demos'" class="tab-content">
+    <div class="demos-section">
+      <h2>🎮 Demostraciones de Seguridad</h2>
+      <p class="section-description">
+        Observa cómo funcionan los patrones de seguridad en tiempo real:
+      </p>
+
+      <div class="demo-controls">
+        <h3>🎯 Selecciona una Demostración:</h3>
+        <div class="demo-buttons">
+          <button
+            class="demo-btn"
+            [class.active]="currentDemo === 'secure-flow'"
+            (click)="setCurrentDemo('secure-flow'); runSecurityDemo('secure-flow')">
+            🔐 Flujo Seguro de Validación
+          </button>
+          <button
+            class="demo-btn"
+            [class.active]="currentDemo === 'auth-flow'"
+            (click)="setCurrentDemo('auth-flow'); runSecurityDemo('auth-flow')">
+            🔑 Autenticación Segura
+          </button>
+          <button
+            class="demo-btn"
+            [class.active]="currentDemo === 'api-security'"
+            (click)="setCurrentDemo('api-security'); runSecurityDemo('api-security')">
+            🌐 API Security Patterns
+          </button>
+          <button class="reset-btn" (click)="resetDemo()">
+            🔄 Reset
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="simulationResults.length > 0" class="simulation-output">
+        <h4>📋 Flujo de Ejecución Segura:</h4>
+        <div class="simulation-console">
+          <div
+            *ngFor="let result of simulationResults; let i = index"
+            class="simulation-line"
+            [style.animation-delay]="i * 0.4 + 's'">
+            {{ result }}
+          </div>
+        </div>
+      </div>
+
+      <div class="security-checklist">
+        <h3>✅ Checklist de Implementación</h3>
+        <div class="checklist-categories">
+          <div class="checklist-category">
+            <h4>🔐 Autenticación & Autorización</h4>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>JWT tokens en HTTP-only cookies</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Validación de sesión automática</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Guards en todas las rutas protegidas</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Logout seguro con limpieza completa</span>
+            </div>
+          </div>
+
+          <div class="checklist-category">
+            <h4>🛡️ Validación & Sanitización</h4>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Validación server-side obligatoria</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Sanitización automática de inputs</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Interceptors para manejo de errores</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Rate limiting en APIs críticas</span>
+            </div>
+          </div>
+
+          <div class="checklist-category">
+            <h4>📊 Estado & Datos</h4>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Estado inmutable con NgRx</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Encriptación de datos sensibles</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Filtrado de ownership en APIs</span>
+            </div>
+            <div class="check-item">
+              <input type="checkbox" checked disabled>
+              <span>Audit trails para acciones críticas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-navigation">
+    <div class="nav-info">
+      <p>Siguiente: Explora las <strong>mejores prácticas</strong> y metodologías completas de diseño seguro.</p>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-button secondary">← Anterior</button>
+      <button class="nav-button primary">Siguiente: Mejores Prácticas →</button>
+    </div>
+  </div>
+</div>

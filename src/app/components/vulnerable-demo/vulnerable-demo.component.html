@@ -1,0 +1,145 @@
+<div class="vulnerable-demo">
+  <h2>⚠️ Demostración de Código Vulnerable</h2>
+  
+  <div class="warning-banner">
+    <h3>🚨 ADVERTENCIA EDUCATIVA</h3>
+    <p>Los ejemplos siguientes muestran código intencionalmente vulnerable para fines educativos. 
+       <strong>NUNCA uses estos patrones en aplicaciones reales.</strong></p>
+  </div>
+
+  <!-- Ejemplos de código vulnerable -->
+  <div class="examples-section">
+    <h3>📋 Patrones de Código Vulnerable - Frontend Angular</h3>
+    <div class="examples-grid">
+      <div class="example-card" *ngFor="let example of vulnerableExamples">
+        <h4>{{ example.title }}</h4>
+        <pre class="code-block vulnerable"><code>{{ example.code }}</code></pre>
+        <p class="description">{{ example.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nuevos ejemplos de .NET/C# -->
+  <div class="examples-section dotnet-section">
+    <h3>🔷 Patrones de Código Vulnerable - Backend .NET/C#</h3>
+    <div class="examples-grid">
+      <div class="example-card dotnet-card" *ngFor="let example of dotnetVulnerableExamples">
+        <h4>
+          <span class="dotnet-icon">🔷</span>
+          {{ example.title }}
+        </h4>
+        <pre class="code-block vulnerable dotnet"><code>{{ example.code }}</code></pre>
+        <p class="description">{{ example.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Configuraciones inseguras en .NET -->
+  <div class="examples-section config-section">
+    <h3>⚙️ Configuraciones Inseguras en .NET</h3>
+    <div class="examples-grid">
+      <div class="example-card config-card" *ngFor="let example of dotnetConfigVulnerabilities">
+        <h4>
+          <span class="config-icon">⚙️</span>
+          {{ example.title }}
+        </h4>
+        <pre class="code-block vulnerable config"><code>{{ example.code }}</code></pre>
+        <p class="description">{{ example.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demostración interactiva -->
+  <div class="interactive-section">
+    <h3>🧪 Prueba Interactiva (Entorno Controlado)</h3>
+    
+    <div class="input-section">
+      <label for="userInput">Ingresa contenido (prueba con los payloads de ejemplo):</label>
+      <textarea 
+        id="userInput"
+        [(ngModel)]="userInput" 
+        placeholder="Escribe HTML o JavaScript aquí..."
+        rows="3">
+      </textarea>
+      
+      <button (click)="demonstrateVulnerability()" class="btn btn-danger">
+        ⚡ Ejecutar (Vulnerable)
+      </button>
+    </div>
+
+    <div class="payloads-section">
+      <h4>💣 Payloads XSS Comunes (Haz clic para probar)</h4>
+      <div class="payload-buttons">
+        <button 
+          *ngFor="let payload of xssPayloads" 
+          (click)="useExamplePayload(payload)"
+          class="btn btn-outline payload-btn">
+          {{ payload.substring(0, 30) }}{{ payload.length > 30 ? '...' : '' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Nueva sección de payloads .NET -->
+    <div class="payloads-section dotnet-payloads">
+      <h4>🔷 Payloads XSS Específicos para .NET/C#</h4>
+      <div class="dotnet-payload-grid">
+        <div class="payload-card" *ngFor="let payload of dotnetXssPayloads">
+          <div class="payload-header">
+            <h5>{{ payload.context }}</h5>
+            <span class="payload-type">🎯 {{ payload.context }}</span>
+          </div>
+          <pre class="payload-code"><code>{{ payload.payload }}</code></pre>
+          <p class="payload-description">{{ payload.description }}</p>
+          <button 
+            (click)="useExamplePayload(payload.payload)"
+            class="btn btn-outline payload-test-btn">
+            🧪 Probar este Payload
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resultado vulnerable (simulado) -->
+    <div class="result-section" *ngIf="dangerousContent">
+      <h4>📤 Resultado (En una app vulnerable esto ejecutaría el script):</h4>
+      <div class="vulnerable-output">
+        <div class="result-header">
+          <span class="status-danger">🔴 VULNERABLE</span>
+          <span class="explanation">El contenido se insertaría directamente sin sanitización</span>
+        </div>
+        <pre class="result-content">{{ dangerousContent }}</pre>
+      </div>
+    </div>
+
+    <!-- Explicación de lo que pasaría -->
+    <div class="explanation-section" *ngIf="dangerousContent">
+      <div class="alert alert-danger">
+        <h4>💥 ¿Qué pasaría en una aplicación real?</h4>
+        <ul>
+          <li>Si contiene <code>&lt;script&gt;</code>: Se ejecutaría JavaScript malicioso</li>
+          <li>Si contiene eventos HTML: Se activarían al interactuar con elementos</li>
+          <li>Si contiene iframes: Podrían cargar contenido malicioso</li>
+          <li>Cookies, tokens y datos sensibles podrían ser robados</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sanitización bypasseada (educativo) -->
+  <div class="bypass-section">
+    <h3>🔓 Bypass de Sanitización (EDUCATIVO - NUNCA HAGAS ESTO)</h3>
+    <p>Angular sanitiza automáticamente el contenido, pero si se bypassa intencionalmente:</p>
+    <div class="bypass-demo" *ngIf="userInput">
+      <div class="bypass-warning">
+        <span>⚠️ Contenido con sanitización bypasseada:</span>
+      </div>
+      <div [innerHTML]="bypassSanitization()" class="bypassed-content"></div>
+    </div>
+  </div>
+
+  <div class="next-steps">
+    <h4>🛡️ En la siguiente sección:</h4>
+    <p>Aprenderemos cómo Angular nos protege automáticamente contra estos ataques y 
+       las mejores prácticas para mantener nuestras aplicaciones seguras.</p>
+  </div>
+</div>

@@ -1,0 +1,232 @@
+<div class="broken-access-intro">
+  <div class="intro-header">
+    <h1>🚪 A01: Broken Access Control</h1>
+    <p class="subtitle">Control de acceso roto en aplicaciones Angular</p>
+
+    <div class="severity-badge critical">
+      <span class="badge-icon">⚠️</span>
+      <span class="badge-text">Vulnerabilidad #1 del OWASP Top 10</span>
+    </div>
+  </div>
+
+  <!-- Navegación de secciones -->
+  <nav class="section-nav">
+    <button class="nav-btn"
+            [class.active]="currentExample === 'overview'"
+            (click)="setExample('overview')">
+      📋 Resumen
+    </button>
+    <button class="nav-btn"
+            [class.active]="currentExample === 'types'"
+            (click)="setExample('types')">
+      📑 Tipos
+    </button>
+    <button class="nav-btn"
+            [class.active]="currentExample === 'scenarios'"
+            (click)="setExample('scenarios')">
+      💻 Escenarios
+    </button>
+    <button class="nav-btn"
+            [class.active]="currentExample === 'payloads'"
+            (click)="setExample('payloads')">
+      🎯 Payloads
+    </button>
+  </nav>
+
+  <!-- Sección Overview -->
+  <section *ngIf="currentExample === 'overview'" class="content-section">
+    <div class="overview-content">
+      <div class="definition-card">
+        <h2>¿Qué es Broken Access Control?</h2>
+        <p>El <strong>Control de Acceso Roto</strong> ocurre cuando las aplicaciones no aplican correctamente las restricciones sobre lo que los usuarios autenticados pueden hacer. En Angular, esto significa que los guards, interceptors y validaciones de permisos no funcionan como deberían.</p>
+
+        <div class="key-points">
+          <h3>🎯 Puntos Clave en Angular:</h3>
+          <ul>
+            <li><strong>Route Guards</strong> que solo verifican el lado cliente</li>
+            <li><strong>API Endpoints</strong> sin validación de permisos</li>
+            <li><strong>UI Controls</strong> ocultos pero funcionales</li>
+            <li><strong>JWT Claims</strong> no validados en el servidor</li>
+            <li><strong>CORS Settings</strong> demasiado permisivos</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Estadísticas -->
+      <div class="stats-section">
+        <h3>📊 Estadísticas del Problema</h3>
+        <div class="stats-grid">
+          <div class="stat-card" *ngFor="let stat of accessControlStats">
+            <div class="stat-icon">{{ stat.icon }}</div>
+            <div class="stat-content">
+              <div class="stat-value">{{ stat.value }}</div>
+              <div class="stat-title">{{ stat.title }}</div>
+              <div class="stat-description">{{ stat.description }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="impact-section">
+        <h3>💥 Impacto en Aplicaciones Angular</h3>
+        <div class="impact-list">
+          <div class="impact-item high">
+            <span class="impact-icon">🔓</span>
+            <div class="impact-content">
+              <strong>Escalación de Privilegios</strong>
+              <p>Usuarios normales obteniendo acceso de administrador</p>
+            </div>
+          </div>
+          <div class="impact-item high">
+            <span class="impact-icon">📊</span>
+            <div class="impact-content">
+              <strong>Acceso a Datos Sensibles</strong>
+              <p>Información confidencial expuesta a usuarios no autorizados</p>
+            </div>
+          </div>
+          <div class="impact-item medium">
+            <span class="impact-icon">⚙️</span>
+            <div class="impact-content">
+              <strong>Manipulación de Funciones</strong>
+              <p>Ejecución de operaciones críticas sin autorización</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Tipos -->
+  <section *ngIf="currentExample === 'types'" class="content-section">
+    <h2>📑 Tipos de Broken Access Control en Angular</h2>
+
+    <div class="types-grid">
+      <div class="type-card" *ngFor="let type of accessControlTypes" [class]="type.color">
+        <div class="type-header">
+          <h3>{{ type.type }}</h3>
+          <span class="severity-tag" [class]="type.color">{{ type.severity }}</span>
+        </div>
+        <p class="type-description">{{ type.description }}</p>
+        <div class="type-example">
+          <strong>Ejemplo:</strong> {{ type.example }}
+        </div>
+      </div>
+    </div>
+
+    <div class="angular-specific">
+      <h3>🅰️ Consideraciones Específicas de Angular</h3>
+      <div class="angular-points">
+        <div class="point-item">
+          <span class="point-icon">🛡️</span>
+          <div class="point-content">
+            <strong>Route Guards</strong>
+            <p>Los guards <code>CanActivate</code>, <code>CanLoad</code> solo funcionan en el cliente. Siempre validar en el servidor.</p>
+          </div>
+        </div>
+        <div class="point-item">
+          <span class="point-icon">🔄</span>
+          <div class="point-content">
+            <strong>Interceptors</strong>
+            <p>Los HTTP interceptors pueden agregar tokens, pero el servidor debe validar todas las peticiones.</p>
+          </div>
+        </div>
+        <div class="point-item">
+          <span class="point-icon">🎭</span>
+          <div class="point-content">
+            <strong>Directivas Estructurales</strong>
+            <p><code>*ngIf</code> solo oculta elementos. No es una medida de seguridad real.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Escenarios -->
+  <section *ngIf="currentExample === 'scenarios'" class="content-section">
+    <h2>💻 Escenarios Vulnerables Comunes</h2>
+
+    <div class="scenarios-list">
+      <div class="scenario-card" *ngFor="let scenario of vulnerableScenarios">
+        <div class="scenario-header">
+          <h3>{{ scenario.title }}</h3>
+          <span class="danger-badge">⚠️ Vulnerable</span>
+        </div>
+
+        <p class="scenario-description">{{ scenario.description }}</p>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>Código Vulnerable</span>
+            <button class="copy-btn" (click)="simulateAttack(scenario.code)">🔍 Analizar</button>
+          </div>
+          <pre><code [textContent]="scenario.code"></code></pre>
+        </div>
+
+        <div class="problem-analysis">
+          <div class="problem-item">
+            <strong>🔍 Problema:</strong>
+            <p>{{ scenario.problem }}</p>
+          </div>
+          <div class="impact-item">
+            <strong>💥 Impacto:</strong>
+            <p>{{ scenario.impact }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Payloads -->
+  <section *ngIf="currentExample === 'payloads'" class="content-section">
+    <h2>🎯 Payloads y Técnicas de Ataque</h2>
+
+    <div class="payloads-intro">
+      <div class="warning-box">
+        <h3>⚠️ Advertencia Educativa</h3>
+        <p>Los siguientes ejemplos son solo para fines educativos. <strong>Nunca</strong> uses estas técnicas en aplicaciones reales sin autorización explícita.</p>
+      </div>
+    </div>
+
+    <div class="payloads-grid">
+      <div class="payload-card" *ngFor="let payload of commonPayloads">
+        <div class="payload-header">
+          <h3>{{ payload.name }}</h3>
+          <span class="risk-level">{{ payload.risk }}</span>
+        </div>
+
+        <p class="payload-description">{{ payload.description }}</p>
+
+        <div class="payload-code">
+          <div class="code-header">
+            <span>Payload de Ejemplo</span>
+            <button class="simulate-btn" (click)="simulateAttack(payload.payload)">
+              ⚠️ Simular
+            </button>
+          </div>
+          <pre><code [textContent]="payload.payload"></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="simulation-controls">
+      <h3>🧪 Centro de Simulación</h3>
+      <div class="simulation-info">
+        <p>Usa los botones "Simular" para ver cómo funcionarían estos ataques en un entorno controlado.</p>
+        <button class="reset-btn" (click)="resetSimulation()">
+          🔄 Resetear Simulación
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navegación inferior -->
+  <div class="bottom-navigation">
+    <div class="nav-info">
+      <p>Siguiente: Aprende cómo <strong>prevenir</strong> estos ataques con guards seguros y validación del servidor.</p>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-button secondary">← Anterior</button>
+      <button class="nav-button primary">Siguiente: Protección →</button>
+    </div>
+  </div>
+</div>

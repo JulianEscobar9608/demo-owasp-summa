@@ -1,0 +1,359 @@
+<div class="dotnet-authorization">
+  <h2>🔑 Autorización Avanzada en .NET/C#</h2>
+
+  <div class="intro-section">
+    <div class="auth-banner">
+      <h3>🏛️ Estrategias de Control de Acceso</h3>
+      <p>La autorización en .NET va más allá de simples roles. Desde RBAC básico hasta 
+         autorización basada en recursos y políticas complejas, cada estrategia tiene su lugar ideal.</p>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tabs-container">
+    <div class="tabs">
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'rbac'"
+        (click)="setActiveTab('rbac')">
+        RBAC
+      </button>
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'policy'"
+        (click)="setActiveTab('policy')">
+        Policy-Based
+      </button>
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'resource'"
+        (click)="setActiveTab('resource')">
+        Resource-Based
+      </button>
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'demo'"
+        (click)="setActiveTab('demo')">
+        Demo Interactivo
+      </button>
+    </div>
+  </div>
+
+  <!-- Strategy Content -->
+  <div class="tab-content" *ngIf="activeTab !== 'demo'">
+    <div class="strategy-overview">
+      <div class="strategy-header">
+        <h3>{{ getStrategyById(activeTab).title }}</h3>
+        <div class="complexity-badge" 
+             [style.background-color]="getComplexityColor(getStrategyById(activeTab).complexity)">
+          {{ getStrategyById(activeTab).complexity | titlecase }}
+        </div>
+      </div>
+      
+      <p class="strategy-description">{{ getStrategyById(activeTab).description }}</p>
+      
+      <div class="use-case-note">
+        <strong>Caso de Uso Ideal:</strong> {{ getStrategyById(activeTab).useCase }}
+      </div>
+      
+      <div class="implementation-note">
+        <strong>Implementación:</strong> {{ getStrategyById(activeTab).implementation }}
+      </div>
+    </div>
+
+    <!-- Pros and Cons -->
+    <div class="pros-cons-section">
+      <div class="pros-card">
+        <h4>✅ Ventajas</h4>
+        <ul>
+          <li *ngFor="let pro of getStrategyById(activeTab).pros">{{ pro }}</li>
+        </ul>
+      </div>
+      
+      <div class="cons-card">
+        <h4>❌ Limitaciones</h4>
+        <ul>
+          <li *ngFor="let con of getStrategyById(activeTab).cons">{{ con }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Best For Section -->
+    <div class="best-for-section">
+      <h4>🎯 Ideal Para</h4>
+      <div class="best-for-grid">
+        <div class="best-for-item" *ngFor="let item of getStrategyById(activeTab).bestFor">
+          <div class="best-for-icon">📋</div>
+          <span>{{ item }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Implementation -->
+    <div class="code-section">
+      <h4>💻 Implementación Completa</h4>
+      <div class="code-block">
+        <pre><code>{{ getStrategyById(activeTab).codeExample }}</code></pre>
+      </div>
+    </div>
+
+    <!-- Security Considerations -->
+    <div class="security-considerations" *ngIf="activeTab === 'rbac'">
+      <h4>🛡️ Consideraciones de Seguridad para RBAC</h4>
+      <div class="considerations-grid">
+        <div class="consideration-card">
+          <h5>🔄 Gestión de Roles</h5>
+          <ul>
+            <li>Principio de menor privilegio</li>
+            <li>Revisión periódica de roles</li>
+            <li>Auditoría de asignaciones</li>
+            <li>Roles temporales con expiración</li>
+          </ul>
+        </div>
+        
+        <div class="consideration-card">
+          <h5>🔒 Validación en Backend</h5>
+          <ul>
+            <li>Nunca confiar solo en frontend</li>
+            <li>Validar en cada endpoint</li>
+            <li>Logs de intentos de acceso</li>
+            <li>Rate limiting por usuario</li>
+          </ul>
+        </div>
+        
+        <div class="consideration-card">
+          <h5>⚡ Rendimiento</h5>
+          <ul>
+            <li>Cache de roles en memoria</li>
+            <li>Evitar queries en cada request</li>
+            <li>Claims en JWT para stateless</li>
+            <li>Lazy loading de permisos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-considerations" *ngIf="activeTab === 'policy'">
+      <h4>⚙️ Mejores Prácticas para Policy-Based</h4>
+      <div class="considerations-grid">
+        <div class="consideration-card">
+          <h5>🎯 Diseño de Políticas</h5>
+          <ul>
+            <li>Políticas granulares y específicas</li>
+            <li>Composición de requirements simples</li>
+            <li>Reutilización de lógica común</li>
+            <li>Documentación clara de cada política</li>
+          </ul>
+        </div>
+        
+        <div class="consideration-card">
+          <h5>🧪 Testing</h5>
+          <ul>
+            <li>Unit tests para cada handler</li>
+            <li>Mocking de dependencias</li>
+            <li>Tests de escenarios edge case</li>
+            <li>Verificación de claims requeridos</li>
+          </ul>
+        </div>
+        
+        <div class="consideration-card">
+          <h5>📊 Monitoreo</h5>
+          <ul>
+            <li>Logs de decisiones de autorización</li>
+            <li>Métricas de políticas fallidas</li>
+            <li>Alertas por intentos sospechosos</li>
+            <li>Análisis de patrones de acceso</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-considerations" *ngIf="activeTab === 'resource'">
+      <h4>🗂️ Optimizaciones para Resource-Based</h4>
+      <div class="considerations-grid">
+        <div class="consideration-card">
+          <h5>⚡ Performance</h5>
+          <ul>
+            <li>Cache de ownership patterns</li>
+            <li>Projection queries para autorización</li>
+            <li>Índices en campos de ownership</li>
+            <li>Batch authorization checks</li>
+          </ul>
+        </div>
+        
+        <div class="consideration-card">
+          <h5>🔐 Seguridad</h5>
+          <ul>
+            <li>Validación de existencia de recursos</li>
+            <li>Prevención de timing attacks</li>
+            <li>Sanitización de resource IDs</li>
+            <li>Rate limiting por recurso</li>
+          </ul>
+        </div>
+        
+        <div class="consideration-card">
+          <h5>📈 Escalabilidad</h5>
+          <ul>
+            <li>Patrones de delegación</li>
+            <li>Herencia de permisos</li>
+            <li>Bulk operations autorizadas</li>
+            <li>Caching distribuido</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo Interactive Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'demo'">
+    <h3>🎮 Simulador de Autorización</h3>
+    
+    <div class="demo-section">
+      <div class="scenario-selector">
+        <h4>Selecciona un Escenario</h4>
+        <div class="scenario-buttons">
+          <button 
+            class="scenario-btn"
+            [class.active]="selectedScenario === demo.scenario"
+            (click)="setSelectedScenario(demo.scenario)"
+            *ngFor="let demo of securityDemos">
+            {{ demo.user }} → {{ demo.action }}
+          </button>
+        </div>
+      </div>
+      
+      <div class="demo-result">
+        <div class="demo-header">
+          <h4>Resultado de Autorización</h4>
+          <div class="authorization-status" 
+               [class.authorized]="getCurrentDemo().authorized"
+               [class.denied]="!getCurrentDemo().authorized">
+            {{ getCurrentDemo().authorized ? '✅ AUTORIZADO' : '❌ DENEGADO' }}
+          </div>
+        </div>
+        
+        <div class="demo-details">
+          <div class="detail-item">
+            <strong>Usuario:</strong> {{ getCurrentDemo().user }}
+          </div>
+          <div class="detail-item">
+            <strong>Recurso:</strong> {{ getCurrentDemo().resource }}
+          </div>
+          <div class="detail-item">
+            <strong>Acción:</strong> {{ getCurrentDemo().action }}
+          </div>
+          <div class="detail-item">
+            <strong>Razón:</strong> {{ getCurrentDemo().reason }}
+          </div>
+        </div>
+        
+        <div class="code-implementation">
+          <h5>📝 Implementación en Código</h5>
+          <div class="code-block">
+            <pre><code>{{ getCurrentDemo().code }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Section -->
+  <div class="comparison-section">
+    <h3>📊 Comparación de Estrategias</h3>
+    
+    <div class="comparison-table">
+      <div class="table-header">
+        <div class="header-cell">Aspecto</div>
+        <div class="header-cell">RBAC</div>
+        <div class="header-cell">Policy-Based</div>
+        <div class="header-cell">Resource-Based</div>
+      </div>
+      
+      <div class="table-row">
+        <div class="cell"><strong>Complejidad</strong></div>
+        <div class="cell complexity-simple">Baja</div>
+        <div class="cell complexity-moderate">Media</div>
+        <div class="cell complexity-complex">Alta</div>
+      </div>
+      
+      <div class="table-row">
+        <div class="cell"><strong>Flexibilidad</strong></div>
+        <div class="cell">⭐⭐</div>
+        <div class="cell">⭐⭐⭐⭐</div>
+        <div class="cell">⭐⭐⭐⭐⭐</div>
+      </div>
+      
+      <div class="table-row">
+        <div class="cell"><strong>Performance</strong></div>
+        <div class="cell">⭐⭐⭐⭐⭐</div>
+        <div class="cell">⭐⭐⭐</div>
+        <div class="cell">⭐⭐</div>
+      </div>
+      
+      <div class="table-row">
+        <div class="cell"><strong>Mantenibilidad</strong></div>
+        <div class="cell">⭐⭐⭐⭐</div>
+        <div class="cell">⭐⭐⭐</div>
+        <div class="cell">⭐⭐</div>
+      </div>
+      
+      <div class="table-row">
+        <div class="cell"><strong>Escalabilidad</strong></div>
+        <div class="cell">⭐⭐⭐</div>
+        <div class="cell">⭐⭐⭐⭐</div>
+        <div class="cell">⭐⭐⭐⭐⭐</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integration Best Practices -->
+  <div class="integration-practices">
+    <h3>🔗 Integración con Angular</h3>
+    
+    <div class="integration-flow">
+      <div class="flow-step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h5>Claims en Token</h5>
+          <p>Incluir roles y claims necesarios en JWT</p>
+        </div>
+      </div>
+      
+      <div class="flow-arrow">→</div>
+      
+      <div class="flow-step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h5>Guards Angular</h5>
+          <p>Validación básica en frontend para UX</p>
+        </div>
+      </div>
+      
+      <div class="flow-arrow">→</div>
+      
+      <div class="flow-step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h5>API Validation</h5>
+          <p>Autorización definitiva en cada endpoint</p>
+        </div>
+      </div>
+      
+      <div class="flow-arrow">→</div>
+      
+      <div class="flow-step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h5>Error Handling</h5>
+          <p>Respuestas consistentes 401/403</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="integration-note">
+      <h5>⚠️ Importante</h5>
+      <p>La autorización en Angular es solo para experiencia de usuario. 
+         La seguridad real siempre debe implementarse en el backend .NET.</p>
+    </div>
+  </div>
+</div>

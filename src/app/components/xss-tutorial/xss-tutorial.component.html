@@ -1,0 +1,350 @@
+<div class="owasp-tutorial">
+  <!-- Top Navigation Bar for Modules -->
+  <header class="tutorial-header">
+    <div class="header-content">
+      <h1>🛡️ OWASP Top 10 en Angular</h1>
+      <p>Domina las vulnerabilidades más críticas en aplicaciones Angular modernas</p>
+    </div>
+
+    <!-- Module Navigation Bar -->
+    <nav class="module-nav">
+      <div class="module-nav-container">
+        <button
+          *ngFor="let module of modules"
+          class="module-tab"
+          [class.active]="currentModule === module.id"
+          [class.completed]="module.completed"
+          [class.critical]="module.severity === 'critical'"
+          [class.high]="module.severity === 'high'"
+          [class.medium]="module.severity === 'medium'"
+          (click)="navigateToModule(module.id)"
+          [attr.aria-label]="'Navegar al módulo ' + module.title">
+
+          <div class="module-icon">{{ module.icon }}</div>
+          <div class="module-content">
+            <h3>{{ module.shortTitle }}</h3>
+            <div class="module-progress">
+              <div class="progress-bar-mini">
+                <div class="progress-fill-mini" [style.width.%]="getModuleProgressPercentage(module.id)"></div>
+              </div>
+              <span class="progress-text">{{ getModuleProgressPercentage(module.id) }}%</span>
+            </div>
+          </div>
+          <div class="severity-indicator">
+            <span class="severity-badge" [class]="module.severity">
+              {{ module.severity === 'critical' ? 'CRÍTICO' :
+                 module.severity === 'high' ? 'ALTO' : 'MEDIO' }}
+            </span>
+          </div>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="tutorial-body">
+    <!-- Left Sidebar for Chapters -->
+    <aside class="chapter-sidebar">
+      <div class="sidebar-header">
+        <h3>{{ getCurrentModule()?.title || 'Módulo' }}</h3>
+        <p>{{ getCurrentModule()?.description || '' }}</p>
+      </div>
+
+      <div class="chapter-list">
+        <button
+          *ngFor="let chapter of getCurrentModuleChapters()"
+          class="chapter-item"
+          [class.active]="currentChapter === chapter.id"
+          [class.completed]="chapter.completed"
+          (click)="navigateToChapter(chapter.id)"
+          [attr.aria-label]="'Navegar al capítulo ' + chapter.title">
+
+          <div class="chapter-icon">{{ chapter.icon }}</div>
+          <div class="chapter-content">
+            <h4>{{ chapter.title }}</h4>
+            <p>{{ chapter.description }}</p>
+          </div>
+          <div class="chapter-status">
+            <span *ngIf="chapter.completed" class="completed-icon">✅</span>
+            <span *ngIf="currentChapter === chapter.id" class="current-icon">👈</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Progress Summary -->
+      <div class="sidebar-progress">
+        <h4>📊 Progreso del Tutorial</h4>
+        <div class="progress-item">
+          <span class="progress-label">Progreso total:</span>
+          <span class="progress-value">{{ getProgressPercentage() }}%</span>
+        </div>
+        <div class="progress-item">
+          <span class="progress-label">Capítulos completados:</span>
+          <span class="progress-value">{{ getCompletedChaptersCount() }}/{{ getTotalChaptersCount() }}</span>
+        </div>
+
+        <div class="overall-progress-bar">
+          <div class="overall-progress-fill" [style.width.%]="getProgressPercentage()"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <div class="content-header">
+        <div class="breadcrumb">
+          <span class="breadcrumb-item">🏠 OWASP</span>
+          <span class="breadcrumb-separator">›</span>
+          <span class="breadcrumb-item">{{ getCurrentModule()?.shortTitle || 'Módulo' }}</span>
+          <span class="breadcrumb-separator">›</span>
+          <span class="breadcrumb-current">{{ getCurrentChapter()?.title || 'Capítulo' }}</span>
+        </div>
+      </div>
+
+      <div class="content-body">
+        <!-- Overview Content -->
+        <div *ngIf="currentChapter === 'overview-intro'" class="chapter-content">
+          <div class="overview-section">
+            <h2>🎯 OWASP Top 10 para Angular</h2>
+            <p class="overview-description">
+              El OWASP Top 10 es una lista de las 10 vulnerabilidades de seguridad más críticas en aplicaciones web.
+              Este tutorial te guiará a través de cada vulnerabilidad con un enfoque específico en aplicaciones Angular.
+            </p>
+
+            <div class="overview-stats">
+              <div class="stat-card">
+                <div class="stat-icon">🔍</div>
+                <div class="stat-content">
+                  <h3>Vulnerabilidades Cubiertas</h3>
+                  <p>{{ modules.length - 1 }} de las principales vulnerabilidades OWASP</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                  <h3>Enfoque Angular</h3>
+                  <p>Ejemplos específicos para aplicaciones Angular modernas</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-content">
+                  <h3>Práctica Interactiva</h3>
+                  <p>Ejercicios prácticos y demostraciones en vivo</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="overview-modules">
+              <h3>Módulos Disponibles</h3>
+              <div class="modules-grid">
+                <div *ngFor="let module of modules"
+                     class="module-overview-card"
+                     [class]="module.severity"
+                     (click)="navigateToModule(module.id)"
+                     (keydown.enter)="navigateToModule(module.id)"
+                     (keydown.space)="navigateToModule(module.id)"
+                     tabindex="0">
+                  <div class="module-header">
+                    <span class="module-icon-large">{{ module.icon }}</span>
+                    <h4>{{ module.title }}</h4>
+                  </div>
+                  <p>{{ module.description }}</p>
+                  <div class="module-footer">
+                    <span class="severity-badge" [class]="module.severity">
+                      {{ module.severity === 'critical' ? 'CRÍTICO' :
+                         module.severity === 'high' ? 'ALTO' : 'MEDIO' }}
+                    </span>
+                    <span class="chapter-count">{{ module.chapters.length }} capítulos</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Broken Access Control Content -->
+        <div *ngIf="currentChapter === 'broken-access-intro'" class="chapter-content">
+          <app-broken-access-intro></app-broken-access-intro>
+        </div>
+
+        <!-- Prevention & Mitigation -->
+        <div *ngIf="currentChapter === 'access-prevention-mitigation'" class="chapter-content">
+          <app-access-prevention-mitigation></app-access-prevention-mitigation>
+        </div>
+
+        <!-- Angular Guards -->
+        <div *ngIf="currentChapter === 'access-angular-guards'" class="chapter-content">
+          <app-access-angular-guards></app-access-angular-guards>
+        </div>
+
+        <!-- Vulnerable Examples -->
+        <div *ngIf="currentChapter === 'access-vulnerable-examples'" class="chapter-content">
+          <app-access-vulnerable-examples></app-access-vulnerable-examples>
+        </div>
+
+        <!-- JWT Security -->
+        <div *ngIf="currentChapter === 'access-jwt-security'" class="chapter-content">
+          <app-access-jwt-security></app-access-jwt-security>
+        </div>
+
+        <!-- Roles and Permissions -->
+        <div *ngIf="currentChapter === 'access-role-permissions'" class="chapter-content">
+          <app-access-roles-permissions></app-access-roles-permissions>
+        </div>
+
+        <!-- Testing Security -->
+        <div *ngIf="currentChapter === 'access-testing-security'" class="chapter-content">
+          <app-access-testing-security></app-access-testing-security>
+        </div>
+
+        <!-- .NET Authentication -->
+        <div *ngIf="currentChapter === 'access-dotnet-authentication'" class="chapter-content">
+          <app-access-dotnet-authentication></app-access-dotnet-authentication>
+        </div>
+
+        <!-- .NET Authorization -->
+        <div *ngIf="currentChapter === 'access-dotnet-authorization'" class="chapter-content">
+          <app-access-dotnet-authorization></app-access-dotnet-authorization>
+        </div>
+
+        <!-- .NET Security -->
+        <div *ngIf="currentChapter === 'access-dotnet-security'" class="chapter-content">
+          <app-access-dotnet-security></app-access-dotnet-security>
+        </div>
+
+        <!-- Integration Best Practices -->
+        <div *ngIf="currentChapter === 'access-integration-best-practices'" class="chapter-content">
+          <app-access-integration-best-practices></app-access-integration-best-practices>
+        </div>
+
+        <!-- XSS Vulnerable Code -->
+        <div *ngIf="currentChapter === 'xss-vulnerable'" class="chapter-content">
+          <app-vulnerable-demo></app-vulnerable-demo>
+        </div>
+
+        <!-- XSS Angular Protection -->
+        <div *ngIf="currentChapter === 'xss-protection'" class="chapter-content">
+          <app-angular-protection></app-angular-protection>
+        </div>
+
+        <!-- XSS Best Practices -->
+        <div *ngIf="currentChapter === 'xss-practices'" class="chapter-content">
+          <app-best-practices></app-best-practices>
+        </div>
+
+        <!-- XSS Practical Exercises -->
+        <div *ngIf="currentChapter === 'xss-exercises'" class="chapter-content">
+          <app-practical-exercises></app-practical-exercises>
+        </div>
+
+        <!-- XSS Advanced Security -->
+        <div *ngIf="currentChapter === 'xss-advanced'" class="chapter-content">
+          <app-advanced-security></app-advanced-security>
+        </div>
+
+        <!-- Insecure Design Introduction -->
+        <div *ngIf="currentChapter === 'insecure-design-intro'" class="chapter-content">
+          <app-insecure-design-intro></app-insecure-design-intro>
+        </div>
+
+        <!-- Insecure Design Vulnerable Examples -->
+        <div *ngIf="currentChapter === 'insecure-design-vulnerable'" class="chapter-content">
+          <app-insecure-design-vulnerable></app-insecure-design-vulnerable>
+        </div>
+
+        <!-- Insecure Design Protection Patterns -->
+        <div *ngIf="currentChapter === 'insecure-design-protection'" class="chapter-content">
+          <app-insecure-design-protection></app-insecure-design-protection>
+        </div>
+
+        <!-- Insecure Design Best Practices -->
+        <div *ngIf="currentChapter === 'insecure-design-best-practices'" class="chapter-content">
+          <app-insecure-design-best-practices></app-insecure-design-best-practices>
+        </div>
+
+        <!-- Insecure Design Exercises -->
+        <div *ngIf="currentChapter === 'insecure-design-exercises'" class="chapter-content">
+          <app-insecure-design-exercises></app-insecure-design-exercises>
+        </div>
+
+        <!-- Insecure Design .NET Architecture -->
+        <div *ngIf="currentChapter === 'insecure-design-dotnet-architecture'" class="chapter-content">
+          <app-insecure-design-dotnet-architecture></app-insecure-design-dotnet-architecture>
+        </div>
+
+        <!-- Insecure Design .NET Security Patterns -->
+        <div *ngIf="currentChapter === 'insecure-design-dotnet-security-patterns'" class="chapter-content">
+          <app-insecure-design-dotnet-security-patterns></app-insecure-design-dotnet-security-patterns>
+        </div>
+
+        <!-- Insecure Design Integration Practices -->
+        <div *ngIf="currentChapter === 'insecure-design-integration-practices'" class="chapter-content">
+          <app-insecure-design-integration-practices></app-insecure-design-integration-practices>
+        </div>
+      </div>
+
+      <!-- Chapter Actions -->
+      <div class="chapter-actions">
+        <button class="btn complete-btn" (click)="markChapterCompleted(currentChapter)">
+          ✅ Marcar capítulo como completado
+        </button>
+      </div>
+
+      <!-- Navigation Controls -->
+      <div class="content-navigation">
+        <button
+          class="nav-btn prev"
+          [disabled]="!getPrevChapter()"
+          (click)="navigateToPrevChapter()">
+          ← Capítulo Anterior
+        </button>
+
+        <div class="nav-center">
+          <span class="chapter-indicator">
+            Capítulo {{ getCurrentChapterIndex() }}
+            de {{ getCurrentChapterCount() }}
+          </span>
+        </div>
+
+        <button
+          class="nav-btn next"
+          [disabled]="!getNextChapter()"
+          (click)="navigateToNextChapter()">
+          Siguiente Capítulo →
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Completion Modal -->
+  <div class="completion-modal" *ngIf="getProgressPercentage() === 100">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="completion-animation">🎉</div>
+      <h2>¡Felicitaciones!</h2>
+      <p>Has completado exitosamente todo el tutorial de OWASP Top 10 para Angular.</p>
+      <div class="completion-summary">
+        <div class="summary-stat">
+          <strong>{{ getTotalChaptersCount() }}</strong>
+          <span>capítulos completados</span>
+        </div>
+        <div class="summary-stat">
+          <strong>{{ modules.length }}</strong>
+          <span>módulos dominados</span>
+        </div>
+        <div class="summary-stat">
+          <strong>100%</strong>
+          <span>del tutorial terminado</span>
+        </div>
+      </div>
+      <div class="completion-actions">
+        <button class="btn certificate-btn">
+          📜 Obtener Certificado
+        </button>
+        <button class="btn restart-btn" (click)="restartTutorial()">
+          🔄 Reiniciar Tutorial
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

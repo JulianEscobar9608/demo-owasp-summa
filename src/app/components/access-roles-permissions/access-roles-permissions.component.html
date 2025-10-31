@@ -1,0 +1,392 @@
+<div class="roles-permissions-container">
+  <div class="header-section">
+    <h2>Gestión de Roles y Permisos</h2>
+    <p>Control granular de acceso mediante roles y permisos en Angular</p>
+  </div>
+
+  <!-- View Navigation -->
+  <div class="view-navigation">
+    <button
+      [class.active]="currentView === 'overview'"
+      (click)="setCurrentView('overview')">
+      📊 Visión General
+    </button>
+    <button
+      [class.active]="currentView === 'roles'"
+      (click)="setCurrentView('roles')">
+      👥 Roles del Sistema
+    </button>
+    <button
+      [class.active]="currentView === 'permissions'"
+      (click)="setCurrentView('permissions')">
+      🔐 Permisos Detallados
+    </button>
+    <button
+      [class.active]="currentView === 'implementation'"
+      (click)="setCurrentView('implementation')">
+      💻 Implementación
+    </button>
+    <button
+      [class.active]="currentView === 'simulator'"
+      (click)="setCurrentView('simulator')">
+      🎯 Simulador
+    </button>
+  </div>
+
+  <!-- Overview -->
+  <div class="view-content" *ngIf="currentView === 'overview'">
+    <div class="overview-stats">
+      <div class="stat-card">
+        <div class="stat-number">{{ getRolesCount() }}</div>
+        <div class="stat-label">Roles Definidos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ getPermissionsCount() }}</div>
+        <div class="stat-label">Permisos Únicos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ getUsersCount() }}</div>
+        <div class="stat-label">Usuarios Ejemplo</div>
+      </div>
+    </div>
+
+    <div class="role-hierarchy">
+      <h3>🏗️ Jerarquía de Roles</h3>
+      <div class="hierarchy-diagram">
+        <div class="role-level" *ngFor="let role of getRolesArray()">
+          <div class="role-box" [style.background-color]="role.color">
+            <div class="role-info">
+              <span class="role-name">{{ role.name }}</span>
+              <span class="role-level-num">Nivel {{ role.level }}</span>
+            </div>
+            <div class="permission-count">
+              {{ role.permissions.includes('*') ? 'Todos' : role.permissions.length }} permisos
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-principles">
+      <h3>🛡️ Principios de Seguridad</h3>
+      <div class="principles-grid">
+        <div class="principle-card">
+          <div class="principle-icon">🔒</div>
+          <h4>Principio de Menor Privilegio</h4>
+          <p>Los usuarios reciben únicamente los permisos mínimos necesarios para realizar sus tareas</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">🎯</div>
+          <h4>Separación de Responsabilidades</h4>
+          <p>Cada rol tiene responsabilidades específicas sin superposición innecesaria</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">🔄</div>
+          <h4>Revisión Periódica</h4>
+          <p>Los permisos se revisan y actualizan regularmente según las necesidades</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">📝</div>
+          <h4>Auditoría Completa</h4>
+          <p>Todos los accesos y cambios de permisos quedan registrados para auditoría</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roles View -->
+  <div class="view-content" *ngIf="currentView === 'roles'">
+    <div class="roles-selector">
+      <h3>👥 Roles del Sistema</h3>
+      <div class="roles-grid">
+        <div
+          *ngFor="let role of getRolesArray()"
+          class="role-card"
+          [class.selected]="selectedRole === role.id"
+          (click)="selectRole(role.id)"
+          [style.border-left-color]="role.color">
+          <div class="role-header">
+            <h4>{{ role.name }}</h4>
+            <span class="level-badge" [style.background-color]="role.color">
+              Nivel {{ role.level }}
+            </span>
+          </div>
+          <p class="role-description">{{ role.description }}</p>
+          <div class="permission-summary">
+            <span class="permission-count">
+              {{ role.permissions.includes('*') ? 'Acceso Total' : role.permissions.length + ' permisos' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-details" *ngIf="getCurrentRole()">
+      <h3>Detalles del Rol: {{ getCurrentRole().name }}</h3>
+
+      <div class="role-info-section">
+        <div class="info-card">
+          <h4>📋 Información General</h4>
+          <div class="info-item">
+            <strong>Nombre:</strong> {{ getCurrentRole().name }}
+          </div>
+          <div class="info-item">
+            <strong>Nivel:</strong> {{ getCurrentRole().level }}
+          </div>
+          <div class="info-item">
+            <strong>Descripción:</strong> {{ getCurrentRole().description }}
+          </div>
+        </div>
+
+        <div class="permissions-card">
+          <h4>🔐 Permisos Asignados</h4>
+          <div class="permissions-list">
+            <div
+              *ngFor="let permission of getRolePermissions(getCurrentRole().id)"
+              class="permission-item"
+              [style.border-left-color]="getRiskColor(permission.risk)">
+              <div class="permission-header">
+                <span class="permission-name">{{ permission.name }}</span>
+                <span class="risk-badge" [style.background-color]="getRiskColor(permission.risk)">
+                  {{ permission.risk.toUpperCase() }}
+                </span>
+              </div>
+              <p class="permission-description">{{ permission.description }}</p>
+              <div class="permission-meta">
+                <span>Recurso: {{ permission.resource }}</span> |
+                <span>Acción: {{ permission.action }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Permissions View -->
+  <div class="view-content" *ngIf="currentView === 'permissions'">
+    <div class="permissions-overview">
+      <h3>🔐 Matriz de Permisos</h3>
+      <p>Vista completa de todos los permisos del sistema organizados por nivel de riesgo</p>
+
+      <div class="permissions-by-risk">
+        <div class="risk-section" *ngFor="let risk of ['low', 'medium', 'high', 'critical']">
+          <h4 class="risk-header" [style.color]="getRiskColor(risk)">
+            Riesgo {{ risk.toUpperCase() }}
+          </h4>
+
+          <div class="risk-permissions">
+            <ng-container *ngFor="let permission of getPermissionsArray()">
+              <div
+                class="permission-detailed"
+                *ngIf="permission.risk === risk"
+                [style.border-left-color]="getRiskColor(permission.risk)">
+
+                <div class="permission-info">
+                  <h5>{{ permission.name }}</h5>
+                  <p>{{ permission.description }}</p>
+                  <div class="permission-tags">
+                    <span class="tag resource">{{ permission.resource }}</span>
+                    <span class="tag action">{{ permission.action }}</span>
+                  </div>
+                </div>
+
+                <div class="roles-with-permission">
+                  <strong>Roles que tienen este permiso:</strong>
+                  <div class="role-badges">
+                    <ng-container *ngFor="let role of getRolesArray()">
+                      <span
+                        class="role-badge"
+                        *ngIf="role.permissions.includes(permission.id) || role.permissions.includes('*')"
+                        [style.background-color]="role.color">
+                        {{ role.name }}
+                      </span>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Implementation View -->
+  <div class="view-content" *ngIf="currentView === 'implementation'">
+    <div class="implementation-guide">
+      <h3>💻 Implementación en Angular</h3>
+      <p>Código completo para implementar un sistema seguro de roles y permisos</p>
+
+      <div class="code-sections">
+        <div class="code-section">
+          <h4>🔧 Servicio de Roles</h4>
+          <pre class="code-block">{{ angularRoleImplementation }}</pre>
+        </div>
+
+        <div class="usage-examples">
+          <h4>📝 Ejemplos de Uso</h4>
+
+          <div class="example-card">
+            <h5>Uso en Templates</h5>
+            <pre class="code-block usage">
+&lt;!-- Mostrar contenido basado en rol --&gt;
+&lt;div *ngIf="roleService.hasRole('admin')"&gt;
+  &lt;button&gt;Panel Administrativo&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Mostrar contenido basado en permiso --&gt;
+&lt;button
+  *ngIf="roleService.hasPermission('MANAGE_USERS')"
+  (click)="manageUsers()"&gt;
+  Gestionar Usuarios
+&lt;/button&gt;
+
+&lt;!-- Directiva personalizada --&gt;
+&lt;div *hasPermission="'DELETE_CONTENT'"&gt;
+  &lt;button class="danger"&gt;Eliminar&lt;/button&gt;
+&lt;/div&gt;
+            </pre>
+          </div>
+
+          <div class="example-card">
+            <h5>Configuración de Rutas</h5>
+            <pre class="code-block usage">{{ routesExample }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulator View -->
+  <div class="view-content" *ngIf="currentView === 'simulator'">
+    <div class="access-simulator">
+      <h3>🎯 Simulador de Control de Acceso</h3>
+      <p>Prueba diferentes escenarios de acceso para entender el funcionamiento del sistema</p>
+
+      <div class="simulator-controls">
+        <div class="user-selector">
+          <h4>Seleccionar Usuario</h4>
+          <div class="users-grid">
+            <button
+              *ngFor="let user of getUsersArray()"
+              class="user-card"
+              [class.selected]="selectedUser === user.id"
+              (click)="selectUser(user.id)">
+              <div class="user-info">
+                <strong>{{ user.name }}</strong>
+                <span>{{ user.email }}</span>
+              </div>
+              <div class="user-roles">
+                <span
+                  *ngFor="let roleId of user.roles"
+                  class="role-tag"
+                  [style.background-color]="roles[roleId].color">
+                  {{ roles[roleId].name }}
+                </span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="access-tests">
+          <h4>Pruebas de Acceso</h4>
+          <div class="test-scenarios">
+            <div class="scenario-test">
+              <strong>Acceder al Panel de Admin</strong>
+              <div class="test-result"
+                   [class]="simulateAccess('admin', 'access').allowed ? 'success' : 'denied'">
+                {{ simulateAccess('admin', 'access').reason }}
+              </div>
+            </div>
+
+            <div class="scenario-test">
+              <strong>Gestionar Usuarios</strong>
+              <div class="test-result"
+                   [class]="simulateAccess('users', 'manage').allowed ? 'success' : 'denied'">
+                {{ simulateAccess('users', 'manage').reason }}
+              </div>
+            </div>
+
+            <div class="scenario-test">
+              <strong>Ver Analíticas</strong>
+              <div class="test-result"
+                   [class]="simulateAccess('analytics', 'view').allowed ? 'success' : 'denied'">
+                {{ simulateAccess('analytics', 'view').reason }}
+              </div>
+            </div>
+
+            <div class="scenario-test">
+              <strong>Moderar Contenido</strong>
+              <div class="test-result"
+                   [class]="simulateAccess('content', 'moderate').allowed ? 'success' : 'denied'">
+                {{ simulateAccess('content', 'moderate').reason }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-permissions-display" *ngIf="getCurrentUser()">
+        <h4>Permisos del Usuario: {{ getCurrentUser().name }}</h4>
+        <div class="permissions-matrix">
+          <div
+            *ngFor="let permission of getUserPermissions(getCurrentUser().id)"
+            class="permission-badge"
+            [style.background-color]="getRiskColor(permission.risk)">
+            <strong>{{ permission.name }}</strong>
+            <span>{{ permission.description }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="security-simulation">
+        <h4>🔓 Simulación de Ataques</h4>
+        <div class="attack-simulation">
+          <button (click)="toggleSimulation()" class="simulate-btn">
+            {{ simulationMode ? 'Detener Simulación' : 'Simular Ataque de Escalación' }}
+          </button>
+
+          <div class="simulation-result" *ngIf="simulationMode">
+            <div class="attack-info">
+              <strong>{{ simulatePrivilegeEscalation().scenario }}</strong>
+              <p><strong>Método:</strong> {{ simulatePrivilegeEscalation().method }}</p>
+              <p><strong>Prevención:</strong> {{ simulatePrivilegeEscalation().prevention }}</p>
+              <div class="result-status"
+                   [class]="simulatePrivilegeEscalation().success ? 'attack-success' : 'attack-blocked'">
+                {{ simulatePrivilegeEscalation().success ? '❌ ATAQUE EXITOSO' : '✅ ATAQUE BLOQUEADO' }}
+              </div>
+              <p><strong>Detección:</strong> {{ simulatePrivilegeEscalation().detection }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="best-practices-checklist">
+        <h4>✅ Lista de Verificación de Seguridad</h4>
+        <div class="checklist">
+          <div class="check-item">
+            <input type="checkbox" checked disabled>
+            <span>Validación de permisos en backend</span>
+          </div>
+          <div class="check-item">
+            <input type="checkbox" checked disabled>
+            <span>Guards de Angular para proteger rutas</span>
+          </div>
+          <div class="check-item">
+            <input type="checkbox" checked disabled>
+            <span>Principio de menor privilegio aplicado</span>
+          </div>
+          <div class="check-item">
+            <input type="checkbox" checked disabled>
+            <span>Auditoría de accesos implementada</span>
+          </div>
+          <div class="check-item">
+            <input type="checkbox" checked disabled>
+            <span>Revisión periódica de roles establecida</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

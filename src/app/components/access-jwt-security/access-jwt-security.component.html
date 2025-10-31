@@ -1,0 +1,353 @@
+<div class="jwt-security-container">
+  <div class="header-section">
+    <h2>JWT Security en Angular</h2>
+    <p>Seguridad completa en JSON Web Tokens: vulnerabilidades comunes y mejores prácticas</p>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tab-navigation">
+    <button
+      [class.active]="currentTab === 'overview'"
+      (click)="setActiveTab('overview')">
+      📋 Visión General
+    </button>
+    <button
+      [class.active]="currentTab === 'vulnerabilities'"
+      (click)="setActiveTab('vulnerabilities')">
+      ⚠️ Vulnerabilidades
+    </button>
+    <button
+      [class.active]="currentTab === 'analyzer'"
+      (click)="setActiveTab('analyzer')">
+      🔍 Analizador JWT
+    </button>
+    <button
+      [class.active]="currentTab === 'generator'"
+      (click)="setActiveTab('generator')">
+      🛡️ Generador Seguro
+    </button>
+  </div>
+
+  <!-- Overview Tab -->
+  <div class="tab-content" *ngIf="currentTab === 'overview'">
+    <div class="jwt-structure">
+      <h3>🔐 Estructura de JWT</h3>
+      <div class="jwt-parts">
+        <div class="jwt-part header">
+          <h4>Header</h4>
+          <pre>{{ jwtStructure.header }}</pre>
+          <p>Especifica el algoritmo de firma y tipo de token</p>
+        </div>
+        <div class="jwt-part payload">
+          <h4>Payload</h4>
+          <pre>{{ jwtStructure.payload }}</pre>
+          <p>Contiene las claims (declaraciones) del usuario</p>
+        </div>
+        <div class="jwt-part signature">
+          <h4>Signature</h4>
+          <pre>{{ jwtStructure.signature }}</pre>
+          <p>Garantiza que el token no ha sido alterado</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-principles">
+      <h3>🛡️ Principios de Seguridad JWT</h3>
+      <div class="principles-grid">
+        <div class="principle-card">
+          <div class="principle-icon">🔑</div>
+          <h4>Secretos Fuertes</h4>
+          <p>Usar secretos criptográficamente seguros de al menos 256 bits</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">⏰</div>
+          <h4>Expiración Corta</h4>
+          <p>Tokens con tiempo de vida limitado para reducir ventana de exposición</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">🔒</div>
+          <h4>Algoritmos Seguros</h4>
+          <p>Especificar explícitamente algoritmos permitidos, rechazar "none"</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">🔄</div>
+          <h4>Rotación Regular</h4>
+          <p>Rotar secretos y implementar refresh tokens para sesiones largas</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="angular-implementation">
+      <h3>🅰️ Implementación en Angular</h3>
+      <div class="implementation-example">
+        <pre class="code-block secure">
+// Servicio JWT Seguro en Angular
+&#64;Injectable(&#123;providedIn: 'root'&#125;)
+export class JWTService &#123;
+  private readonly SECRET_KEY = environment.jwtSecret;
+  private readonly ALLOWED_ALGORITHMS = ['HS256', 'HS384', 'HS512'];
+
+  validateToken(token: string): boolean &#123;
+    try &#123;
+      const decoded = jwt.verify(token, this.SECRET_KEY, &#123;
+        algorithms: this.ALLOWED_ALGORITHMS,
+        issuer: environment.issuer,
+        audience: environment.audience
+      &#125;);
+      return true;
+    &#125; catch (error) &#123;
+      return false;
+    &#125;
+  &#125;
+&#125;
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vulnerabilities Tab -->
+  <div class="tab-content" *ngIf="currentTab === 'vulnerabilities'">
+    <div class="vulnerability-selector">
+      <h3>⚠️ Vulnerabilidades Comunes</h3>
+      <div class="vulnerability-buttons">
+        <button
+          *ngFor="let vuln of vulnerabilityExamples | keyvalue"
+          [class.active]="selectedExample === vuln.key"
+          (click)="selectExample(vuln.key)"
+          class="vulnerability-btn">
+          {{ vuln.value.title }}
+        </button>
+      </div>
+    </div>
+
+    <div class="vulnerability-details" *ngIf="getCurrentExample()">
+      <div class="vuln-header">
+        <h3>{{ getCurrentExample().title }}</h3>
+        <p>{{ getCurrentExample().description }}</p>
+      </div>
+
+      <div class="code-comparison">
+        <div class="vulnerable-code">
+          <h4>❌ Código Vulnerable</h4>
+          <pre class="code-block vulnerable">{{ getCurrentExample().vulnerability }}</pre>
+        </div>
+
+        <div class="secure-code">
+          <h4>✅ Implementación Segura</h4>
+          <pre class="code-block secure">{{ getCurrentExample().secureImplementation }}</pre>
+        </div>
+      </div>
+
+      <div class="impact-prevention">
+        <div class="impact-section">
+          <h4>💥 Impacto Potencial</h4>
+          <ul>
+            <li *ngFor="let impact of getCurrentExample().impact">{{ impact }}</li>
+          </ul>
+        </div>
+
+        <div class="prevention-section">
+          <h4>🛡️ Medidas de Prevención</h4>
+          <ul>
+            <li *ngFor="let prevention of getCurrentExample().prevention">{{ prevention }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analyzer Tab -->
+  <div class="tab-content" *ngIf="currentTab === 'analyzer'">
+    <div class="jwt-analyzer">
+      <h3>🔍 Analizador de Tokens JWT</h3>
+      <p>Analiza y valida diferentes tipos de tokens para entender vulnerabilidades</p>
+
+      <div class="token-samples">
+        <h4>Muestras de Tokens</h4>
+        <div class="sample-buttons">
+          <button
+            (click)="analyzeToken('valid')"
+            class="sample-btn valid">
+            Token Válido
+          </button>
+          <button
+            (click)="analyzeToken('expired')"
+            class="sample-btn expired">
+            Token Expirado
+          </button>
+          <button
+            (click)="analyzeToken('malicious')"
+            class="sample-btn malicious">
+            Token Malicioso
+          </button>
+        </div>
+      </div>
+
+      <div class="analysis-results">
+        <div class="token-structure">
+          <h4>Estructura del Token</h4>
+          <div class="decoded-token">
+            <div class="token-section">
+              <strong>Header:</strong>
+              <pre>{{ analyzeToken('valid').header | json }}</pre>
+            </div>
+            <div class="token-section">
+              <strong>Payload:</strong>
+              <pre>{{ analyzeToken('valid').payload | json }}</pre>
+            </div>
+            <div class="token-section">
+              <strong>Signature:</strong>
+              <pre>{{ analyzeToken('valid').signature }}</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="validation-comparison">
+          <h4>Comparación de Validación</h4>
+          <div class="validation-methods">
+            <div class="validation-method insecure">
+              <h5>❌ Validación Insegura</h5>
+              <div class="validation-result">
+                <strong>Resultado:</strong>
+                <span class="result-text">{{ simulateValidation('malicious', false).reason }}</span>
+                <div class="warning" *ngIf="simulateValidation('malicious', false).warning">
+                  ⚠️ {{ simulateValidation('malicious', false).warning }}
+                </div>
+              </div>
+            </div>
+
+            <div class="validation-method secure">
+              <h5>✅ Validación Segura</h5>
+              <div class="validation-result">
+                <strong>Resultado:</strong>
+                <span class="result-text">{{ simulateValidation('malicious', true).reason }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="interactive-demo">
+        <h4>🎯 Demostración Interactiva</h4>
+        <div class="demo-explanation">
+          <p>Esta demostración muestra cómo diferentes métodos de validación manejan tokens maliciosos:</p>
+        </div>
+
+        <div class="attack-simulation">
+          <h5>Simulación de Ataque: Algorithm Confusion</h5>
+          <p>El token malicioso usa algoritmo "none" para evitar la verificación de firma.</p>
+
+          <div class="attack-steps">
+            <div class="step">
+              <strong>1.</strong> Atacante intercepta token válido
+            </div>
+            <div class="step">
+              <strong>2.</strong> Modifica header: "alg": "none"
+            </div>
+            <div class="step">
+              <strong>3.</strong> Elimina la firma (signature vacía)
+            </div>
+            <div class="step">
+              <strong>4.</strong> Modifica payload: "admin": true
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generator Tab -->
+  <div class="tab-content" *ngIf="currentTab === 'generator'">
+    <div class="secure-generator">
+      <h3>🛡️ Generador de Tokens Seguros</h3>
+      <p>Herramienta para generar tokens JWT siguiendo mejores prácticas de seguridad</p>
+
+      <div class="generator-controls">
+        <div class="generation-options">
+          <h4>Opciones de Generación</h4>
+          <div class="options-grid">
+            <div class="option-group">
+              <label>Algoritmo de Firma:</label>
+              <select>
+                <option value="HS256">HMAC SHA-256</option>
+                <option value="HS384">HMAC SHA-384</option>
+                <option value="HS512">HMAC SHA-512</option>
+              </select>
+            </div>
+
+            <div class="option-group">
+              <label>Tiempo de Expiración:</label>
+              <select>
+                <option value="15m">15 minutos</option>
+                <option value="1h">1 hora</option>
+                <option value="24h">24 horas</option>
+              </select>
+            </div>
+
+            <div class="option-group">
+              <label>Issuer (Emisor):</label>
+              <input type="text" value="myapp.com" readonly>
+            </div>
+
+            <div class="option-group">
+              <label>Audience (Audiencia):</label>
+              <input type="text" value="myapp-users" readonly>
+            </div>
+          </div>
+        </div>
+
+        <button (click)="generateSecureToken()" class="generate-btn">
+          🔐 Generar Token Seguro
+        </button>
+      </div>
+
+      <div class="generated-token">
+        <h4>Token Generado</h4>
+        <div class="token-display">
+          <pre>{{ generateSecureToken() }}</pre>
+        </div>
+
+        <div class="token-analysis">
+          <h5>Análisis de Seguridad</h5>
+          <div class="security-checks">
+            <div class="check passed">✅ Algoritmo seguro especificado</div>
+            <div class="check passed">✅ Tiempo de expiración apropiado</div>
+            <div class="check passed">✅ Claims de seguridad incluidas</div>
+            <div class="check passed">✅ Issuer y Audience configurados</div>
+            <div class="check passed">✅ Timestamp de emisión incluido</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="best-practices-summary">
+        <h4>📋 Resumen de Mejores Prácticas</h4>
+        <div class="practices-checklist">
+          <div class="practice-item">
+            <input type="checkbox" checked disabled>
+            <label>Usar secretos de al menos 256 bits</label>
+          </div>
+          <div class="practice-item">
+            <input type="checkbox" checked disabled>
+            <label>Especificar algoritmos permitidos explícitamente</label>
+          </div>
+          <div class="practice-item">
+            <input type="checkbox" checked disabled>
+            <label>Implementar tiempos de expiración apropiados</label>
+          </div>
+          <div class="practice-item">
+            <input type="checkbox" checked disabled>
+            <label>Validar issuer y audience en verificación</label>
+          </div>
+          <div class="practice-item">
+            <input type="checkbox" checked disabled>
+            <label>Almacenar secretos en variables de entorno</label>
+          </div>
+          <div class="practice-item">
+            <input type="checkbox" checked disabled>
+            <label>Implementar rotación regular de secretos</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

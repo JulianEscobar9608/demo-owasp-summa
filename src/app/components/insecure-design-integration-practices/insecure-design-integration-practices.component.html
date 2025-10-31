@@ -1,0 +1,366 @@
+<div class="content-card">
+  <div class="education-module">
+    <div class="module-header">
+      <h2>🔧 A04: .NET - Prácticas de Integración y DevSecOps</h2>
+      <p class="module-description">
+        Implementación de DevSecOps, testing de seguridad y pipelines CI/CD seguros para aplicaciones .NET
+      </p>
+    </div>
+
+    <div class="tabs-container">
+      <div class="tabs-nav">
+        <button 
+          *ngFor="let tab of tabs" 
+          [class]="'tab ' + (activeTab === tab.id ? 'active' : '')"
+          (click)="activeTab = tab.id">
+          <span class="tab-icon">{{ '{{' }}tab.icon{{ '}}' }}</span>
+          <span class="tab-label">{{ '{{' }}tab.label{{ '}}' }}</span>
+        </button>
+      </div>
+
+      <div class="tab-content">
+        <!-- DevSecOps Pipeline -->
+        <div *ngIf="activeTab === 'devsecops'" class="content-section">
+          <h3>🚀 Pipeline DevSecOps para .NET</h3>
+          
+          <div class="content-block">
+            <h4>📋 Azure DevOps Pipeline YAML</h4>
+            <pre><code class="language-yaml">trigger:
+- main
+- develop
+
+variables:
+  - name: BuildConfiguration
+    value: 'Release'
+  - name: DotNetVersion
+    value: '8.x'
+
+stages:
+- stage: SecurityScan
+  displayName: 'Security Scanning'
+  jobs:
+  - job: SAST
+    displayName: 'Static Analysis Security Testing'
+    steps:
+    - task: SonarCloudPrepare&#64;1
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: '$(SonarOrganization)'
+        scannerMode: 'MSBuild'
+        projectKey: '$(SonarProjectKey)'
+
+    - task: DotNetCoreCLI&#64;2
+      displayName: 'Restore packages'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI&#64;2
+      displayName: 'Build project'
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI&#64;2
+      displayName: 'Run tests with coverage'
+      inputs:
+        command: 'test'
+        projects: '**/*Tests.csproj'
+
+    - task: SonarCloudAnalyze&#64;1
+    - task: SonarCloudPublish&#64;1
+      inputs:
+        pollingTimeoutSec: '300'
+</code></pre>
+          </div>
+
+          <div class="content-block">
+            <h4>🛡️ Escaneo de Dependencias</h4>
+            <pre><code class="language-yaml">- job: DependencyCheck
+  displayName: 'Dependency Vulnerability Scan'
+  steps:
+  - task: dependency-check-build-task&#64;6
+    inputs:
+      projectName: '$(Build.DefinitionName)'
+      scanPath: '$(Build.SourcesDirectory)'
+
+  - task: PublishTestResults&#64;2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'dependency-check-junit.xml'
+</code></pre>
+          </div>
+        </div>
+
+        <!-- Security Testing -->
+        <div *ngIf="activeTab === 'security-testing'" class="content-section">
+          <h3>🧪 Testing de Seguridad</h3>
+          
+          <div class="content-block">
+            <h4>⚡ Tests de Integración Seguros</h4>
+            <pre><code class="language-csharp">// Tests/SecurityIntegrationTests.cs
+[TestClass]
+public class SecurityIntegrationTests : TestBase
+&#123;
+    [TestMethod]
+    public async Task AuthenticationEndpoint_ShouldRequireValidToken()
+    &#123;
+        // Arrange
+        var client = CreateClient();
+        
+        // Act
+        var response = await client.GetAsync("/api/secure-endpoint");
+        
+        // Assert
+        Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+    &#125;
+    
+    [TestMethod]
+    public async Task SqlInjection_ShouldBePrevented()
+    &#123;
+        // Arrange
+        var maliciousInput = "'; DROP TABLE Users; --";
+        
+        // Act & Assert
+        await Assert.ThrowsExceptionAsync&lt;ArgumentException&gt;(
+            () => _userService.GetUserAsync(maliciousInput));
+    &#125;
+&#125;
+</code></pre>
+          </div>
+
+          <div class="content-block">
+            <h4>🔒 Tests de Autorización</h4>
+            <pre><code class="language-csharp">// Tests/AuthorizationTests.cs
+[TestClass]
+public class AuthorizationTests
+&#123;
+    [TestMethod]
+    public async Task AdminEndpoint_ShouldRequireAdminRole()
+    &#123;
+        // Arrange
+        var client = CreateClientWithToken(StandardUserToken);
+        
+        // Act
+        var response = await client.GetAsync("/api/admin/users");
+        
+        // Assert
+        Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+    &#125;
+&#125;
+</code></pre>
+          </div>
+        </div>
+
+        <!-- Infrastructure as Code -->
+        <div *ngIf="activeTab === 'iac'" class="content-section">
+          <h3>🏗️ Infrastructure as Code Segura</h3>
+          
+          <div class="content-block">
+            <h4>📝 Bicep Template Seguro</h4>
+            <pre><code class="language-bicep">// main.bicep
+param location string = resourceGroup().location
+param appName string
+param keyVaultName string
+param managedIdentityName string
+
+// Managed Identity
+resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities&#64;2023-01-31' = &#123;
+  name: managedIdentityName
+  location: location
+&#125;
+
+// Key Vault con configuración segura
+resource keyVault 'Microsoft.KeyVault/vaults&#64;2022-07-01' = &#123;
+  name: keyVaultName
+  location: location
+  properties: &#123;
+    sku: &#123;
+      family: 'A'
+      name: 'standard'
+    &#125;
+    tenantId: subscription().tenantId
+    enabledForDeployment: false
+    enabledForTemplateDeployment: false
+    enabledForDiskEncryption: false
+    enablePurgeProtection: true
+    enableSoftDelete: true
+    softDeleteRetentionInDays: 90
+    networkAcls: &#123;
+      defaultAction: 'Deny'
+      bypass: 'AzureServices'
+    &#125;
+    accessPolicies: [
+      &#123;
+        tenantId: subscription().tenantId
+        objectId: managedIdentity.properties.principalId
+        permissions: &#123;
+          secrets: ['get', 'list']
+        &#125;
+      &#125;
+    ]
+  &#125;
+&#125;
+</code></pre>
+          </div>
+
+          <div class="content-block">
+            <h4>🌐 App Service Seguro</h4>
+            <pre><code class="language-bicep">// App Service con configuración segura
+resource appService 'Microsoft.Web/sites&#64;2022-09-01' = &#123;
+  name: appName
+  location: location
+  identity: &#123;
+    type: 'UserAssigned'
+    userAssignedIdentities: &#123;
+      '$&#123;managedIdentity.id&#125;': &#123;&#125;
+    &#125;
+  &#125;
+  properties: &#123;
+    httpsOnly: true
+    clientAffinityEnabled: false
+    siteConfig: &#123;
+      minTlsVersion: '1.2'
+      scmMinTlsVersion: '1.2'
+      ftpsState: 'Disabled'
+      http20Enabled: true
+      alwaysOn: true
+      appSettings: [
+        &#123;
+          name: 'AZURE_CLIENT_ID'
+          value: managedIdentity.properties.clientId
+        &#125;
+        &#123;
+          name: 'KeyVault__VaultUri'
+          value: keyVault.properties.vaultUri
+        &#125;
+      ]
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+          </div>
+        </div>
+
+        <!-- Compliance -->
+        <div *ngIf="activeTab === 'compliance'" class="content-section">
+          <h3>📋 Cumplimiento y Monitoreo</h3>
+          
+          <div class="content-block">
+            <h4>🔍 Application Insights Setup</h4>
+            <pre><code class="language-csharp">// Program.cs
+public class Program
+&#123;
+    public static void Main(string[] args)
+    &#123;
+        var builder = WebApplication.CreateBuilder(args);
+        
+        // Application Insights
+        builder.Services.AddApplicationInsightsTelemetry(options =&gt;
+        &#123;
+            options.ConnectionString = builder.Configuration
+                .GetConnectionString("ApplicationInsights");
+            options.EnableAdaptiveSampling = true;
+            options.EnableQuickPulseMetricStream = true;
+        &#125;);
+        
+        // Logging
+        builder.Logging.ClearProviders();
+        builder.Logging.AddApplicationInsights();
+        builder.Logging.AddConsole();
+        
+        var app = builder.Build();
+        
+        // Security Headers Middleware
+        app.UseSecurityHeaders();
+        
+        app.Run();
+    &#125;
+&#125;
+</code></pre>
+          </div>
+
+          <div class="content-block">
+            <h4>📊 Métricas de Seguridad Personalizadas</h4>
+            <pre><code class="language-csharp">// Services/SecurityMetricsService.cs
+public class SecurityMetricsService
+&#123;
+    private readonly TelemetryClient _telemetryClient;
+    
+    public SecurityMetricsService(TelemetryClient telemetryClient)
+    &#123;
+        _telemetryClient = telemetryClient;
+    &#125;
+    
+    public void TrackAuthenticationAttempt(bool success, string userAgent)
+    &#123;
+        _telemetryClient.TrackEvent("AuthenticationAttempt", new Dictionary&lt;string, string&gt;
+        &#123;
+            ["Success"] = success.ToString(),
+            ["UserAgent"] = userAgent,
+            ["Timestamp"] = DateTime.UtcNow.ToString("O")
+        &#125;);
+    &#125;
+    
+    public void TrackSuspiciousActivity(string activity, string details)
+    &#123;
+        _telemetryClient.TrackEvent("SuspiciousActivity", new Dictionary&lt;string, string&gt;
+        &#123;
+            ["Activity"] = activity,
+            ["Details"] = details,
+            ["Severity"] = "High"
+        &#125;);
+    &#125;
+&#125;
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="best-practices-summary">
+      <h3>📋 Resumen de Mejores Prácticas</h3>
+      <div class="practices-grid">
+        <div class="practice-item">
+          <h4>🔒 DevSecOps</h4>
+          <ul>
+            <li>Integración de security testing en CI/CD</li>
+            <li>Escaneo automático de dependencias</li>
+            <li>SAST/DAST en cada build</li>
+            <li>Gates de seguridad</li>
+          </ul>
+        </div>
+        
+        <div class="practice-item">
+          <h4>🧪 Testing</h4>
+          <ul>
+            <li>Tests de seguridad automatizados</li>
+            <li>Validación de autenticación/autorización</li>
+            <li>Pruebas de penetración regulares</li>
+            <li>Fuzzing de APIs</li>
+          </ul>
+        </div>
+        
+        <div class="practice-item">
+          <h4>🏗️ Infraestructura</h4>
+          <ul>
+            <li>Infrastructure as Code con Bicep</li>
+            <li>Configuración segura por defecto</li>
+            <li>Managed Identity para autenticación</li>
+            <li>Network security groups</li>
+          </ul>
+        </div>
+        
+        <div class="practice-item">
+          <h4>📊 Monitoreo</h4>
+          <ul>
+            <li>Application Insights configurado</li>
+            <li>Métricas de seguridad personalizadas</li>
+            <li>Alertas de actividad sospechosa</li>
+            <li>Compliance dashboards</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

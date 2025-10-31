@@ -1,0 +1,183 @@
+<div class="vulnerable-examples-container">
+  <div class="header-section">
+    <h2>Ejemplos de Vulnerabilidades de Acceso</h2>
+    <p>Análisis de casos reales y patrones comunes de vulnerabilidades de control de acceso</p>
+  </div>
+
+  <div class="vulnerability-selector">
+    <button
+      *ngFor="let vuln of vulnerabilities | keyvalue"
+      [class]="'vulnerability-btn ' + vuln.value.severity"
+      [class.active]="currentExample === vuln.key"
+      (click)="selectExample(vuln.key)">
+      <div class="vuln-title">{{ vuln.value.title }}</div>
+      <div class="vuln-severity">{{ vuln.value.severity.toUpperCase() }}</div>
+    </button>
+  </div>
+
+  <div class="vulnerability-details" *ngIf="getCurrentVulnerability()">
+    <div class="vuln-info">
+      <h3>{{ getCurrentVulnerability().title }}</h3>
+      <p class="description">{{ getCurrentVulnerability().description }}</p>
+
+      <div class="severity-badge" [style.background-color]="getSeverityColor(getCurrentVulnerability().severity)">
+        Severidad: {{ getCurrentVulnerability().severity.toUpperCase() }}
+      </div>
+    </div>
+
+    <div class="code-comparison">
+      <div class="code-toggle">
+        <button
+          [class.active]="showVulnerable"
+          (click)="showVulnerable = true">
+          Código Vulnerable
+        </button>
+        <button
+          [class.active]="!showVulnerable"
+          (click)="showVulnerable = false">
+          Código Seguro
+        </button>
+      </div>
+
+      <div class="code-container">
+        <pre class="code-block vulnerable" *ngIf="showVulnerable">
+          <code>{{ getCurrentVulnerability().vulnerableCode }}</code>
+        </pre>
+
+        <pre class="code-block secure" *ngIf="!showVulnerable">
+          <code>{{ getCurrentVulnerability().secureCode }}</code>
+        </pre>
+      </div>
+    </div>
+
+    <div class="exploitation-section">
+      <h4>🎯 Métodos de Explotación</h4>
+      <ul class="exploitation-list">
+        <li *ngFor="let method of getCurrentVulnerability().exploitation">
+          {{ method }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="impact-section">
+      <h4>💥 Impacto Potencial</h4>
+      <ul class="impact-list">
+        <li *ngFor="let impact of getCurrentVulnerability().impact">
+          {{ impact }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="interactive-demo" *ngIf="currentExample === 'idor'">
+      <h4>🔬 Demostración Interactiva - IDOR</h4>
+      <div class="demo-container">
+        <div class="demo-scenario">
+          <h5>Escenario: Sistema de Documentos</h5>
+          <p>Simula cómo un atacante puede acceder a documentos de otros usuarios</p>
+
+          <div class="demo-controls">
+            <div class="user-selection">
+              <label>Usuario actual:</label>
+              <select>
+                <option value="user1">Usuario Regular (ID: 1)</option>
+                <option value="admin">Administrador (ID: 2)</option>
+              </select>
+            </div>
+
+            <div class="document-access">
+              <label>Intentar acceder al documento ID:</label>
+              <input type="number" placeholder="Ingresa ID del documento">
+              <button (click)="simulateAttack('idor')" class="attack-btn">
+                Simular Acceso
+              </button>
+            </div>
+          </div>
+
+          <div class="demo-result">
+            <div class="result-box vulnerable">
+              <strong>⚠️ Resultado Vulnerable:</strong>
+              <p>Acceso permitido sin validación. Documento mostrado independientemente del propietario.</p>
+            </div>
+
+            <div class="result-box secure">
+              <strong>✅ Resultado Seguro:</strong>
+              <p>Acceso denegado. Solo se muestran documentos del usuario autenticado.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="interactive-demo" *ngIf="currentExample === 'function_access'">
+      <h4>🔬 Demostración Interactiva - Control de Funciones</h4>
+      <div class="demo-container">
+        <div class="demo-scenario">
+          <h5>Escenario: Panel Administrativo</h5>
+          <p>Muestra cómo las funciones administrativas deben estar protegidas</p>
+
+          <div class="admin-panel-demo">
+            <div class="user-role-selector">
+              <label>Rol del usuario:</label>
+              <select>
+                <option value="user">Usuario Regular</option>
+                <option value="moderator">Moderador</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+
+            <div class="function-buttons">
+              <button class="function-btn delete" (click)="simulateAttack('delete_user')">
+                🗑️ Eliminar Usuario
+              </button>
+              <button class="function-btn promote" (click)="simulateAttack('promote_user')">
+                ⬆️ Promover a Admin
+              </button>
+              <button class="function-btn audit" (click)="simulateAttack('view_audit')">
+                📊 Ver Logs de Auditoría
+              </button>
+            </div>
+
+            <div class="function-result">
+              <div class="access-status">
+                <strong>Estado de Acceso:</strong>
+                <span class="status-indicator denied">DENEGADO</span>
+              </div>
+              <p>Los permisos se validan tanto en frontend como backend</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prevention-tips">
+      <h4>🛡️ Estrategias de Prevención</h4>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <h5>Validación Doble</h5>
+          <p>Implementa validaciones tanto en frontend como backend</p>
+        </div>
+        <div class="tip-card">
+          <h5>Referencias Indirectas</h5>
+          <p>Usa tokens o UUIDs en lugar de IDs secuenciales</p>
+        </div>
+        <div class="tip-card">
+          <h5>Control Granular</h5>
+          <p>Implementa permisos específicos para cada función</p>
+        </div>
+        <div class="tip-card">
+          <h5>Auditoría Completa</h5>
+          <p>Registra todos los intentos de acceso para análisis</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="owasp-reference">
+      <h4>📚 Referencias OWASP</h4>
+      <ul>
+        <li><strong>A01:2021 – Broken Access Control:</strong> Control de acceso roto</li>
+        <li><strong>OWASP Testing Guide:</strong> Pruebas de autorización</li>
+        <li><strong>OWASP ASVS:</strong> Estándar de verificación de seguridad</li>
+      </ul>
+    </div>
+  </div>
+</div>

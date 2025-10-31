@@ -1,0 +1,427 @@
+/* Integration Practices Styles */
+.tutorial-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Header Section */
+.header-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.vulnerability-badge {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: white;
+}
+
+.vulnerability-badge.devsecops {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.badge-icon {
+  font-size: 3rem;
+  opacity: 0.9;
+  animation: pulse 2s infinite;
+}
+
+.badge-content h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.vulnerability-description {
+  margin: 10px 0 0 0;
+  font-size: 1.2rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+/* Tabs */
+.tabs-container {
+  background: white;
+  border-radius: 12px;
+  padding: 5px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  flex: 1;
+  padding: 15px 20px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  min-width: 200px;
+}
+
+.tab:hover {
+  background: #f8f9ff;
+  color: #4f46e5;
+  transform: translateY(-2px);
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.tab-icon {
+  font-size: 1.2rem;
+}
+
+/* Content */
+.content-section {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.tab-content {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.content-card h2 {
+  color: #2d3748;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.content-card h3 {
+  color: #4a5568;
+  font-size: 1.5rem;
+  margin: 30px 0 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.icon {
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+/* Testing Section */
+.testing-section {
+  margin-bottom: 40px;
+}
+
+.testing-tool-card {
+  background: #f8f9ff;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+}
+
+.testing-tool-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+  transform: translateY(-3px);
+}
+
+.testing-tool-card h4 {
+  color: #2d3748;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.testing-tool-card p {
+  color: #718096;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+/* DAST Section */
+.dast-section {
+  margin-bottom: 40px;
+}
+
+/* Dependency Scanning */
+.dependency-scanning {
+  margin-bottom: 40px;
+}
+
+/* Pipeline Security */
+.pipeline-security {
+  margin-bottom: 40px;
+}
+
+.pipeline-principle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.principle-card {
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 25px;
+  transition: all 0.3s ease;
+}
+
+.principle-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+  transform: translateY(-3px);
+}
+
+.principle-card h4 {
+  color: #2d3748;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.principle-card p {
+  color: #718096;
+  margin-bottom: 20px;
+}
+
+/* Environment Security */
+.environment-security {
+  margin-bottom: 40px;
+}
+
+/* Supply Chain Security */
+.supply-chain-security {
+  margin-bottom: 40px;
+}
+
+/* IaC Section */
+.iac-section {
+  margin-bottom: 40px;
+}
+
+.iac-tool-card {
+  background: #f8f9ff;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+}
+
+.iac-tool-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+  transform: translateY(-3px);
+}
+
+.iac-tool-card h4 {
+  color: #2d3748;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Policy as Code */
+.policy-as-code {
+  margin-bottom: 40px;
+}
+
+/* Monitoring Section */
+.monitoring-approach {
+  margin-bottom: 40px;
+}
+
+.monitoring-pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.pillar-card {
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 25px;
+  transition: all 0.3s ease;
+}
+
+.pillar-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+  transform: translateY(-3px);
+}
+
+.pillar-card h4 {
+  color: #2d3748;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pillar-card p {
+  color: #718096;
+  margin-bottom: 20px;
+}
+
+/* Alerting System */
+.alerting-system {
+  margin-bottom: 40px;
+}
+
+/* Code Examples */
+.code-example {
+  background: #1a202c;
+  border-radius: 8px;
+  margin: 20px 0;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.code-example h5 {
+  background: #2d3748;
+  color: #e2e8f0;
+  margin: 0;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-bottom: 1px solid #4a5568;
+}
+
+.code-example pre {
+  margin: 0;
+  padding: 20px;
+  overflow-x: auto;
+  background: #1a202c;
+}
+
+.code-example code {
+  color: #e2e8f0;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tutorial-container {
+    padding: 15px;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .tab {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .pipeline-principle-grid,
+  .monitoring-pillar-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .badge-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .vulnerability-description {
+    font-size: 1rem;
+  }
+
+  .code-example {
+    margin: 15px -15px;
+    border-radius: 0;
+  }
+
+  .tab-content {
+    padding: 20px;
+    margin: 0 -15px;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .vulnerability-badge {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .badge-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .content-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .content-card h3 {
+    font-size: 1.2rem;
+  }
+}
