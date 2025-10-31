@@ -1,6 +1,8 @@
-# EducationApp
+# EducationApp — Curso Angular + .NET
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
+Este repositorio contiene una aplicación educativa: un curso práctico sobre seguridad (OWASP Top 10) enfocado en arquitecturas full-stack que usan Angular en el frontend y .NET/C# en el backend.
+
+Generado originalmente con [Angular CLI](https://github.com/angular/angular-cli) versión 19.1.8.
 
 ## Development server
 
@@ -11,6 +13,11 @@ ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+About this course:
+
+- The lessons combine Angular (client) examples and .NET/C# (server) best practices.
+- Each module contains interactive demos, vulnerable examples and secure refactors.
 
 ## Code scaffolding
 

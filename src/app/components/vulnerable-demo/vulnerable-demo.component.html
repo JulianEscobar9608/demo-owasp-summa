@@ -9,7 +9,7 @@
 
   <!-- Ejemplos de código vulnerable -->
   <div class="examples-section">
-    <h3>📋 Patrones de Código Vulnerable - Frontend Angular</h3>
+  <h3>📋 Patrones de Código Vulnerable - Frontend (Angular)</h3>
     <div class="examples-grid">
       <div class="example-card" *ngFor="let example of vulnerableExamples">
         <h4>{{ example.title }}</h4>
@@ -128,7 +128,7 @@
   <!-- Sanitización bypasseada (educativo) -->
   <div class="bypass-section">
     <h3>🔓 Bypass de Sanitización (EDUCATIVO - NUNCA HAGAS ESTO)</h3>
-    <p>Angular sanitiza automáticamente el contenido, pero si se bypassa intencionalmente:</p>
+  <p>Angular (cliente) y .NET (servidor) trabajan juntos para mitigar XSS; sin embargo, si la sanitización se bypassa intencionalmente:</p>
     <div class="bypass-demo" *ngIf="userInput">
       <div class="bypass-warning">
         <span>⚠️ Contenido con sanitización bypasseada:</span>
@@ -139,7 +139,7 @@
 
   <div class="next-steps">
     <h4>🛡️ En la siguiente sección:</h4>
-    <p>Aprenderemos cómo Angular nos protege automáticamente contra estos ataques y
-       las mejores prácticas para mantener nuestras aplicaciones seguras.</p>
+   <p>Aprenderemos cómo Angular (cliente) y .NET (servidor) trabajan para proteger contra estos ataques y
+     las mejores prácticas para mantener aplicaciones full-stack seguras.</p>
   </div>
 </div>
