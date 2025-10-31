@@ -1,6 +1,6 @@
 <div class="integration-best-practices">
   <h2>Integración Segura Angular + .NET Core</h2>
-  
+
   <div class="integration-banner">
     <h3>🔗 Mejores Prácticas de Integración</h3>
     <p>Aprende a integrar de forma segura tu frontend Angular con backend .NET Core, implementando patrones de seguridad robustos.</p>
@@ -8,26 +8,26 @@
 
   <div class="tabs-container">
     <div class="tabs">
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'patterns'"
         (click)="selectTab('patterns')">
         🔄 Patrones de Integración
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'flow'"
         (click)="selectTab('flow')">
         📊 Flujo de Seguridad
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'communication'"
         (click)="selectTab('communication')">
         🌐 Comunicación Segura
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'best-practices'"
         (click)="selectTab('best-practices')">
         ✅ Mejores Prácticas
@@ -40,13 +40,13 @@
     <div class="patterns-section">
       <h3>Patrones de Autenticación e Integración</h3>
       <p class="section-intro">Explora diferentes patrones para integrar autenticación entre Angular y .NET Core, cada uno con sus ventajas y consideraciones específicas.</p>
-      
+
       <div class="pattern-demo">
         <div class="pattern-selector">
           <h4>🎯 Patrones Disponibles</h4>
           <div class="pattern-list">
-            <div 
-              class="pattern-item" 
+            <div
+              class="pattern-item"
               *ngFor="let pattern of integrationPatterns"
               [class.active]="selectedPattern?.name === pattern.name"
               (click)="selectPattern(pattern)"
@@ -59,24 +59,24 @@
             </div>
           </div>
         </div>
-        
+
         <div class="pattern-details" *ngIf="selectedPattern">
           <div class="pattern-header">
             <h4>{{ selectedPattern.name }}</h4>
           </div>
-          
+
           <div class="pattern-description">
             <p>{{ selectedPattern.description }}</p>
             <div class="scenario-info">
               <strong>📋 Escenario ideal:</strong> {{ selectedPattern.scenario }}
             </div>
           </div>
-          
+
           <div class="implementation-tabs">
             <div class="impl-tab active">Frontend (Angular)</div>
             <div class="impl-tab">Backend (.NET Core)</div>
           </div>
-          
+
           <div class="implementation-content">
             <div class="frontend-impl">
               <h5>🟦 Implementación Frontend:</h5>
@@ -84,7 +84,7 @@
                 <pre>{{ selectedPattern.frontend }}</pre>
               </div>
             </div>
-            
+
             <div class="backend-impl">
               <h5>🟧 Implementación Backend:</h5>
               <div class="code-block">
@@ -92,7 +92,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="pattern-analysis">
             <div class="benefits-section">
               <h5>✅ Beneficios:</h5>
@@ -100,7 +100,7 @@
                 <li *ngFor="let benefit of selectedPattern.benefits">{{ benefit }}</li>
               </ul>
             </div>
-            
+
             <div class="considerations-section">
               <h5>⚠️ Consideraciones:</h5>
               <ul class="considerations-list">
@@ -111,7 +111,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="pattern-comparison">
       <h4>📊 Comparación de Patrones</h4>
       <div class="comparison-table">
@@ -122,7 +122,7 @@
           <div class="header-cell">Movilidad</div>
           <div class="header-cell">Mejor Para</div>
         </div>
-        
+
         <div class="table-row">
           <div class="cell">JWT + HttpOnly Cookies</div>
           <div class="cell security-high">Alta</div>
@@ -130,7 +130,7 @@
           <div class="cell mobility-low">Baja</div>
           <div class="cell">Aplicaciones Web</div>
         </div>
-        
+
         <div class="table-row">
           <div class="cell">Authorization Header</div>
           <div class="cell security-medium">Media</div>
@@ -138,7 +138,7 @@
           <div class="cell mobility-high">Alta</div>
           <div class="cell">SPAs + Móviles</div>
         </div>
-        
+
         <div class="table-row">
           <div class="cell">OAuth 2.0 + PKCE</div>
           <div class="cell security-high">Alta</div>
@@ -155,13 +155,13 @@
     <div class="flow-section">
       <h3>Flujo de Seguridad Completo</h3>
       <p class="section-intro">Comprende cada paso del flujo de autenticación y autorización entre Angular y .NET Core.</p>
-      
+
       <div class="flow-demo">
         <div class="flow-steps">
           <h4>🔄 Pasos del Flujo</h4>
           <div class="steps-list">
-            <div 
-              class="step-item" 
+            <div
+              class="step-item"
               *ngFor="let step of securityFlow"
               [class.active]="selectedStep?.step === step.step"
               (click)="selectStep(step)"
@@ -176,28 +176,28 @@
             </div>
           </div>
         </div>
-        
+
         <div class="step-details" *ngIf="selectedStep">
           <div class="step-header">
             <div class="step-badge">Paso {{ selectedStep.step }}</div>
             <h4>{{ selectedStep.title }}</h4>
           </div>
-          
+
           <div class="step-description">
             <p>{{ selectedStep.description }}</p>
           </div>
-          
+
           <div class="step-implementation">
             <div class="frontend-step">
               <h5>🟦 Frontend:</h5>
               <p>{{ selectedStep.frontend }}</p>
             </div>
-            
+
             <div class="backend-step">
               <h5>🟧 Backend:</h5>
               <p>{{ selectedStep.backend }}</p>
             </div>
-            
+
             <div class="security-step">
               <h5>🛡️ Verificación de Seguridad:</h5>
               <p>{{ selectedStep.securityCheck }}</p>
@@ -206,7 +206,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="flow-diagram">
       <h4>📈 Diagrama de Flujo Visual</h4>
       <div class="visual-flow">
@@ -219,9 +219,9 @@
             <span>HTTP Interceptor</span>
           </div>
         </div>
-        
+
         <div class="flow-arrow">⬅️➡️</div>
-        
+
         <div class="flow-stage">
           <div class="stage-icon">🌐</div>
           <h5>HTTPS Channel</h5>
@@ -231,9 +231,9 @@
             <span>CORS Headers</span>
           </div>
         </div>
-        
+
         <div class="flow-arrow">⬅️➡️</div>
-        
+
         <div class="flow-stage">
           <div class="stage-icon">⚙️</div>
           <h5>.NET Core API</h5>
@@ -244,7 +244,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="security-layers">
         <h5>🔒 Capas de Seguridad</h5>
         <div class="layers-grid">
@@ -253,19 +253,19 @@
             <h6>Transport Security</h6>
             <p>HTTPS, TLS, Certificate Pinning</p>
           </div>
-          
+
           <div class="security-layer">
             <span class="layer-number">2</span>
             <h6>Authentication</h6>
             <p>JWT, OAuth, Multi-factor</p>
           </div>
-          
+
           <div class="security-layer">
             <span class="layer-number">3</span>
             <h6>Authorization</h6>
             <p>RBAC, Claims, Resource-based</p>
           </div>
-          
+
           <div class="security-layer">
             <span class="layer-number">4</span>
             <h6>Data Protection</h6>
@@ -281,7 +281,7 @@
     <div class="communication-section">
       <h3>Comunicación Segura</h3>
       <p class="section-intro">Implementa comunicación segura entre tu frontend Angular y backend .NET Core.</p>
-      
+
       <div class="communication-practices">
         <div class="practice-category">
           <h4>🔐 HTTPS y Certificados</h4>
@@ -299,7 +299,7 @@ app.UseHsts();
                 </code>
               </div>
             </div>
-            
+
             <div class="practice-item">
               <h5>Validación de Certificados</h5>
               <p>Implementa certificate pinning para prevenir ataques man-in-the-middle.</p>
@@ -312,7 +312,7 @@ app.UseHsts();
             </div>
           </div>
         </div>
-        
+
         <div class="practice-category">
           <h4>🌍 Configuración CORS</h4>
           <div class="practice-details">
@@ -331,7 +331,7 @@ services.AddCors(options => &#123;<br>
                 </code>
               </div>
             </div>
-            
+
             <div class="practice-item">
               <h5>Headers Permitidos</h5>
               <p>Restringe los headers permitidos a los estrictamente necesarios.</p>
@@ -343,7 +343,7 @@ services.AddCors(options => &#123;<br>
             </div>
           </div>
         </div>
-        
+
         <div class="practice-category">
           <h4>🛡️ Headers de Seguridad</h4>
           <div class="practice-details">
@@ -364,7 +364,7 @@ app.Use(async (context, next) => &#123;<br>
           </div>
         </div>
       </div>
-      
+
       <div class="communication-checklist">
         <h4>📋 Lista de Verificación de Comunicación</h4>
         <div class="checklist-items">
@@ -372,27 +372,27 @@ app.Use(async (context, next) => &#123;<br>
             <input type="checkbox" id="https" checked disabled>
             <label for="https">✅ HTTPS obligatorio en todos los ambientes</label>
           </div>
-          
+
           <div class="checklist-item">
             <input type="checkbox" id="cors" checked disabled>
             <label for="cors">✅ CORS configurado restrictivamente</label>
           </div>
-          
+
           <div class="checklist-item">
             <input type="checkbox" id="headers" checked disabled>
             <label for="headers">✅ Headers de seguridad implementados</label>
           </div>
-          
+
           <div class="checklist-item">
             <input type="checkbox" id="certs" checked disabled>
             <label for="certs">✅ Certificados SSL válidos y actualizados</label>
           </div>
-          
+
           <div class="checklist-item">
             <input type="checkbox" id="hsts" checked disabled>
             <label for="hsts">✅ HSTS habilitado con preload</label>
           </div>
-          
+
           <div class="checklist-item">
             <input type="checkbox" id="csp" checked disabled>
             <label for="csp">✅ Content Security Policy configurada</label>
@@ -407,7 +407,7 @@ app.Use(async (context, next) => &#123;<br>
     <div class="best-practices-section">
       <h3>Mejores Prácticas de Integración</h3>
       <p class="section-intro">Implementa estas prácticas esenciales para mantener una integración segura y robusta.</p>
-      
+
       <div class="practices-categories">
         <div class="category-section">
           <h4>🌐 Comunicación</h4>
@@ -429,7 +429,7 @@ app.Use(async (context, next) => &#123;<br>
             </div>
           </div>
         </div>
-        
+
         <div class="category-section">
           <h4>🔗 CORS</h4>
           <div class="practices-grid">
@@ -450,7 +450,7 @@ app.Use(async (context, next) => &#123;<br>
             </div>
           </div>
         </div>
-        
+
         <div class="category-section">
           <h4>🎫 Tokens</h4>
           <div class="practices-grid">
@@ -471,7 +471,7 @@ app.Use(async (context, next) => &#123;<br>
             </div>
           </div>
         </div>
-        
+
         <div class="category-section">
           <h4>✅ Validación</h4>
           <div class="practices-grid">
@@ -494,7 +494,7 @@ app.Use(async (context, next) => &#123;<br>
         </div>
       </div>
     </div>
-    
+
     <div class="integration-summary">
       <h4>📝 Resumen de Integración Segura</h4>
       <div class="summary-grid">
@@ -507,7 +507,7 @@ app.Use(async (context, next) => &#123;<br>
             <li>Validación en cada request</li>
           </ul>
         </div>
-        
+
         <div class="summary-item">
           <h5>🛡️ Autorización</h5>
           <ul>
@@ -517,7 +517,7 @@ app.Use(async (context, next) => &#123;<br>
             <li>Validación de ownership</li>
           </ul>
         </div>
-        
+
         <div class="summary-item">
           <h5>🌐 Comunicación</h5>
           <ul>
@@ -527,7 +527,7 @@ app.Use(async (context, next) => &#123;<br>
             <li>Validación de certificados</li>
           </ul>
         </div>
-        
+
         <div class="summary-item">
           <h5>🔍 Monitoreo</h5>
           <ul>

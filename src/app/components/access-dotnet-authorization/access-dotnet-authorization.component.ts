@@ -49,12 +49,12 @@ export class AccessDotnetAuthorizationComponent {
 // Program.cs - Configuración RBAC
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => 
+    options.AddPolicy("AdminOnly", policy =>
         policy.RequireRole("Administrator"));
-    
+
     options.AddPolicy("ModeratorOrAdmin", policy =>
         policy.RequireRole("Administrator", "Moderator"));
-    
+
     options.AddPolicy("RequireManagerRole", policy =>
         policy.RequireRole("Manager")
                .RequireClaim("Department", "Sales", "Marketing"));
@@ -73,7 +73,7 @@ public class UsersController : ControllerBase
         var users = await _userService.GetAllUsersAsync();
         return Ok(users);
     }
-    
+
     [HttpPost]
     [Authorize(Policy = "AdminOnly")] // Solo Administradores
     public async Task<IActionResult> CreateUser([FromBody] CreateUserDto userDto)
@@ -81,7 +81,7 @@ public class UsersController : ControllerBase
         var result = await _userService.CreateUserAsync(userDto);
         return Ok(result);
     }
-    
+
     [HttpDelete("{id}")]
     [Authorize(Roles = "Administrator")] // Solo Admin puede eliminar
     public async Task<IActionResult> DeleteUser(string id)
@@ -89,7 +89,7 @@ public class UsersController : ControllerBase
         await _userService.DeleteUserAsync(id);
         return NoContent();
     }
-    
+
     [HttpGet("profile")]
     [Authorize] // Cualquier usuario autenticado
     public IActionResult GetProfile()
@@ -110,23 +110,23 @@ public class AuthService
             UserName = model.Email,
             Email = model.Email
         };
-        
+
         var result = await _userManager.CreateAsync(user, model.Password);
-        
+
         if (result.Succeeded)
         {
             // Asignar rol por defecto
             await _userManager.AddToRoleAsync(user, "User");
-            
+
             // Roles específicos según criterios de negocio
             if (model.Email.EndsWith("@company.com"))
             {
                 await _userManager.AddToRoleAsync(user, "Employee");
             }
-            
+
             return await GenerateJwtTokenAsync(user);
         }
-        
+
         throw new InvalidOperationException("User creation failed");
     }
 }`,
@@ -164,17 +164,17 @@ builder.Services.AddAuthorization(options =>
     // Política para documentos - solo el autor o admin pueden editar
     options.AddPolicy("CanEditDocument", policy =>
         policy.Requirements.Add(new DocumentEditRequirement()));
-    
+
     // Política para usuarios activos con email verificado
     options.AddPolicy("ActiveVerifiedUser", policy =>
         policy.RequireClaim("email_verified", "true")
               .RequireClaim("account_status", "active")
               .RequireAuthenticatedUser());
-    
+
     // Política basada en edad mínima
     options.AddPolicy("MinimumAge18", policy =>
         policy.Requirements.Add(new MinimumAgeRequirement(18)));
-    
+
     // Política para acceso en horario laboral
     options.AddPolicy("BusinessHoursOnly", policy =>
         policy.Requirements.Add(new BusinessHoursRequirement()));
@@ -191,28 +191,28 @@ public class DocumentEditHandler : AuthorizationHandler<DocumentEditRequirement>
 {
     private readonly IDocumentService _documentService;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    
-    public DocumentEditHandler(IDocumentService documentService, 
+
+    public DocumentEditHandler(IDocumentService documentService,
                               IHttpContextAccessor httpContextAccessor)
     {
         _documentService = documentService;
         _httpContextAccessor = httpContextAccessor;
     }
-    
+
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         DocumentEditRequirement requirement)
     {
         var user = context.User;
         var httpContext = _httpContextAccessor.HttpContext;
-        
+
         // Verificar si es administrador
         if (user.IsInRole("Administrator"))
         {
             context.Succeed(requirement);
             return;
         }
-        
+
         // Obtener ID del documento de la ruta
         var routeData = httpContext.Request.RouteValues;
         if (routeData.TryGetValue("documentId", out var documentIdObj) &&
@@ -220,17 +220,17 @@ public class DocumentEditHandler : AuthorizationHandler<DocumentEditRequirement>
         {
             var document = await _documentService.GetDocumentAsync(documentId);
             var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            
+
             // Verificar si el usuario es el autor del documento
             if (document?.AuthorId == userId)
             {
                 context.Succeed(requirement);
                 return;
             }
-            
+
             // Verificar si el usuario pertenece al mismo departamento
             var userDepartment = user.FindFirst("Department")?.Value;
-            if (!string.IsNullOrEmpty(userDepartment) && 
+            if (!string.IsNullOrEmpty(userDepartment) &&
                 document?.Department == userDepartment &&
                 user.IsInRole("Manager"))
             {
@@ -238,7 +238,7 @@ public class DocumentEditHandler : AuthorizationHandler<DocumentEditRequirement>
                 return;
             }
         }
-        
+
         // Si llegamos aquí, no está autorizado
         context.Fail();
     }
@@ -248,7 +248,7 @@ public class DocumentEditHandler : AuthorizationHandler<DocumentEditRequirement>
 public class MinimumAgeRequirement : IAuthorizationRequirement
 {
     public int MinimumAge { get; }
-    
+
     public MinimumAgeRequirement(int minimumAge)
     {
         MinimumAge = minimumAge;
@@ -262,20 +262,20 @@ public class MinimumAgeHandler : AuthorizationHandler<MinimumAgeRequirement>
         MinimumAgeRequirement requirement)
     {
         var dateOfBirthClaim = context.User.FindFirst("date_of_birth");
-        
+
         if (dateOfBirthClaim != null &&
             DateTime.TryParse(dateOfBirthClaim.Value, out var dateOfBirth))
         {
             var age = DateTime.Today.Year - dateOfBirth.Year;
             if (dateOfBirth.Date > DateTime.Today.AddYears(-age))
                 age--;
-                
+
             if (age >= requirement.MinimumAge)
             {
                 context.Succeed(requirement);
             }
         }
-        
+
         return Task.CompletedTask;
     }
 }
@@ -287,13 +287,13 @@ public class DocumentsController : ControllerBase
 {
     [HttpPut("{documentId}")]
     [Authorize(Policy = "CanEditDocument")]
-    public async Task<IActionResult> UpdateDocument(int documentId, 
+    public async Task<IActionResult> UpdateDocument(int documentId,
                                                    [FromBody] UpdateDocumentDto dto)
     {
         await _documentService.UpdateDocumentAsync(documentId, dto);
         return Ok();
     }
-    
+
     [HttpGet("restricted")]
     [Authorize(Policy = "MinimumAge18")]
     public IActionResult GetRestrictedContent()
@@ -334,7 +334,7 @@ public class ResourceAuthorizationController : ControllerBase
 {
     private readonly IAuthorizationService _authorizationService;
     private readonly IProjectService _projectService;
-    
+
     public ResourceAuthorizationController(
         IAuthorizationService authorizationService,
         IProjectService projectService)
@@ -342,7 +342,7 @@ public class ResourceAuthorizationController : ControllerBase
         _authorizationService = authorizationService;
         _projectService = projectService;
     }
-    
+
     [HttpGet("projects/{projectId}")]
     [Authorize]
     public async Task<IActionResult> GetProject(int projectId)
@@ -350,37 +350,37 @@ public class ResourceAuthorizationController : ControllerBase
         var project = await _projectService.GetProjectAsync(projectId);
         if (project == null)
             return NotFound();
-        
+
         // Verificar autorización para este proyecto específico
         var authResult = await _authorizationService.AuthorizeAsync(
             User, project, "CanViewProject");
-        
+
         if (!authResult.Succeeded)
             return Forbid();
-        
+
         return Ok(project);
     }
-    
+
     [HttpPut("projects/{projectId}")]
     [Authorize]
-    public async Task<IActionResult> UpdateProject(int projectId, 
+    public async Task<IActionResult> UpdateProject(int projectId,
                                                   [FromBody] UpdateProjectDto dto)
     {
         var project = await _projectService.GetProjectAsync(projectId);
         if (project == null)
             return NotFound();
-        
+
         // Verificar autorización para editar este proyecto específico
         var authResult = await _authorizationService.AuthorizeAsync(
             User, project, "CanEditProject");
-        
+
         if (!authResult.Succeeded)
             return Forbid();
-        
+
         await _projectService.UpdateProjectAsync(project, dto);
         return Ok();
     }
-    
+
     [HttpDelete("projects/{projectId}")]
     [Authorize]
     public async Task<IActionResult> DeleteProject(int projectId)
@@ -388,14 +388,14 @@ public class ResourceAuthorizationController : ControllerBase
         var project = await _projectService.GetProjectAsync(projectId);
         if (project == null)
             return NotFound();
-        
+
         // Solo el owner o admin pueden eliminar
         var authResult = await _authorizationService.AuthorizeAsync(
             User, project, "CanDeleteProject");
-        
+
         if (!authResult.Succeeded)
             return Forbid();
-        
+
         await _projectService.DeleteProjectAsync(projectId);
         return NoContent();
     }
@@ -406,7 +406,7 @@ public class ProjectViewRequirement : IAuthorizationRequirement { }
 public class ProjectEditRequirement : IAuthorizationRequirement { }
 public class ProjectDeleteRequirement : IAuthorizationRequirement { }
 
-public class ProjectAuthorizationHandler : 
+public class ProjectAuthorizationHandler :
     AuthorizationHandler<ProjectViewRequirement, Project>,
     AuthorizationHandler<ProjectEditRequirement, Project>,
     AuthorizationHandler<ProjectDeleteRequirement, Project>
@@ -417,89 +417,89 @@ public class ProjectAuthorizationHandler :
         Project project)
     {
         var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
+
         // El owner puede ver siempre
         if (project.OwnerId == userId)
         {
             context.Succeed(requirement);
             return Task.CompletedTask;
         }
-        
+
         // Los miembros del equipo pueden ver
         if (project.TeamMembers.Any(tm => tm.UserId == userId))
         {
             context.Succeed(requirement);
             return Task.CompletedTask;
         }
-        
+
         // Los administradores pueden ver todo
         if (context.User.IsInRole("Administrator"))
         {
             context.Succeed(requirement);
             return Task.CompletedTask;
         }
-        
+
         // Proyectos públicos son visibles para todos los autenticados
         if (project.IsPublic)
         {
             context.Succeed(requirement);
         }
-        
+
         return Task.CompletedTask;
     }
-    
+
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         ProjectEditRequirement requirement,
         Project project)
     {
         var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
+
         // Solo el owner puede editar
         if (project.OwnerId == userId)
         {
             context.Succeed(requirement);
             return Task.CompletedTask;
         }
-        
+
         // Los administradores pueden editar todo
         if (context.User.IsInRole("Administrator"))
         {
             context.Succeed(requirement);
             return Task.CompletedTask;
         }
-        
+
         // Los managers del departamento pueden editar proyectos del departamento
         var userDepartment = context.User.FindFirst("Department")?.Value;
-        if (context.User.IsInRole("Manager") && 
+        if (context.User.IsInRole("Manager") &&
             project.Department == userDepartment)
         {
             context.Succeed(requirement);
         }
-        
+
         return Task.CompletedTask;
     }
-    
+
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         ProjectDeleteRequirement requirement,
         Project project)
     {
         var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
+
         // Solo el owner puede eliminar
         if (project.OwnerId == userId)
         {
             context.Succeed(requirement);
             return Task.CompletedTask;
         }
-        
+
         // Los administradores pueden eliminar todo
         if (context.User.IsInRole("Administrator"))
         {
             context.Succeed(requirement);
         }
-        
+
         return Task.CompletedTask;
     }
 }
@@ -509,10 +509,10 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("CanViewProject", policy =>
         policy.Requirements.Add(new ProjectViewRequirement()));
-    
+
     options.AddPolicy("CanEditProject", policy =>
         policy.Requirements.Add(new ProjectEditRequirement()));
-    
+
     options.AddPolicy("CanDeleteProject", policy =>
         policy.Requirements.Add(new ProjectDeleteRequirement()));
 });

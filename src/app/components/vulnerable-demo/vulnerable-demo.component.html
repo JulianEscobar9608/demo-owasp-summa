@@ -1,9 +1,9 @@
 <div class="vulnerable-demo">
   <h2>⚠️ Demostración de Código Vulnerable</h2>
-  
+
   <div class="warning-banner">
     <h3>🚨 ADVERTENCIA EDUCATIVA</h3>
-    <p>Los ejemplos siguientes muestran código intencionalmente vulnerable para fines educativos. 
+    <p>Los ejemplos siguientes muestran código intencionalmente vulnerable para fines educativos.
        <strong>NUNCA uses estos patrones en aplicaciones reales.</strong></p>
   </div>
 
@@ -52,16 +52,16 @@
   <!-- Demostración interactiva -->
   <div class="interactive-section">
     <h3>🧪 Prueba Interactiva (Entorno Controlado)</h3>
-    
+
     <div class="input-section">
       <label for="userInput">Ingresa contenido (prueba con los payloads de ejemplo):</label>
-      <textarea 
+      <textarea
         id="userInput"
-        [(ngModel)]="userInput" 
+        [(ngModel)]="userInput"
         placeholder="Escribe HTML o JavaScript aquí..."
         rows="3">
       </textarea>
-      
+
       <button (click)="demonstrateVulnerability()" class="btn btn-danger">
         ⚡ Ejecutar (Vulnerable)
       </button>
@@ -70,8 +70,8 @@
     <div class="payloads-section">
       <h4>💣 Payloads XSS Comunes (Haz clic para probar)</h4>
       <div class="payload-buttons">
-        <button 
-          *ngFor="let payload of xssPayloads" 
+        <button
+          *ngFor="let payload of xssPayloads"
           (click)="useExamplePayload(payload)"
           class="btn btn-outline payload-btn">
           {{ payload.substring(0, 30) }}{{ payload.length > 30 ? '...' : '' }}
@@ -90,7 +90,7 @@
           </div>
           <pre class="payload-code"><code>{{ payload.payload }}</code></pre>
           <p class="payload-description">{{ payload.description }}</p>
-          <button 
+          <button
             (click)="useExamplePayload(payload.payload)"
             class="btn btn-outline payload-test-btn">
             🧪 Probar este Payload
@@ -139,7 +139,7 @@
 
   <div class="next-steps">
     <h4>🛡️ En la siguiente sección:</h4>
-    <p>Aprenderemos cómo Angular nos protege automáticamente contra estos ataques y 
+    <p>Aprenderemos cómo Angular nos protege automáticamente contra estos ataques y
        las mejores prácticas para mantener nuestras aplicaciones seguras.</p>
   </div>
 </div>

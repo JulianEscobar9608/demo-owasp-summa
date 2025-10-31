@@ -481,13 +481,13 @@
   .dotnet-payload-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .payload-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .dotnet-section,
   .config-section,
   .dotnet-payloads {

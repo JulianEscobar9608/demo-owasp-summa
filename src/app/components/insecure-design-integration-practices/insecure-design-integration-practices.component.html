@@ -9,8 +9,8 @@
 
     <div class="tabs-container">
       <div class="tabs-nav">
-        <button 
-          *ngFor="let tab of tabs" 
+        <button
+          *ngFor="let tab of tabs"
           [class]="'tab ' + (activeTab === tab.id ? 'active' : '')"
           (click)="activeTab = tab.id">
           <span class="tab-icon">{{ '{{' }}tab.icon{{ '}}' }}</span>
@@ -22,7 +22,7 @@
         <!-- DevSecOps Pipeline -->
         <div *ngIf="activeTab === 'devsecops'" class="content-section">
           <h3>🚀 Pipeline DevSecOps para .NET</h3>
-          
+
           <div class="content-block">
             <h4>📋 Azure DevOps Pipeline YAML</h4>
             <pre><code class="language-yaml">trigger:
@@ -95,7 +95,7 @@ stages:
         <!-- Security Testing -->
         <div *ngIf="activeTab === 'security-testing'" class="content-section">
           <h3>🧪 Testing de Seguridad</h3>
-          
+
           <div class="content-block">
             <h4>⚡ Tests de Integración Seguros</h4>
             <pre><code class="language-csharp">// Tests/SecurityIntegrationTests.cs
@@ -107,20 +107,20 @@ public class SecurityIntegrationTests : TestBase
     &#123;
         // Arrange
         var client = CreateClient();
-        
+
         // Act
         var response = await client.GetAsync("/api/secure-endpoint");
-        
+
         // Assert
         Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
     &#125;
-    
+
     [TestMethod]
     public async Task SqlInjection_ShouldBePrevented()
     &#123;
         // Arrange
         var maliciousInput = "'; DROP TABLE Users; --";
-        
+
         // Act & Assert
         await Assert.ThrowsExceptionAsync&lt;ArgumentException&gt;(
             () => _userService.GetUserAsync(maliciousInput));
@@ -140,10 +140,10 @@ public class AuthorizationTests
     &#123;
         // Arrange
         var client = CreateClientWithToken(StandardUserToken);
-        
+
         // Act
         var response = await client.GetAsync("/api/admin/users");
-        
+
         // Assert
         Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
     &#125;
@@ -155,7 +155,7 @@ public class AuthorizationTests
         <!-- Infrastructure as Code -->
         <div *ngIf="activeTab === 'iac'" class="content-section">
           <h3>🏗️ Infrastructure as Code Segura</h3>
-          
+
           <div class="content-block">
             <h4>📝 Bicep Template Seguro</h4>
             <pre><code class="language-bicep">// main.bicep
@@ -245,7 +245,7 @@ resource appService 'Microsoft.Web/sites&#64;2022-09-01' = &#123;
         <!-- Compliance -->
         <div *ngIf="activeTab === 'compliance'" class="content-section">
           <h3>📋 Cumplimiento y Monitoreo</h3>
-          
+
           <div class="content-block">
             <h4>🔍 Application Insights Setup</h4>
             <pre><code class="language-csharp">// Program.cs
@@ -254,7 +254,7 @@ public class Program
     public static void Main(string[] args)
     &#123;
         var builder = WebApplication.CreateBuilder(args);
-        
+
         // Application Insights
         builder.Services.AddApplicationInsightsTelemetry(options =&gt;
         &#123;
@@ -263,17 +263,17 @@ public class Program
             options.EnableAdaptiveSampling = true;
             options.EnableQuickPulseMetricStream = true;
         &#125;);
-        
+
         // Logging
         builder.Logging.ClearProviders();
         builder.Logging.AddApplicationInsights();
         builder.Logging.AddConsole();
-        
+
         var app = builder.Build();
-        
+
         // Security Headers Middleware
         app.UseSecurityHeaders();
-        
+
         app.Run();
     &#125;
 &#125;
@@ -286,12 +286,12 @@ public class Program
 public class SecurityMetricsService
 &#123;
     private readonly TelemetryClient _telemetryClient;
-    
+
     public SecurityMetricsService(TelemetryClient telemetryClient)
     &#123;
         _telemetryClient = telemetryClient;
     &#125;
-    
+
     public void TrackAuthenticationAttempt(bool success, string userAgent)
     &#123;
         _telemetryClient.TrackEvent("AuthenticationAttempt", new Dictionary&lt;string, string&gt;
@@ -301,7 +301,7 @@ public class SecurityMetricsService
             ["Timestamp"] = DateTime.UtcNow.ToString("O")
         &#125;);
     &#125;
-    
+
     public void TrackSuspiciousActivity(string activity, string details)
     &#123;
         _telemetryClient.TrackEvent("SuspiciousActivity", new Dictionary&lt;string, string&gt;
@@ -330,7 +330,7 @@ public class SecurityMetricsService
             <li>Gates de seguridad</li>
           </ul>
         </div>
-        
+
         <div class="practice-item">
           <h4>🧪 Testing</h4>
           <ul>
@@ -340,7 +340,7 @@ public class SecurityMetricsService
             <li>Fuzzing de APIs</li>
           </ul>
         </div>
-        
+
         <div class="practice-item">
           <h4>🏗️ Infraestructura</h4>
           <ul>
@@ -350,7 +350,7 @@ public class SecurityMetricsService
             <li>Network security groups</li>
           </ul>
         </div>
-        
+
         <div class="practice-item">
           <h4>📊 Monitoreo</h4>
           <ul>

@@ -4,7 +4,7 @@
   <div class="intro-section">
     <div class="auth-banner">
       <h3>🏛️ Estrategias de Control de Acceso</h3>
-      <p>La autorización en .NET va más allá de simples roles. Desde RBAC básico hasta 
+      <p>La autorización en .NET va más allá de simples roles. Desde RBAC básico hasta
          autorización basada en recursos y políticas complejas, cada estrategia tiene su lugar ideal.</p>
     </div>
   </div>
@@ -12,26 +12,26 @@
   <!-- Navigation Tabs -->
   <div class="tabs-container">
     <div class="tabs">
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'rbac'"
         (click)="setActiveTab('rbac')">
         RBAC
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'policy'"
         (click)="setActiveTab('policy')">
         Policy-Based
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'resource'"
         (click)="setActiveTab('resource')">
         Resource-Based
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'demo'"
         (click)="setActiveTab('demo')">
         Demo Interactivo
@@ -44,18 +44,18 @@
     <div class="strategy-overview">
       <div class="strategy-header">
         <h3>{{ getStrategyById(activeTab).title }}</h3>
-        <div class="complexity-badge" 
+        <div class="complexity-badge"
              [style.background-color]="getComplexityColor(getStrategyById(activeTab).complexity)">
           {{ getStrategyById(activeTab).complexity | titlecase }}
         </div>
       </div>
-      
+
       <p class="strategy-description">{{ getStrategyById(activeTab).description }}</p>
-      
+
       <div class="use-case-note">
         <strong>Caso de Uso Ideal:</strong> {{ getStrategyById(activeTab).useCase }}
       </div>
-      
+
       <div class="implementation-note">
         <strong>Implementación:</strong> {{ getStrategyById(activeTab).implementation }}
       </div>
@@ -69,7 +69,7 @@
           <li *ngFor="let pro of getStrategyById(activeTab).pros">{{ pro }}</li>
         </ul>
       </div>
-      
+
       <div class="cons-card">
         <h4>❌ Limitaciones</h4>
         <ul>
@@ -110,7 +110,7 @@
             <li>Roles temporales con expiración</li>
           </ul>
         </div>
-        
+
         <div class="consideration-card">
           <h5>🔒 Validación en Backend</h5>
           <ul>
@@ -120,7 +120,7 @@
             <li>Rate limiting por usuario</li>
           </ul>
         </div>
-        
+
         <div class="consideration-card">
           <h5>⚡ Rendimiento</h5>
           <ul>
@@ -145,7 +145,7 @@
             <li>Documentación clara de cada política</li>
           </ul>
         </div>
-        
+
         <div class="consideration-card">
           <h5>🧪 Testing</h5>
           <ul>
@@ -155,7 +155,7 @@
             <li>Verificación de claims requeridos</li>
           </ul>
         </div>
-        
+
         <div class="consideration-card">
           <h5>📊 Monitoreo</h5>
           <ul>
@@ -180,7 +180,7 @@
             <li>Batch authorization checks</li>
           </ul>
         </div>
-        
+
         <div class="consideration-card">
           <h5>🔐 Seguridad</h5>
           <ul>
@@ -190,7 +190,7 @@
             <li>Rate limiting por recurso</li>
           </ul>
         </div>
-        
+
         <div class="consideration-card">
           <h5>📈 Escalabilidad</h5>
           <ul>
@@ -207,12 +207,12 @@
   <!-- Demo Interactive Tab -->
   <div class="tab-content" *ngIf="activeTab === 'demo'">
     <h3>🎮 Simulador de Autorización</h3>
-    
+
     <div class="demo-section">
       <div class="scenario-selector">
         <h4>Selecciona un Escenario</h4>
         <div class="scenario-buttons">
-          <button 
+          <button
             class="scenario-btn"
             [class.active]="selectedScenario === demo.scenario"
             (click)="setSelectedScenario(demo.scenario)"
@@ -221,17 +221,17 @@
           </button>
         </div>
       </div>
-      
+
       <div class="demo-result">
         <div class="demo-header">
           <h4>Resultado de Autorización</h4>
-          <div class="authorization-status" 
+          <div class="authorization-status"
                [class.authorized]="getCurrentDemo().authorized"
                [class.denied]="!getCurrentDemo().authorized">
             {{ getCurrentDemo().authorized ? '✅ AUTORIZADO' : '❌ DENEGADO' }}
           </div>
         </div>
-        
+
         <div class="demo-details">
           <div class="detail-item">
             <strong>Usuario:</strong> {{ getCurrentDemo().user }}
@@ -246,7 +246,7 @@
             <strong>Razón:</strong> {{ getCurrentDemo().reason }}
           </div>
         </div>
-        
+
         <div class="code-implementation">
           <h5>📝 Implementación en Código</h5>
           <div class="code-block">
@@ -260,7 +260,7 @@
   <!-- Comparison Section -->
   <div class="comparison-section">
     <h3>📊 Comparación de Estrategias</h3>
-    
+
     <div class="comparison-table">
       <div class="table-header">
         <div class="header-cell">Aspecto</div>
@@ -268,35 +268,35 @@
         <div class="header-cell">Policy-Based</div>
         <div class="header-cell">Resource-Based</div>
       </div>
-      
+
       <div class="table-row">
         <div class="cell"><strong>Complejidad</strong></div>
         <div class="cell complexity-simple">Baja</div>
         <div class="cell complexity-moderate">Media</div>
         <div class="cell complexity-complex">Alta</div>
       </div>
-      
+
       <div class="table-row">
         <div class="cell"><strong>Flexibilidad</strong></div>
         <div class="cell">⭐⭐</div>
         <div class="cell">⭐⭐⭐⭐</div>
         <div class="cell">⭐⭐⭐⭐⭐</div>
       </div>
-      
+
       <div class="table-row">
         <div class="cell"><strong>Performance</strong></div>
         <div class="cell">⭐⭐⭐⭐⭐</div>
         <div class="cell">⭐⭐⭐</div>
         <div class="cell">⭐⭐</div>
       </div>
-      
+
       <div class="table-row">
         <div class="cell"><strong>Mantenibilidad</strong></div>
         <div class="cell">⭐⭐⭐⭐</div>
         <div class="cell">⭐⭐⭐</div>
         <div class="cell">⭐⭐</div>
       </div>
-      
+
       <div class="table-row">
         <div class="cell"><strong>Escalabilidad</strong></div>
         <div class="cell">⭐⭐⭐</div>
@@ -309,7 +309,7 @@
   <!-- Integration Best Practices -->
   <div class="integration-practices">
     <h3>🔗 Integración con Angular</h3>
-    
+
     <div class="integration-flow">
       <div class="flow-step">
         <div class="step-number">1</div>
@@ -318,9 +318,9 @@
           <p>Incluir roles y claims necesarios en JWT</p>
         </div>
       </div>
-      
+
       <div class="flow-arrow">→</div>
-      
+
       <div class="flow-step">
         <div class="step-number">2</div>
         <div class="step-content">
@@ -328,9 +328,9 @@
           <p>Validación básica en frontend para UX</p>
         </div>
       </div>
-      
+
       <div class="flow-arrow">→</div>
-      
+
       <div class="flow-step">
         <div class="step-number">3</div>
         <div class="step-content">
@@ -338,9 +338,9 @@
           <p>Autorización definitiva en cada endpoint</p>
         </div>
       </div>
-      
+
       <div class="flow-arrow">→</div>
-      
+
       <div class="flow-step">
         <div class="step-number">4</div>
         <div class="step-content">
@@ -349,10 +349,10 @@
         </div>
       </div>
     </div>
-    
+
     <div class="integration-note">
       <h5>⚠️ Importante</h5>
-      <p>La autorización en Angular es solo para experiencia de usuario. 
+      <p>La autorización en Angular es solo para experiencia de usuario.
          La seguridad real siempre debe implementarse en el backend .NET.</p>
     </div>
   </div>

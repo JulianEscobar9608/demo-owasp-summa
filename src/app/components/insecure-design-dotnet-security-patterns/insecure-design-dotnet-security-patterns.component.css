@@ -444,11 +444,11 @@
   .principle-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .context-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .secret-management {
     grid-template-columns: 1fr;
   }

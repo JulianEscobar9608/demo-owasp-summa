@@ -200,7 +200,7 @@
 
   background: linear-gradient(135deg,   position: absolute;  box-shadow: 0 4px 15px rgba(0,0,0,0.1);  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 
-    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(255, 255, 255, 0.95) 0%,
 
     rgba(248, 250, 252, 0.9) 50%,  top: 0;
 
@@ -216,7 +216,7 @@
 
   padding: 1rem;  height: 1px;
 
-  box-shadow: 
+  box-shadow:
 
     0 25px 50px -12px rgba(0, 0, 0, 0.25),  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
 
@@ -252,7 +252,7 @@
 
   background: linear-gradient(90deg,   background-clip: text;
 
-    rgba(59, 130, 246, 0.4), 
+    rgba(59, 130, 246, 0.4),
 
     rgba(139, 92, 246, 0.4),   -webkit-background-clip: text;
 
@@ -346,7 +346,7 @@
 
   left: 0;
 
-  right: 0;  box-shadow: 
+  right: 0;  box-shadow:
 
   bottom: 0;
 
@@ -412,7 +412,7 @@
 
   background: linear-gradient(135deg,   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    rgba(221, 0, 49, 0.12), 
+    rgba(221, 0, 49, 0.12),
 
     rgba(255, 107, 107, 0.08)  position: relative;  color: #6c757d;  color: #6c757d;
 
@@ -448,7 +448,7 @@
 
   background: linear-gradient(135deg, }  transition: all 0.3s ease;  transition: all 0.3s ease;
 
-    rgba(81, 43, 212, 0.12), 
+    rgba(81, 43, 212, 0.12),
 
     rgba(139, 92, 246, 0.08)
 
@@ -466,7 +466,7 @@
 
 }
 
-  box-shadow: 
+  box-shadow:
 
 .tab:nth-child(3):hover {
 
@@ -484,7 +484,7 @@
 
   background: linear-gradient(135deg, }
 
-    rgba(59, 130, 246, 0.12), 
+    rgba(59, 130, 246, 0.12),
 
     rgba(6, 182, 212, 0.08)  background: #e9ecef;  background: #e9ecef;
 
@@ -520,7 +520,7 @@
 
   background: linear-gradient(135deg,   box-shadow: .tab.active {.tab.active {
 
-    rgba(16, 185, 129, 0.12), 
+    rgba(16, 185, 129, 0.12),
 
     rgba(52, 211, 153, 0.08)    0 25px 50px -12px rgba(0, 0, 0, 0.25),
 
@@ -580,7 +580,7 @@
 
   transform: scale(1.05);/* Grid de Protecciones */
 
-  box-shadow: 
+  box-shadow:
 
     0 20px 40px -8px rgba(221, 0, 49, 0.6),.protection-grid {  position: absolute;  position: absolute;
 
@@ -632,9 +632,9 @@
 
   transform: scale(1.05);  padding: 1.5rem;}}
 
-  box-shadow: 
+  box-shadow:
 
-    0 20px 40px -8px rgba(59, 130, 246, 0.6),  box-shadow: 
+    0 20px 40px -8px rgba(59, 130, 246, 0.6),  box-shadow:
 
     0 10px 20px -5px rgba(59, 130, 246, 0.4),
 
@@ -732,7 +732,7 @@
 
   border-radius: 20px;}
 
-  box-shadow: 
+  box-shadow:
 
     0 25px 50px -12px rgba(0, 0, 0, 0.25),  display: grid;
 
@@ -856,7 +856,7 @@
 
   transform: translateY(-4px);/* Bloques de Código Mejorados */.protection-card:hover {.result-card.safe {
 
-  box-shadow: 
+  box-shadow:
 
     0 25px 50px -12px rgba(0, 0, 0, 0.25),.code-block {
 
@@ -1048,7 +1048,7 @@
 
   }  border: 1px solid rgba(255, 255, 255, 0.2);  font-size: 0.85em;
 
-  
+
 
   .protection-grid {  border-radius: 16px;
 
@@ -1058,7 +1058,7 @@
 
 }
 
-  box-shadow: 
+  box-shadow:
 
 @media (max-width: 480px) {
 
@@ -1072,7 +1072,7 @@
 
   }  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);  color: #155724;
 
-  
+
 
   .tabs-container::before {}
 
@@ -1290,7 +1290,7 @@
 
   margin: 2rem 0;  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 
-  box-shadow: 
+  box-shadow:
 
     0 20px 25px -5px rgba(0, 0, 0, 0.1),.layer-badge {  gap: 20px;
 
@@ -1474,7 +1474,7 @@
 
   border: 1px solid rgba(255, 255, 255, 0.2);  margin: 30px 0;  font-weight: bold;
 
-  box-shadow: 
+  box-shadow:
 
     0 20px 25px -5px rgba(0, 0, 0, 0.1),  box-shadow: 0 4px 12px rgba(0,0,0,0.1);}
 
@@ -1962,7 +1962,7 @@
 
   }  font-family: 'Consolas', monospace;  display: grid;
 
-  
+
 
   .tabs {  font-size: 0.9em;  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 
@@ -1982,7 +1982,7 @@
 
   }.principle-card {
 
-  
+
 
   .tab:last-child {.results-grid {  background: linear-gradient(135deg, #007bff, #0056b3);
 
@@ -1990,7 +1990,7 @@
 
   }  display: grid;  color: white;
 
-  
+
 
   .protection-grid {  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  padding: 20px;
 
@@ -1998,7 +1998,7 @@
 
   }  gap: 20px;  border-radius: 8px;
 
-  
+
 
   .layer-content {}  text-align: center;
 
@@ -2006,7 +2006,7 @@
 
   }}
 
-  
+
 
   .practices-grid {.result-card {
 
@@ -2014,7 +2014,7 @@
 
   }  background: white;.principle-card h4 {
 
-  
+
 
   .results-grid {  border: 2px solid #e9ecef;  margin-top: 0;
 
@@ -2022,7 +2022,7 @@
 
   }  border-radius: 8px;  margin-bottom: 15px;
 
-  
+
 
   .step-card {  padding: 20px;  font-size: 1.1em;
 
@@ -2082,7 +2082,7 @@
 
 .protection-card:hover .code-block {  color: #495057;  margin: 30px 0;
 
-  box-shadow: 
+  box-shadow:
 
     inset 0 2px 4px rgba(0, 0, 0, 0.3),}  border: 2px solid #6f42c1;
 
@@ -2094,7 +2094,7 @@
 
 .result-card:hover .code-example {.code-example {
 
-  box-shadow: 
+  box-shadow:
 
     inset 0 2px 4px rgba(0, 0, 0, 0.3),  background: #2d3748;.dotnet-section h2 {
 

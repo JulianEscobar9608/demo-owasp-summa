@@ -58,7 +58,7 @@ export class AccessDotnetAuthenticationComponent {
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     // Políticas de contraseña
     options.Password.RequireDigit = true;
@@ -66,12 +66,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireUppercase = true;
     options.Password.RequireLowercase = true;
-    
+
     // Configuración de bloqueo
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
-    
+
     // Configuración de usuarios
     options.User.RequireUniqueEmail = true;
     options.SignIn.RequireConfirmedEmail = true;
@@ -144,7 +144,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
             ClockSkew = TimeSpan.Zero
         };
-        
+
         options.Events = new JwtBearerEvents
         {
             OnTokenValidated = context =>
@@ -162,7 +162,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 // Log de intentos fallidos
                 var logger = context.HttpContext.RequestServices
                     .GetRequiredService<ILogger<Program>>();
-                logger.LogWarning("JWT Authentication failed: {Error}", 
+                logger.LogWarning("JWT Authentication failed: {Error}",
                     context.Exception.Message);
                 return Task.CompletedTask;
             }
@@ -176,20 +176,20 @@ public class AuthController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly UserManager<IdentityUser> _userManager;
-    
+
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
         var user = await _userManager.FindByEmailAsync(model.Email);
-        
+
         if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
             var token = GenerateJwtToken(user);
             var refreshToken = GenerateRefreshToken();
-            
+
             // Guardar refresh token de forma segura
             await SaveRefreshTokenAsync(user.Id, refreshToken);
-            
+
             return Ok(new
             {
                 token = token,
@@ -197,17 +197,17 @@ public class AuthController : ControllerBase
                 expiration = DateTime.UtcNow.AddHours(1)
             });
         }
-        
+
         return Unauthorized();
     }
-    
+
     private string GenerateJwtToken(IdentityUser user)
     {
         var securityKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-        var credentials = new SigningCredentials(securityKey, 
+        var credentials = new SigningCredentials(securityKey,
             SecurityAlgorithms.HmacSha256);
-            
+
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id),
@@ -215,7 +215,7 @@ public class AuthController : ControllerBase
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(ClaimTypes.NameIdentifier, user.Id)
         };
-        
+
         var token = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
@@ -223,7 +223,7 @@ public class AuthController : ControllerBase
             expires: DateTime.UtcNow.AddHours(1),
             signingCredentials: credentials
         );
-        
+
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }`,
@@ -280,22 +280,22 @@ builder.Services.AddAuthentication(options =>
 {
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-    
+
     // Scopes adicionales
     options.Scope.Add("email");
     options.Scope.Add("profile");
-    
+
     // Eventos para manejo personalizado
     options.Events.OnCreatingTicket = async context =>
     {
         // Obtener información adicional del usuario
         var email = context.Principal.FindFirst(ClaimTypes.Email)?.Value;
         var name = context.Principal.FindFirst(ClaimTypes.Name)?.Value;
-        
+
         // Crear o actualizar usuario en base de datos local
         await CreateOrUpdateUserAsync(email, name);
     };
-    
+
     options.Events.OnRemoteFailure = context =>
     {
         // Manejo de errores de autenticación
@@ -318,14 +318,14 @@ builder.Services.AddAuthentication()
 [HttpGet]
 public IActionResult ExternalLogin(string provider, string returnUrl = null)
 {
-    var redirectUrl = Url.Action(nameof(ExternalLoginCallback), 
+    var redirectUrl = Url.Action(nameof(ExternalLoginCallback),
         "Account", new { returnUrl });
-    var properties = new AuthenticationProperties 
-    { 
+    var properties = new AuthenticationProperties
+    {
         RedirectUri = redirectUrl,
         Items = { { "scheme", provider } }
     };
-    
+
     return Challenge(properties, provider);
 }
 
@@ -334,16 +334,16 @@ public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null)
 {
     var result = await HttpContext.AuthenticateAsync(
         CookieAuthenticationDefaults.AuthenticationScheme);
-    
+
     if (!result.Succeeded)
     {
         return RedirectToAction(nameof(Login), new { error = "external_error" });
     }
-    
+
     // Verificar si el usuario ya existe
     var email = result.Principal.FindFirst(ClaimTypes.Email)?.Value;
     var user = await _userManager.FindByEmailAsync(email);
-    
+
     if (user == null)
     {
         // Crear nuevo usuario
@@ -353,12 +353,12 @@ public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null)
             Email = email,
             EmailConfirmed = true
         };
-        
+
         await _userManager.CreateAsync(user);
     }
-    
+
     await _signInManager.SignInAsync(user, isPersistent: false);
-    
+
     return LocalRedirect(returnUrl ?? "/");
 }`,
       vulnerabilities: [
@@ -396,19 +396,19 @@ builder.Services.AddDataProtection()
 public class SecureController : ControllerBase
 {
     private readonly IDataProtector _protector;
-    
+
     public SecureController(IDataProtectionProvider provider)
     {
         _protector = provider.CreateProtector("MySecureApp.SecureController");
     }
-    
+
     [HttpPost("encrypt")]
     public IActionResult EncryptData([FromBody] string sensitiveData)
     {
         var encryptedData = _protector.Protect(sensitiveData);
         return Ok(new { encrypted = encryptedData });
     }
-    
+
     [HttpPost("decrypt")]
     public IActionResult DecryptData([FromBody] string encryptedData)
     {
@@ -450,10 +450,10 @@ public async Task<IActionResult> CreateUser([FromBody] CreateUserModel model)
     {
         return BadRequest(ModelState);
     }
-    
+
     // Procesar creación de usuario
     var result = await _userService.CreateUserAsync(model);
-    
+
     return Ok(result);
 }
 
@@ -470,15 +470,15 @@ public class AntiforgeryMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IAntiforgery _antiforgery;
-    
+
     public async Task InvokeAsync(HttpContext context)
     {
-        if (context.Request.Method == "POST" && 
+        if (context.Request.Method == "POST" &&
             context.Request.Path.StartsWithSegments("/api"))
         {
             await _antiforgery.ValidateRequestAsync(context);
         }
-        
+
         await _next(context);
     }
 }`,
@@ -493,25 +493,25 @@ public class AntiforgeryMiddleware
 app.Use(async (context, next) =>
 {
     // HSTS
-    context.Response.Headers.Add("Strict-Transport-Security", 
+    context.Response.Headers.Add("Strict-Transport-Security",
         "max-age=31536000; includeSubDomains; preload");
-    
+
     // Content Security Policy
     context.Response.Headers.Add("Content-Security-Policy",
         "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
-    
+
     // XSS Protection
     context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-    
+
     // Content Type Options
     context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-    
+
     // Frame Options
     context.Response.Headers.Add("X-Frame-Options", "DENY");
-    
+
     // Referrer Policy
     context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
-    
+
     await next();
 });
 

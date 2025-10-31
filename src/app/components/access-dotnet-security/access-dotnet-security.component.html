@@ -1,6 +1,6 @@
 <div class="dotnet-security">
   <h2>Prácticas de Seguridad en .NET Core</h2>
-  
+
   <div class="security-banner">
     <h3>🛡️ Implementación de Seguridad Robusta</h3>
     <p>Descubre las mejores prácticas para proteger tu aplicación .NET Core contra vulnerabilidades comunes y ataques sofisticados.</p>
@@ -8,32 +8,32 @@
 
   <div class="tabs-container">
     <div class="tabs">
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'data-protection'"
         (click)="selectTab('data-protection')">
         🔒 Protección de Datos
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'input-validation'"
         (click)="selectTab('input-validation')">
         ✅ Validación de Entrada
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'communication'"
         (click)="selectTab('communication')">
         🌐 Comunicación Segura
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'vulnerabilities'"
         (click)="selectTab('vulnerabilities')">
         🚨 Vulnerabilidades Comunes
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.active]="activeTab === 'tools'"
         (click)="selectTab('tools')">
         🛠️ Herramientas de Seguridad
@@ -46,7 +46,7 @@
     <div class="practices-section">
       <h3>Protección de Datos Sensibles</h3>
       <p class="section-intro">La protección de datos es fundamental para mantener la confidencialidad e integridad de la información sensible en aplicaciones .NET Core.</p>
-      
+
       <div class="practices-grid">
         <div class="practice-card" *ngFor="let practice of getFilteredPractices('data-protection')">
           <div class="practice-header">
@@ -55,14 +55,14 @@
               {{ practice.importance.toUpperCase() }}
             </span>
           </div>
-          
+
           <p class="practice-description">{{ practice.description }}</p>
-          
+
           <div class="implementation-section">
             <h5>📋 Implementación:</h5>
             <p>{{ practice.implementation }}</p>
           </div>
-          
+
           <div class="code-section">
             <h5>💻 Ejemplo de Código:</h5>
             <div class="code-block">
@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="additional-practices">
       <h4>Prácticas Adicionales de Protección de Datos</h4>
       <div class="practices-list">
@@ -83,7 +83,7 @@
             <p>Utiliza Always Encrypted o Transparent Data Encryption para proteger datos en reposo.</p>
           </div>
         </div>
-        
+
         <div class="practice-item">
           <div class="practice-icon">🗝️</div>
           <div class="practice-content">
@@ -91,7 +91,7 @@
             <p>Usa Azure Key Vault o User Secrets para manejar configuraciones sensibles.</p>
           </div>
         </div>
-        
+
         <div class="practice-item">
           <div class="practice-icon">🔒</div>
           <div class="practice-content">
@@ -108,7 +108,7 @@
     <div class="validation-section">
       <h3>Validación Robusta de Entradas</h3>
       <p class="section-intro">La validación de entrada es la primera línea de defensa contra ataques de inyección y manipulación de datos.</p>
-      
+
       <div class="practices-grid">
         <div class="practice-card" *ngFor="let practice of getFilteredPractices('input-validation')">
           <div class="practice-header">
@@ -117,14 +117,14 @@
               {{ practice.importance.toUpperCase() }}
             </span>
           </div>
-          
+
           <p class="practice-description">{{ practice.description }}</p>
-          
+
           <div class="implementation-section">
             <h5>📋 Implementación:</h5>
             <p>{{ practice.implementation }}</p>
           </div>
-          
+
           <div class="code-section">
             <h5>💻 Ejemplo de Código:</h5>
             <div class="code-block">
@@ -134,7 +134,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="validation-types">
       <h4>Tipos de Validación Esenciales</h4>
       <div class="validation-grid">
@@ -145,7 +145,7 @@
             <code>[Range(1, 100)]<br>public int Age &lcub; get; set; &rcub;</code>
           </div>
         </div>
-        
+
         <div class="validation-type">
           <h5>📏 Validación de Longitud</h5>
           <p>Controla la longitud mínima y máxima de strings para prevenir buffer overflow.</p>
@@ -153,7 +153,7 @@
             <code>[StringLength(50, MinimumLength = 2)]<br>public string Name &lcub; get; set; &rcub;</code>
           </div>
         </div>
-        
+
         <div class="validation-type">
           <h5>🎨 Validación de Formato</h5>
           <p>Usa expresiones regulares para validar formatos específicos como emails, teléfonos.</p>
@@ -161,7 +161,7 @@
             <code>[EmailAddress]<br>[Phone]<br>[RegularExpression("pattern")]</code>
           </div>
         </div>
-        
+
         <div class="validation-type">
           <h5>🚫 Validación Personalizada</h5>
           <p>Implementa lógica de validación específica del negocio.</p>
@@ -178,7 +178,7 @@
     <div class="communication-section">
       <h3>Comunicación Segura</h3>
       <p class="section-intro">Asegurar todas las comunicaciones es esencial para proteger datos en tránsito y mantener la confianza del usuario.</p>
-      
+
       <div class="practices-grid">
         <div class="practice-card" *ngFor="let practice of getFilteredPractices('communication')">
           <div class="practice-header">
@@ -187,14 +187,14 @@
               {{ practice.importance.toUpperCase() }}
             </span>
           </div>
-          
+
           <p class="practice-description">{{ practice.description }}</p>
-          
+
           <div class="implementation-section">
             <h5>📋 Implementación:</h5>
             <p>{{ practice.implementation }}</p>
           </div>
-          
+
           <div class="code-section">
             <h5>💻 Ejemplo de Código:</h5>
             <div class="code-block">
@@ -204,7 +204,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="security-headers">
       <h4>Headers de Seguridad Esenciales</h4>
       <div class="headers-grid">
@@ -215,7 +215,7 @@
             <code>Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'</code>
           </div>
         </div>
-        
+
         <div class="header-card">
           <h5>🔒 Strict Transport Security</h5>
           <p>Fuerza conexiones HTTPS y previene downgrade attacks.</p>
@@ -223,7 +223,7 @@
             <code>Strict-Transport-Security: max-age=31536000; includeSubDomains</code>
           </div>
         </div>
-        
+
         <div class="header-card">
           <h5>🚫 X-Frame-Options</h5>
           <p>Previene clickjacking bloqueando el embedding en frames.</p>
@@ -231,7 +231,7 @@
             <code>X-Frame-Options: DENY</code>
           </div>
         </div>
-        
+
         <div class="header-card">
           <h5>🔍 X-Content-Type-Options</h5>
           <p>Previene MIME type sniffing attacks.</p>
@@ -248,13 +248,13 @@
     <div class="vulnerabilities-section">
       <h3>Vulnerabilidades Comunes en .NET</h3>
       <p class="section-intro">Conocer las vulnerabilidades más comunes te ayudará a prevenirlas proactivamente en tu aplicación.</p>
-      
+
       <div class="vulnerability-demo">
         <div class="vulnerability-selector">
           <h4>🎯 Escenarios de Vulnerabilidad</h4>
           <div class="scenario-list">
-            <div 
-              class="scenario-item" 
+            <div
+              class="scenario-item"
               *ngFor="let vuln of vulnerabilityExamples"
               [class.active]="selectedVulnerability?.scenario === vuln.scenario"
               (click)="selectVulnerability(vuln)">
@@ -268,7 +268,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="vulnerability-details" *ngIf="selectedVulnerability">
           <div class="details-header">
             <h4>{{ selectedVulnerability.vulnerability }}</h4>
@@ -276,17 +276,17 @@
               {{ selectedVulnerability.riskLevel.toUpperCase() }} RISK
             </span>
           </div>
-          
+
           <div class="impact-section">
             <h5>💥 Impacto:</h5>
             <p>{{ selectedVulnerability.impact }}</p>
           </div>
-          
+
           <div class="solution-section">
             <h5>✅ Solución:</h5>
             <p>{{ selectedVulnerability.solution }}</p>
           </div>
-          
+
           <div class="code-comparison">
             <div class="vulnerable-code">
               <h5>❌ Código Vulnerable:</h5>
@@ -294,7 +294,7 @@
                 <pre>{{ selectedVulnerability.codeExample }}</pre>
               </div>
             </div>
-            
+
             <div class="secure-code">
               <h5>✅ Código Seguro:</h5>
               <div class="code-block secure">
@@ -305,7 +305,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="prevention-checklist">
       <h4>📋 Lista de Verificación de Seguridad</h4>
       <div class="checklist-grid">
@@ -318,7 +318,7 @@
             <li>✅ Usar tokens seguros (JWT)</li>
           </ul>
         </div>
-        
+
         <div class="checklist-category">
           <h5>🛡️ Autorización</h5>
           <ul>
@@ -328,7 +328,7 @@
             <li>✅ Validar ownership de datos</li>
           </ul>
         </div>
-        
+
         <div class="checklist-category">
           <h5>🔍 Validación</h5>
           <ul>
@@ -338,7 +338,7 @@
             <li>✅ Implementar rate limiting</li>
           </ul>
         </div>
-        
+
         <div class="checklist-category">
           <h5>🌐 Comunicación</h5>
           <ul>
@@ -357,13 +357,13 @@
     <div class="tools-section">
       <h3>Herramientas de Seguridad para .NET</h3>
       <p class="section-intro">Estas herramientas te ayudarán a implementar y mantener un nivel alto de seguridad en tu aplicación .NET Core.</p>
-      
+
       <div class="tools-demo">
         <div class="tool-selector">
           <h4>🛠️ Herramientas Disponibles</h4>
           <div class="tool-list">
-            <div 
-              class="tool-item" 
+            <div
+              class="tool-item"
               *ngFor="let tool of securityTools"
               [class.active]="selectedTool?.name === tool.name"
               (click)="selectTool(tool)">
@@ -372,29 +372,29 @@
             </div>
           </div>
         </div>
-        
+
         <div class="tool-details" *ngIf="selectedTool">
           <div class="tool-header">
             <h4>{{ selectedTool.name }}</h4>
           </div>
-          
+
           <div class="purpose-section">
             <h5>🎯 Propósito:</h5>
             <p>{{ selectedTool.purpose }}</p>
           </div>
-          
+
           <div class="usage-section">
             <h5>📋 Uso:</h5>
             <p>{{ selectedTool.usage }}</p>
           </div>
-          
+
           <div class="configuration-section">
             <h5>⚙️ Configuración:</h5>
             <div class="code-block">
               <pre>{{ selectedTool.configuration }}</pre>
             </div>
           </div>
-          
+
           <div class="benefits-section">
             <h5>✨ Beneficios:</h5>
             <ul class="benefits-list">
@@ -404,7 +404,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="security-pipeline">
       <h4>🔄 Pipeline de Seguridad Integrado</h4>
       <div class="pipeline-flow">
@@ -415,9 +415,9 @@
             <p>SonarQube, CodeQL</p>
           </div>
         </div>
-        
+
         <div class="flow-arrow">→</div>
-        
+
         <div class="pipeline-step">
           <div class="step-number">2</div>
           <div class="step-content">
@@ -425,9 +425,9 @@
             <p>Unit tests, Integration tests</p>
           </div>
         </div>
-        
+
         <div class="flow-arrow">→</div>
-        
+
         <div class="pipeline-step">
           <div class="step-number">3</div>
           <div class="step-content">
@@ -435,9 +435,9 @@
             <p>OWASP Dependency Check</p>
           </div>
         </div>
-        
+
         <div class="flow-arrow">→</div>
-        
+
         <div class="pipeline-step">
           <div class="step-number">4</div>
           <div class="step-content">
@@ -446,7 +446,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="pipeline-note">
         <h5>💡 Integración Continua de Seguridad</h5>
         <p>Incorpora estas herramientas en tu pipeline de CI/CD para mantener la seguridad como parte integral del desarrollo, no como una consideración posterior.</p>

@@ -47,7 +47,7 @@ export class AccessIntegrationBestPracticesComponent {
       scenario: 'Aplicaciones web donde la seguridad contra XSS es prioritaria',
       frontend: `// Angular HTTP Interceptor - ejemplo simplificado
 // Código de autenticación con cookies HttpOnly`,
-      backend: `// ASP.NET Core - Configuración simplificada  
+      backend: `// ASP.NET Core - Configuración simplificada
 // Código de configuración JWT y cookies`,
       benefits: [
         'Protección contra ataques XSS',

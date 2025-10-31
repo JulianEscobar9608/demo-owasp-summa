@@ -38,7 +38,7 @@
   border-radius: 20px;
   margin-bottom: 2rem;
   text-align: center;
-  box-shadow: 
+  box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -74,7 +74,7 @@
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 20px;
   padding: 0.75rem;
-  box-shadow: 
+  box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.15),
     0 10px 10px -5px rgba(0, 0, 0, 0.08);
   gap: 0.5rem;
@@ -106,7 +106,7 @@
 .tab.active {
   color: white;
   background: linear-gradient(135deg, #dc2626, #ef4444);
-  box-shadow: 
+  box-shadow:
     0 15px 35px -8px rgba(220, 38, 38, 0.5),
     0 8px 15px -5px rgba(239, 68, 68, 0.3);
   transform: translateY(-3px);
@@ -119,7 +119,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 2rem;
   border-radius: 20px;
-  box-shadow: 
+  box-shadow:
     0 25px 50px -12px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   animation: fadeInUp 0.5s ease-out;
@@ -786,38 +786,38 @@
   .dotnet-security {
     padding: 1rem;
   }
-  
+
   .tabs {
     flex-direction: column;
     gap: 0.25rem;
   }
-  
+
   .tab {
     margin-bottom: 0;
     min-width: auto;
   }
-  
+
   .practices-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .vulnerability-demo,
   .tools-demo {
     grid-template-columns: 1fr;
   }
-  
+
   .code-comparison {
     grid-template-columns: 1fr;
   }
-  
+
   .pipeline-flow {
     flex-direction: column;
   }
-  
+
   .flow-arrow {
     transform: rotate(90deg);
   }
-  
+
   .practices-list,
   .validation-grid,
   .headers-grid,

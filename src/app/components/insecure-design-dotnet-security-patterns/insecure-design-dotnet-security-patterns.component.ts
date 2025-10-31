@@ -23,8 +23,8 @@ import { CommonModule } from '@angular/common';
       <!-- Navigation Tabs -->
       <div class="tabs-container">
         <div class="tabs">
-          <button 
-            *ngFor="let tab of tabs" 
+          <button
+            *ngFor="let tab of tabs"
             class="tab"
             [class.active]="activeTab === tab.id"
             (click)="activeTab = tab.id">
@@ -41,7 +41,7 @@ import { CommonModule } from '@angular/common';
         <div *ngIf="activeTab === 'input-validation'" class="tab-content">
           <div class="content-card">
             <h2><span class="icon">✅</span>Validación de Entrada Segura</h2>
-            
+
             <div class="validation-section">
               <h3><span class="icon">🛡️</span>Principios de Validación</h3>
               <div class="principles-grid">
@@ -56,7 +56,7 @@ public bool IsValidInput(string input)
     string[] forbidden = {{ '{' }} "&lt;script&gt;", "javascript:", "onload=" {{ '}' }};
     return !forbidden.Any(f => input.Contains(f));
 {{ '}' }}</code></pre>
-                    
+
                     <h5>✅ Enfoque Seguro (Allowlist)</h5>
                     <pre><code>// Seguro - solo permite patrones conocidos
 public bool IsValidUsername(string username)
@@ -90,7 +90,7 @@ public bool IsValidEmail(string email)
 {{ '{' }}
     [Required(ErrorMessage = "Username is required")]
     [StringLength(20, MinimumLength = 3)]
-    [RegularExpression(&#64;"^[a-zA-Z0-9_]+$", 
+    [RegularExpression(&#64;"^[a-zA-Z0-9_]+$",
         ErrorMessage = "Username can only contain letters, numbers and underscores")]
     public string Username {{ '{' }} get; set; {{ '}' }}
 
@@ -127,7 +127,7 @@ public class UserController : ControllerBase
 
         // 3. Sanitización adicional
         request.Username = request.Username.Trim().ToLowerInvariant();
-        
+
         var user = await _userService.CreateUserAsync(request);
         return CreatedAtAction(nameof(GetUser), new {{ '{' }} id = user.Id {{ '}' }}, user);
     {{ '}' }}
@@ -205,11 +205,11 @@ public class DocumentUploadRequest
         <div *ngIf="activeTab === 'output-encoding'" class="tab-content">
           <div class="content-card">
             <h2><span class="icon">🔒</span>Codificación de Salida</h2>
-            
+
             <div class="encoding-patterns">
               <h3><span class="icon">🌐</span>Contextos de Codificación</h3>
               <p>Diferentes contextos requieren diferentes tipos de codificación</p>
-              
+
               <div class="context-grid">
                 <div class="context-card html">
                   <h4><span class="icon">📄</span>HTML Context</h4>
@@ -230,12 +230,12 @@ public class HomeController : Controller
         ViewData["Message"] = GetUserInput();
         return View();
     {{ '}' }}
-    
+
     // Para JSON responses
     public IActionResult GetUserData(int id)
     {{ '{' }}
         var userData = _userService.GetUser(id);
-        
+
         // JsonResult encodifica automáticamente
         return Json(new
         {{ '{' }}
@@ -271,7 +271,7 @@ public static class UrlHelper
     {{ '{' }}
         if (string.IsNullOrEmpty(url))
             return string.Empty;
-            
+
         // Validar que sea URL segura
         if (Uri.TryCreate(url, UriKind.Absolute, out var uri))
         {{ '{' }}
@@ -281,7 +281,7 @@ public static class UrlHelper
                 return Html.AttributeEncode(url);
             {{ '}' }}
         {{ '}' }}
-        
+
         return string.Empty;
     {{ '}' }}
 {{ '}' }}</code></pre>
@@ -296,10 +296,10 @@ public static class UrlHelper
 &lt;script&gt;
     // Usar Json.Serialize para datos complejos
     var userData = &#64;Html.Raw(Json.Serialize(Model.User));
-    
+
     // Para strings simples
     var message = '&#64;Html.JavaScriptStringEncode(Model.Message)';
-    
+
     // Para números
     var userId = &#64;Model.UserId; // Safe si es número
 &lt;/script&gt;
@@ -311,19 +311,19 @@ public static class JavaScriptHelper
     {{ '{' }}
         if (value == null)
             return "null";
-            
+
         return JsonSerializer.Serialize(value, new JsonSerializerOptions
         {{ '{' }}
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         {{ '}' }});
     {{ '}' }}
-    
+
     public static string SafeJavaScriptString(string input)
     {{ '{' }}
         if (string.IsNullOrEmpty(input))
             return "''";
-            
+
         // Escape caracteres peligrosos
         return "'" + input
             .Replace("\\", "\\\\")
@@ -352,22 +352,22 @@ public class SearchController : Controller
         {{ '{' }}
             return BadRequest("Search query is required");
         {{ '}' }}
-        
+
         // Limitar longitud
         if (query.Length > 100)
         {{ '{' }}
             query = query.Substring(0, 100);
         {{ '}' }}
-        
+
         // URL encode para redirección
         var encodedQuery = Uri.EscapeDataString(query);
-        
+
         var results = _searchService.Search(query);
-        
+
         ViewData["Query"] = query; // Se encodifica automáticamente en Razor
         return View(results);
     {{ '}' }}
-    
+
     public IActionResult RedirectToSearch(string term)
     {{ '{' }}
         // URL encoding para parámetros
@@ -382,7 +382,7 @@ public static class SafeUrlBuilder
     {{ '{' }}
         var uriBuilder = new UriBuilder(baseUrl);
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        
+
         foreach (var param in parameters)
         {{ '{' }}
             // Validar parámetros
@@ -391,7 +391,7 @@ public static class SafeUrlBuilder
                 query[param.Key] = param.Value; // Automáticamente URL encoded
             {{ '}' }}
         {{ '}' }}
-        
+
         uriBuilder.Query = query.ToString();
         return uriBuilder.ToString();
     {{ '}' }}
@@ -420,7 +420,7 @@ app.Use(async (context, next) =>
         "frame-ancestors 'none'; " +
         "base-uri 'self'; " +
         "form-action 'self';");
-        
+
     await next();
 {{ '}' }});
 
@@ -475,10 +475,10 @@ public class NonceService
         <div *ngIf="activeTab === 'configuration'" class="tab-content">
           <div class="content-card">
             <h2><span class="icon">⚙️</span>Configuración Segura</h2>
-            
+
             <div class="config-section">
               <h3><span class="icon">🔐</span>Gestión de Secretos</h3>
-              
+
               <div class="secret-management">
                 <div class="method-card">
                   <h4><span class="icon">🗝️</span>Azure Key Vault</h4>
@@ -500,7 +500,7 @@ if (!string.IsNullOrEmpty(keyVaultEndpoint))
 public class DatabaseService
 {{ '{' }}
     private readonly string _connectionString;
-    
+
     public DatabaseService(IConfiguration configuration)
     {{ '{' }}
         // Key Vault secret automáticamente disponible
@@ -541,7 +541,7 @@ if (builder.Environment.IsDevelopment())
 public class ApiKeySettings
 {{ '{' }}
     public const string SectionName = "ApiKeys";
-    
+
     public string ExternalService {{ '{' }} get; set; {{ '}' }} = string.Empty;
     public string PaymentGateway {{ '{' }} get; set; {{ '}' }} = string.Empty;
 {{ '}' }}
@@ -554,12 +554,12 @@ builder.Services.Configure&lt;ApiKeySettings&gt;(
 public class ExternalApiService
 {{ '{' }}
     private readonly ApiKeySettings _apiKeys;
-    
+
     public ExternalApiService(IOptions&lt;ApiKeySettings&gt; apiKeys)
     {{ '{' }}
         _apiKeys = apiKeys.Value;
     {{ '}' }}
-    
+
     public async Task&lt;string&gt; CallExternalApiAsync()
     {{ '{' }}
         var client = new HttpClient();
@@ -579,14 +579,14 @@ public class ExternalApiService
                 <pre><code>public class DatabaseSettings
 {{ '{' }}
     public const string SectionName = "Database";
-    
+
     [Required]
     [MinLength(10)]
     public string ConnectionString {{ '{' }} get; set; {{ '}' }} = string.Empty;
-    
+
     [Range(5, 300)]
     public int TimeoutSeconds {{ '{' }} get; set; {{ '}' }} = 30;
-    
+
     [Required]
     public string DatabaseName {{ '{' }} get; set; {{ '}' }} = string.Empty;
 {{ '}' }}
@@ -623,7 +623,7 @@ public class ConfigurationHealthCheck : IHealthCheck
 {{ '{' }}
     private readonly DatabaseSettings _dbSettings;
     private readonly ApiKeySettings _apiSettings;
-    
+
     public ConfigurationHealthCheck(
         IOptions&lt;DatabaseSettings&gt; dbSettings,
         IOptions&lt;ApiKeySettings&gt; apiSettings)
@@ -631,19 +631,19 @@ public class ConfigurationHealthCheck : IHealthCheck
         _dbSettings = dbSettings.Value;
         _apiSettings = apiSettings.Value;
     {{ '}' }}
-    
+
     public Task&lt;HealthCheckResult&gt; CheckHealthAsync(
         HealthCheckContext context,
         CancellationToken cancellationToken = default)
     {{ '{' }}
         var errors = new List&lt;string&gt;();
-        
+
         // Validar configuración de base de datos
         if (string.IsNullOrEmpty(_dbSettings.ConnectionString))
         {{ '{' }}
             errors.Add("Database connection string is missing");
         {{ '}' }}
-        
+
         // Validar API keys en producción
         if (context.Registration.Name == "production")
         {{ '{' }}
@@ -652,7 +652,7 @@ public class ConfigurationHealthCheck : IHealthCheck
                 errors.Add("External service API key is missing");
             {{ '}' }}
         {{ '}' }}
-        
+
         return Task.FromResult(errors.Any()
             ? HealthCheckResult.Unhealthy(string.Join("; ", errors))
             : HealthCheckResult.Healthy("Configuration is valid"));
@@ -723,7 +723,7 @@ var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment())
 {{ '{' }}
     builder.Services.AddDeveloperExceptionPage();
-    
+
     // Configuración menos estricta para desarrollo
     builder.Services.Configure&lt;SecuritySettings&gt;(options =>
     {{ '{' }}
@@ -740,7 +740,7 @@ else
         options.EnableDetailedErrors = false;
         options.EnableHsts = true;
     {{ '}' }});
-    
+
     // Exception handling sin detalles internos
     builder.Services.AddExceptionHandler&lt;GlobalExceptionHandler&gt;();
 {{ '}' }}</code></pre>
@@ -753,26 +753,26 @@ else
         <div *ngIf="activeTab === 'error-handling'" class="tab-content">
           <div class="content-card">
             <h2><span class="icon">🚨</span>Manejo Seguro de Errores</h2>
-            
+
             <div class="error-principles">
               <h3><span class="icon">🎯</span>Principios de Error Handling Seguro</h3>
-              
+
               <div class="principle-grid">
                 <div class="principle-card">
                   <h4><span class="icon">👁️</span>No Exposición de Información</h4>
                   <p>Los errores no deben revelar información sensible del sistema</p>
                 </div>
-                
+
                 <div class="principle-card">
                   <h4><span class="icon">📝</span>Logging Completo</h4>
                   <p>Log todos los errores internamente para debugging</p>
                 </div>
-                
+
                 <div class="principle-card">
                   <h4><span class="icon">🎭</span>Mensajes Genéricos</h4>
                   <p>Mostrar mensajes genéricos a usuarios no autorizados</p>
                 </div>
-                
+
                 <div class="principle-card">
                   <h4><span class="icon">🔍</span>Tracking de Errores</h4>
                   <p>Incluir IDs de tracking para correlación</p>
@@ -782,7 +782,7 @@ else
 
             <div class="error-implementation">
               <h3><span class="icon">⚙️</span>Implementación de Error Handling</h3>
-              
+
               <div class="code-example">
                 <h4>Global Exception Handler</h4>
                 <pre><code>public class GlobalExceptionHandler : IExceptionHandler
@@ -823,7 +823,7 @@ else
                 TraceId = traceId,
                 Errors = validationEx.Errors
             {{ '}' }},
-            
+
             UnauthorizedAccessException => new ErrorResponse
             {{ '{' }}
                 Status = 401,
@@ -831,7 +831,7 @@ else
                 Detail = "Authentication is required to access this resource",
                 TraceId = traceId
             {{ '}' }},
-            
+
             ForbiddenAccessException => new ErrorResponse
             {{ '{' }}
                 Status = 403,
@@ -839,7 +839,7 @@ else
                 Detail = "You don't have permission to access this resource",
                 TraceId = traceId
             {{ '}' }},
-            
+
             NotFoundException => new ErrorResponse
             {{ '{' }}
                 Status = 404,
@@ -847,13 +847,13 @@ else
                 Detail = "The requested resource was not found",
                 TraceId = traceId
             {{ '}' }},
-            
+
             _ => new ErrorResponse
             {{ '{' }}
                 Status = 500,
                 Title = "Internal Server Error",
-                Detail = _environment.IsDevelopment() 
-                    ? exception.Message 
+                Detail = _environment.IsDevelopment()
+                    ? exception.Message
                     : "An error occurred while processing your request",
                 TraceId = traceId
             {{ '}' }}
@@ -905,7 +905,7 @@ public class UserController : ControllerBase
             {{ '}' }}
 
             var user = await _userService.GetUserAsync(id);
-            
+
             if (user == null)
             {{ '{' }}
                 return NotFound(new ErrorResponse
@@ -954,7 +954,7 @@ public class UserController : ControllerBase
             {{ '}' }}
 
             var user = await _userService.CreateUserAsync(request);
-            
+
             return CreatedAtAction(
                 nameof(GetUser),
                 new {{ '{' }} id = user.Id {{ '}' }},
@@ -994,9 +994,9 @@ builder.Host.UseSerilog((context, configuration) =>
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext()
         .Enrich.WithProperty("ApplicationName", "MySecureApp")
-        .WriteTo.Console(outputTemplate: 
+        .WriteTo.Console(outputTemplate:
             "{{ '{' }}Timestamp:yyyy-MM-dd HH:mm:ss.fff{{ '}' }} {{ '{' }}Level:u3{{ '}' }} {{ '{' }}Message:lj{{ '}' }} {{ '{' }}NewLine{{ '}' }}{{ '{' }}Exception{{ '}' }}")
-        .WriteTo.File("logs/app-.log", 
+        .WriteTo.File("logs/app-.log",
             rollingInterval: RollingInterval.Day,
             retainedFileCountLimit: 30));
 
@@ -1004,12 +1004,12 @@ builder.Host.UseSerilog((context, configuration) =>
 public class UserService
 {{ '{' }}
     private readonly ILogger&lt;UserService&gt; _logger;
-    
+
     public async Task&lt;User&gt; CreateUserAsync(CreateUserRequest request)
     {{ '{' }}
         using var activity = Activity.StartActivity("CreateUser");
         activity?.SetTag("user.email", request.Email);
-        
+
         try
         {{ '{' }}
             _logger.LogInformation(
@@ -1034,7 +1034,7 @@ public class UserService
             {{ '}' }};
 
             await _repository.AddAsync(user);
-            
+
             _logger.LogInformation(
                 "User created successfully with ID {{ '{' }}UserId{{ '}' }} and email {{ '{' }}Email{{ '}' }}",
                 user.Id,

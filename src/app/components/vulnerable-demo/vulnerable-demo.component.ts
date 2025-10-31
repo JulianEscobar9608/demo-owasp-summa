@@ -62,8 +62,8 @@ public IActionResult AddComment([FromBody] CommentDto dto) {
         Content = dto.Content, // Sin sanitizar
         Author = dto.Author    // Sin validar
     };
-    
-    return Json(new { 
+
+    return Json(new {
         message = $"Comentario de {dto.Author}: {dto.Content}"
     });
 }`,

@@ -205,7 +205,7 @@ app.Use(async (context, next) =>
           layer: 'Angular Frontend',
           action: 'Usuario ingresa comentario en formulario',
           code: `<form [formGroup]="commentForm" (ngSubmit)="submitComment()">
-  <textarea formControlName="comment" 
+  <textarea formControlName="comment"
             [class.error]="commentForm.get('comment')?.invalid"></textarea>
   <button type="submit" [disabled]="commentForm.invalid">Enviar</button>
 </form>`,
@@ -237,10 +237,10 @@ public IActionResult CreateComment(CommentDto dto)
 {
     if (!ModelState.IsValid)
         return BadRequest(ModelState);
-    
+
     // Encoding adicional por seguridad
     dto.Comment = HtmlEncoder.Default.Encode(dto.Comment);
-    
+
     // Guardar en base de datos
     _service.SaveComment(dto);
     return Ok();
@@ -270,28 +270,28 @@ public IActionResult CreateComment(CommentDto dto)
 app.Use(async (context, next) =>
 {
     var headers = context.Response.Headers;
-    
+
     // Content Security Policy para Angular
-    headers.Add("Content-Security-Policy", 
+    headers.Add("Content-Security-Policy",
         "default-src 'self'; " +
         "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
         "style-src 'self' 'unsafe-inline'; " +
         "img-src 'self' data: https:; " +
         "connect-src 'self' " + allowedApiEndpoints);
-    
+
     // Prevenir clickjacking
     headers.Add("X-Frame-Options", "SAMEORIGIN");
-    
+
     // Prevenir MIME sniffing
     headers.Add("X-Content-Type-Options", "nosniff");
-    
+
     // XSS Protection (navegadores legacy)
     headers.Add("X-XSS-Protection", "1; mode=block");
-    
+
     // HTTPS Strict Transport Security
-    headers.Add("Strict-Transport-Security", 
+    headers.Add("Strict-Transport-Security",
         "max-age=31536000; includeSubDomains");
-    
+
     await next();
 });`,
     benefits: [
@@ -317,15 +317,15 @@ using System.ComponentModel.DataAnnotations;
 public class CommentModel
 {
     [Required(ErrorMessage = "El comentario es obligatorio")]
-    [StringLength(500, MinimumLength = 10, 
+    [StringLength(500, MinimumLength = 10,
         ErrorMessage = "El comentario debe tener entre 10 y 500 caracteres")]
-    [RegularExpression(@"^[a-zA-Z0-9\\s.,!?-]*$", 
+    [RegularExpression(@"^[a-zA-Z0-9\\s.,!?-]*$",
         ErrorMessage = "Caracteres no permitidos detectados")]
     public string Comment { get; set; }
 
     [Required]
     [StringLength(50, ErrorMessage = "Nombre demasiado largo")]
-    [RegularExpression(@"^[a-zA-Z\\s]+$", 
+    [RegularExpression(@"^[a-zA-Z\\s]+$",
         ErrorMessage = "Solo se permiten letras y espacios")]
     public string AuthorName { get; set; }
 }
@@ -339,10 +339,10 @@ public IActionResult CreateComment(CommentModel model)
         var errors = ModelState
             .SelectMany(x => x.Value.Errors)
             .Select(x => x.ErrorMessage);
-        
-        return BadRequest(new { 
-            message = "Datos inválidos", 
-            errors = errors 
+
+        return BadRequest(new {
+            message = "Datos inválidos",
+            errors = errors
         });
     }
 

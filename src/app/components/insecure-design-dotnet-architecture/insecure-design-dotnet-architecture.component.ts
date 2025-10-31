@@ -23,8 +23,8 @@ import { CommonModule } from '@angular/common';
       <!-- Navigation Tabs -->
       <div class="tabs-container">
         <div class="tabs">
-          <button 
-            *ngFor="let tab of tabs" 
+          <button
+            *ngFor="let tab of tabs"
             class="tab"
             [class.active]="activeTab === tab.id"
             (click)="activeTab = tab.id">
@@ -41,7 +41,7 @@ import { CommonModule } from '@angular/common';
         <div *ngIf="activeTab === 'principles'" class="tab-content">
           <div class="content-card">
             <h2><span class="icon">🎯</span>Principios de Diseño Seguro</h2>
-            
+
             <div class="principle-grid">
               <div class="principle-card">
                 <h3><span class="icon">🔒</span>Defense in Depth</h3>
@@ -86,7 +86,7 @@ builder.Services.AddScoped&lt;ISecurityValidationService, SecurityValidationServ
                   <pre><code>public class SecureUserService
 {{ '{' }}
     private readonly ILogger&lt;SecureUserService&gt; _logger;
-    
+
     public async Task&lt;UserProfile&gt; GetUserProfileAsync(int userId)
     {{ '{' }}
         try
@@ -97,14 +97,14 @@ builder.Services.AddScoped&lt;ISecurityValidationService, SecurityValidationServ
                 _logger.LogWarning("Unauthorized access attempt for user {{ '{' }}UserId{{ '}' }}", userId);
                 throw new UnauthorizedAccessException();
             {{ '}' }}
-            
+
             return await _repository.GetUserAsync(userId);
         {{ '}' }}
         catch (Exception ex) when (!(ex is UnauthorizedAccessException))
         {{ '{' }}
             // Log del error sin exponer información sensible
             _logger.LogError(ex, "Error retrieving user profile");
-            
+
             // Fail securely - no datos, no información de error
             throw new ApplicationException("Unable to retrieve user information");
         {{ '}' }}
@@ -132,11 +132,11 @@ builder.Services.AddAuthorization(options =>
 {{ '{' }}
     options.AddPolicy(SecurityPolicies.ReadOwnData, policy =>
         policy.Requirements.Add(new ResourceOwnerRequirement()));
-        
+
     options.AddPolicy(SecurityPolicies.ModifyOwnData, policy =>
         policy.Requirements.Add(new ResourceOwnerRequirement())
               .RequireClaim("permissions", "write"));
-              
+
     options.AddPolicy(SecurityPolicies.AdminAccess, policy =>
         policy.RequireRole("Administrator")
               .RequireClaim("department", "IT"));
@@ -159,11 +159,11 @@ public async Task&lt;IActionResult&gt; GetUserData(int userId)
         <div *ngIf="activeTab === 'threat-modeling'" class="tab-content">
           <div class="content-card">
             <h2><span class="icon">🎯</span>Threat Modeling para .NET</h2>
-            
+
             <div class="threat-model-section">
               <h3><span class="icon">📊</span>Metodología STRIDE</h3>
               <p>Análisis sistemático de amenazas en aplicaciones .NET</p>
-              
+
               <div class="stride-grid">
                 <div class="stride-card spoofing">
                   <h4><span class="icon">👤</span>Spoofing (Suplantación)</h4>
@@ -206,17 +206,17 @@ services.AddDefaultIdentity&lt;ApplicationUser&gt;(options =>
 public class SecureDataService
 {{ '{' }}
     private readonly IDataProtector _protector;
-    
+
     public SecureDataService(IDataProtectionProvider provider)
     {{ '{' }}
         _protector = provider.CreateProtector("SecureData.v1");
     {{ '}' }}
-    
+
     public string ProtectData(string data)
     {{ '{' }}
         return _protector.Protect(data);
     {{ '}' }}
-    
+
     public string UnprotectData(string protectedData)
     {{ '{' }}
         return _protector.Unprotect(protectedData);
@@ -241,12 +241,12 @@ public class SecureDataService
 public class AuditService
 {{ '{' }}
     private readonly ILogger&lt;AuditService&gt; _logger;
-    
+
     public async Task LogUserActionAsync(string userId, string action, object data)
     {{ '{' }}
         _logger.Information("User Action: {{ '{' }}UserId{{ '}' }} performed {{ '{' }}Action{{ '}' }} at {{ '{' }}Timestamp{{ '}' }} with data {{ '{' }}Data{{ '}' }}",
             userId, action, DateTimeOffset.UtcNow, data);
-            
+
         // Persistir en base de datos inmutable
         await _auditRepository.AddEntryAsync(new AuditEntry
         {{ '{' }}
@@ -293,7 +293,7 @@ public class AuditService
         <div *ngIf="activeTab === 'patterns'" class="tab-content">
           <div class="content-card">
             <h2><span class="icon">🏛️</span>Patrones Arquitecturales Seguros</h2>
-            
+
             <div class="patterns-grid">
               <div class="pattern-card">
                 <h3><span class="icon">🎭</span>API Gateway Pattern</h3>
@@ -340,7 +340,7 @@ app.Use(async (context, next) =>
         await context.Response.WriteAsync("API Version required");
         return;
     {{ '}' }}
-    
+
     await next();
 {{ '}' }});
 
@@ -376,26 +376,26 @@ public class UpdateUserCommandHandler : IRequestHandler&lt;UpdateUserCommand, Us
 {{ '{' }}
     private readonly IUserRepository _repository;
     private readonly IAuthorizationService _authService;
-    
+
     public async Task&lt;UserDto&gt; Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {{ '{' }}
         // Validación de autorización
         var authResult = await _authService.AuthorizeAsync(
             _currentUser, request.UserId, "UpdateUser");
-            
+
         if (!authResult.Succeeded)
             throw new UnauthorizedAccessException();
-            
+
         // Validación de datos
         if (string.IsNullOrEmpty(request.Email) || !IsValidEmail(request.Email))
             throw new ValidationException("Invalid email");
-            
+
         // Actualización segura
         var user = await _repository.UpdateAsync(request.UserId, request.Email, request.Name);
-        
+
         // Audit log
         await _auditService.LogAsync("UserUpdated", request.UserId);
-        
+
         return _mapper.Map&lt;UserDto&gt;(user);
     {{ '}' }}
 {{ '}' }}
@@ -441,7 +441,7 @@ static IAsyncPolicy&lt;HttpResponseMessage&gt; GetCircuitBreakerPolicy()
             onBreak: (exception, duration) =>
             {{ '{' }}
                 // Log de seguridad - posible ataque
-                Logger.LogWarning("Circuit breaker opened for {{ '{' }}Duration{{ '}' }}ms due to {{ '{' }}Exception{{ '}' }}", 
+                Logger.LogWarning("Circuit breaker opened for {{ '{' }}Duration{{ '}' }}ms due to {{ '{' }}Exception{{ '}' }}",
                     duration.TotalMilliseconds, exception.Exception?.Message);
             {{ '}' }},
             onReset: () =>
@@ -454,7 +454,7 @@ static IAsyncPolicy&lt;HttpResponseMessage&gt; GetCircuitBreakerPolicy()
 public class ExternalApiService
 {{ '{' }}
     private readonly HttpClient _httpClient;
-    
+
     public async Task&lt;string&gt; GetDataAsync(string endpoint)
     {{ '{' }}
         try
@@ -479,7 +479,7 @@ public class ExternalApiService
         <div *ngIf="activeTab === 'architecture'" class="tab-content">
           <div class="content-card">
             <h2><span class="icon">🏗️</span>Arquitectura de Seguridad en .NET</h2>
-            
+
             <div class="architecture-section">
               <h3><span class="icon">🔄</span>Microservicios Seguros</h3>
               <div class="microservices-diagram">
@@ -517,19 +517,19 @@ public class Program
     public static void Main(string[] args)
     {{ '{' }}
         var builder = WebApplication.CreateBuilder(args);
-        
+
         // Configuración de seguridad
         ConfigureSecurity(builder);
         ConfigureServices(builder);
-        
+
         var app = builder.Build();
-        
+
         // Pipeline de seguridad
         ConfigureSecurityPipeline(app);
-        
+
         app.Run();
     {{ '}' }}
-    
+
     private static void ConfigureSecurity(WebApplicationBuilder builder)
     {{ '{' }}
         // JWT Authentication
@@ -540,29 +540,29 @@ public class Program
                 options.Audience = builder.Configuration["Auth:Audience"];
                 options.RequireHttpsMetadata = true;
             {{ '}' }});
-            
+
         // Service-to-service authentication
         builder.Services.AddHttpClient("secure-client")
             .AddClientAccessTokenHandler(); // Manejo automático de tokens
-            
+
         // Data protection
         builder.Services.AddDataProtection()
             .PersistKeysToAzureKeyVault(
                 builder.Configuration.GetConnectionString("KeyVault"));
     {{ '}' }}
-    
+
     private static void ConfigureSecurityPipeline(WebApplication app)
     {{ '{' }}
         // Headers de seguridad
         app.UseSecurityHeaders();
-        
+
         // Rate limiting
         app.UseRateLimiter();
-        
+
         // Authentication/Authorization
         app.UseAuthentication();
         app.UseAuthorization();
-        
+
         // Request logging para audit
         app.UseRequestResponseLogging();
     {{ '}' }}
@@ -573,7 +573,7 @@ public class Program
             <div class="zero-trust-section">
               <h3><span class="icon">🚫</span>Arquitectura Zero Trust</h3>
               <p>Nunca confiar, siempre verificar</p>
-              
+
               <div class="zero-trust-principles">
                 <div class="principle">
                   <h4><span class="icon">🔍</span>Verificación Continua</h4>
@@ -590,21 +590,21 @@ public class ContinuousVerificationMiddleware
             context.Response.StatusCode = 401;
             return;
         {{ '}' }}
-        
+
         // Verificar permisos específicos para el recurso
         if (!await HasResourcePermission(context))
         {{ '{' }}
             context.Response.StatusCode = 403;
             return;
         {{ '}' }}
-        
+
         // Verificar patrones anómalos
         if (await DetectAnomalousPattern(context))
         {{ '{' }}
             await LogSecurityEvent(context);
             // Podríamos requerir MFA adicional
         {{ '}' }}
-        
+
         await next(context);
     {{ '}' }}
 {{ '}' }}</code></pre>
@@ -623,20 +623,20 @@ public async Task&lt;IActionResult&gt; GetUser(int id)
     // Verificar que solo puede acceder a su propio perfil
     // o que tiene permisos de administrador
     var currentUserId = User.GetUserId();
-    
+
     if (id != currentUserId && !User.IsInRole("Admin"))
     {{ '{' }}
         return Forbid();
     {{ '}' }}
-    
+
     var user = await _userService.GetUserAsync(id);
-    
+
     // Filtrar datos sensibles basado en permisos
     return Ok(_mapper.Map&lt;PublicUserDto&gt;(user));
 {{ '}' }}
 
 // Política dinámica basada en contexto
-public class ContextualAuthorizationHandler : 
+public class ContextualAuthorizationHandler :
     AuthorizationHandler&lt;ResourceAccessRequirement&gt;
 {{ '{' }}
     protected override Task HandleRequirementAsync(
@@ -645,22 +645,22 @@ public class ContextualAuthorizationHandler :
     {{ '{' }}
         var resource = context.Resource as ResourceContext;
         var user = context.User;
-        
+
         // Verificar horario de acceso
         if (!IsWithinAllowedHours(user))
         {{ '{' }}
             context.Fail();
             return Task.CompletedTask;
         {{ '}' }}
-        
+
         // Verificar ubicación si es necesario
-        if (requirement.RequireLocationVerification && 
+        if (requirement.RequireLocationVerification &&
             !IsFromAllowedLocation(context.Resource))
         {{ '{' }}
             context.Fail();
             return Task.CompletedTask;
         {{ '}' }}
-        
+
         context.Succeed(requirement);
         return Task.CompletedTask;
     {{ '}' }}

@@ -61,7 +61,7 @@ export class AccessDotnetSecurityComponent {
     [StringLength(50, MinimumLength = 2)]
     [RegularExpression("^[a-zA-Z\\s]+$")]
     public string Name { get; set; }
-    
+
     [EmailAddress]
     public string Email { get; set; }
 }`,
@@ -125,14 +125,14 @@ public async Task<IActionResult> GetProfile(int userId)
 {
     var user = await _context.Users.FindAsync(userId);
     if (user == null) return NotFound();
-    
+
     // Verificar que el usuario actual puede acceder a este perfil
     var authResult = await _authorizationService
         .AuthorizeAsync(User, user, "CanViewProfile");
-    
+
     if (!authResult.Succeeded)
         return Forbid();
-    
+
     return View(user);
 }`
     },
@@ -201,9 +201,9 @@ public async Task<User> GetUserByNameRaw(string userName)
     context.Response.Headers.Add("X-Frame-Options", "DENY");
     context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
     context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
-    context.Response.Headers.Add("Content-Security-Policy", 
+    context.Response.Headers.Add("Content-Security-Policy",
         "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
-    
+
     await next();
 });`,
       benefits: [
@@ -253,7 +253,7 @@ services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
       configuration: `public class SanitizationService
 {
     private readonly HtmlSanitizer _htmlSanitizer;
-    
+
     public SanitizationService()
     {
         _htmlSanitizer = new HtmlSanitizer();
@@ -263,12 +263,12 @@ services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
         _htmlSanitizer.AllowedTags.Add("strong");
         _htmlSanitizer.AllowedTags.Add("em");
     }
-    
+
     public string SanitizeHtml(string input)
     {
         return _htmlSanitizer.Sanitize(input);
     }
-    
+
     public string SanitizeFileName(string fileName)
     {
         var invalidChars = Path.GetInvalidFileNameChars();
